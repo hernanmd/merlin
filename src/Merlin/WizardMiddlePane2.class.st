@@ -18,7 +18,7 @@ WizardMiddlePane2 >> displayButtons [
 WizardMiddlePane2 >> initialize [ 
 	
 	super initialize.
-	self diplayButtons 
+
 ]
 
 { #category : #actions }

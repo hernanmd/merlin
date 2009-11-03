@@ -5,7 +5,6 @@ Class {
 		'wizardControl',
 		'cancelButton',
 		'dialogWindow',
-		'wizardMorphBlocks',
 		'contents',
 		'blocksAndInformationsAssociated',
 		'wizardBlocks',
@@ -127,7 +126,7 @@ WizardPane2 >> contents: aCollectionOfMorphElements [
 { #category : #accessing }
 WizardPane2 >> dialogWindow [ 		
 	
-	^dialogWindow .
+	^wizardControl dialogWindow .
 ]
 
 { #category : #'private - accessing' }
@@ -158,7 +157,6 @@ WizardPane2 >> initialize [
 	"by default, the dialog window is a new empty pluggable dialog window "
 	dialogWindow := PluggableDialogWindow new.
 	dialogWindow contentMorph: (dialogWindow newColumn: {   }).
-	wizardMorphBlocks := Dictionary new.
 	blocksAndInformationsAssociated := Dictionary new.
 	blocksAndRequiredInformations := Dictionary new.
 	wizardBlocks := OrderedCollection new.
@@ -167,13 +165,13 @@ WizardPane2 >> initialize [
 
 { #category : #'contents setup tools' }
 WizardPane2 >> newButtonNamed: aString withAction: selector [
-	"use this method to create a new classic button that will execute the method designed by selector when clicked. The method selector must define and implemented in the subclass"
+	"use this method to create a new classic button that will execute the method designed by selector when clicked. The method selector must be defined and implemented in the subclass"
 	
 	| button |
 	button := PluggableButtonMorphPlus
 			on: self getState: nil action: selector.
 	button label: aString.
-	^ button
+	^button
 ]
 
 { #category : #'morph creation' }
@@ -190,7 +188,7 @@ WizardPane2 >> newColumn: aSymbol with: aMorphBlock [
 
 	"enable the user to devide vertically the frame. aSymbol will be used to identify this row (corresponding to a new morph ) and therefore keep a link to it."
 	|answer|
-	wizardMorphBlocks at: aSymbol put: aMorphBlock .
+	"wizardMorphBlocks at: aSymbol put: aMorphBlock ."
 
 	answer := PanelMorph new
 		hResizing: #spaceFill;
@@ -207,7 +205,7 @@ WizardPane2 >> newColumn: aSymbol withAll: aCollectionOfMorphElements [
 
 	"enable the user to devide vertically the frame. aSymbol will be used to identify this row (corresponding to a new morph ) and therefore keep a link to it."
 	|answer|
-	wizardMorphBlocks at: aSymbol put: aCollectionOfMorphElements  .
+	"wizardMorphBlocks at: aSymbol put: aCollectionOfMorphElements  ."
 
 	answer := PanelMorph new
 		hResizing: #spaceFill;
@@ -240,7 +238,7 @@ WizardPane2 >> newRow: aSymbol with: aMorphBlock [
 
 	"enable the user to devide horizontaly the frame. aSymbol will be used to identify this row (corresponding to a new morph ) and therefore keep a link to it."
 	|answer|
-	wizardMorphBlocks at: aSymbol put: aMorphBlock .
+"	wizardMorphBlocks at: aSymbol put: aMorphBlock ."
 	answer := PanelMorph new
 		hResizing: #spaceFill;
 		vResizing: #shrinkWrap;
@@ -257,7 +255,7 @@ WizardPane2 >> newRow: aSymbol withAll: aCollectionOfMorphElements [
 
 	"enable the user to devide horizontaly the frame. aSymbol will be used to identify this row (corresponding to a new morph ) and therefore keep a link to it."
 	|answer|
-	wizardMorphBlocks at: aSymbol put: aCollectionOfMorphElements .
+	"wizardMorphBlocks at: aSymbol put: aCollectionOfMorphElements ."
 	answer := PanelMorph new
 		hResizing: #spaceFill;
 		vResizing: #shrinkWrap;
@@ -274,6 +272,7 @@ WizardPane2 >> open [
 
 	wizardBlocks do: [:each | each retrieveInformationRequired ].
 	self buildDialogWindow .
+	self displayButtons .
 	self builder openModal: self dialogWindow .
 ]
 

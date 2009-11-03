@@ -18,7 +18,7 @@ WizardLastPane2 >> displayButtons [
 WizardLastPane2 >> initialize [
 
 	super initialize .
-	self displayButtons 
+
 
 	
 ]

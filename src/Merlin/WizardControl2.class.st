@@ -5,10 +5,8 @@ Class {
 		'currentPane',
 		'wizardPanes',
 		'builder',
-		'panesAndInformationsAssociated',
 		'paneCompter',
 		'wizardInformations',
-		'panesAndRequiredInformations',
 		'dialogWindow'
 	],
 	#category : #Merlin
@@ -18,51 +16,6 @@ Class {
 WizardControl2 class >> new [
 
 	^super new initialize.
-]
-
-{ #category : #accessing }
-WizardControl2 >> addFirstPane: aWizardPane  associatedTo: aCollectionOfSymbols. [
-	"when a pane is added to a WizardControl, a set a informations is associated to this pane. Each pane controls a number variable of informations,datas "
-	panesAndInformationsAssociated at: #firstPane put: aCollectionOfSymbols .
-	aWizardPane wizardControl: self.
-	wizardPanes add: aWizardPane .
-]
-
-{ #category : #accessing }
-WizardControl2 >> addLastPane: aWizardPane  associatedTo: aCollectionOfSymbols. [
-	"when a pane is added to a WizardControl, a set a informations is associated to this pane. Each pane controls a number variable of informations,datas "
-	panesAndInformationsAssociated at: #lastPane put: aCollectionOfSymbols .
-	aWizardPane wizardControl: self.
-	wizardPanes add: aWizardPane .
-]
-
-{ #category : #accessing }
-WizardControl2 >> addLastPane: aWizardPane  associatedTo: aCollectionOfSymbols requiring: anotherCollectionOfSymbols. [
-	"when a pane is added to a WizardControl, a set a informations is associated to this pane. Each pane controls a number variable of informations,datas "
-	panesAndInformationsAssociated at: #lastPane put: aCollectionOfSymbols .
-	panesAndRequiredInformations  at: #lastPane put: anotherCollectionOfSymbols .
-	aWizardPane wizardControl: self.
-	wizardPanes add: aWizardPane .
-]
-
-{ #category : #accessing }
-WizardControl2 >> addMiddlePane: aWizardPane  associatedTo: aCollectionOfSymbols. [
-	"when a pane is added to a WizardControl, a set a informations is associated to this pane. Each pane controls a number variable of informations,datas "
-	panesAndInformationsAssociated at: ('middlePane' , paneCompter asString) asSymbol put: aCollectionOfSymbols .
-	
-	paneCompter := paneCompter + 1.
-	aWizardPane wizardControl: self.
-	wizardPanes add: aWizardPane .
-]
-
-{ #category : #accessing }
-WizardControl2 >> addMiddlePane: aWizardPane  associatedTo: aCollectionOfSymbols requiring: anotherCollectionOfSymbols. [
-	"when a pane is added to a WizardControl, a set a informations is associated to this pane. Each pane controls a number variable of informations,datas "
-	panesAndInformationsAssociated at: ('middlePane' , paneCompter asString) asSymbol put: aCollectionOfSymbols .
-	panesAndRequiredInformations at: ('middlePane' , paneCompter asString) asSymbol put: anotherCollectionOfSymbols .
-	paneCompter := paneCompter + 1.
-	aWizardPane wizardControl: self.
-	wizardPanes add: aWizardPane .
 ]
 
 { #category : #accessing }
@@ -79,15 +32,22 @@ WizardControl2 >> builder [
 	^ builder
 ]
 
+{ #category : #accessing }
+WizardControl2 >> dialogWindow [
+
+	^ dialogWindow 
+]
+
 { #category : #'initialize-release' }
 WizardControl2 >> initialize [
 	
 	super initialize.
 	builder := StandardWindow new.
 	dialogWindow :=  PluggableDialogWindow new.
+	dialogWindow contentMorph: (dialogWindow newColumn: {   }).
+	
 	wizardInformations := Dictionary new.
-	panesAndInformationsAssociated := Dictionary new.
-	panesAndRequiredInformations := Dictionary new.
+
 	wizardPanes := OrderedCollection new.
 	paneCompter := 1.	
 

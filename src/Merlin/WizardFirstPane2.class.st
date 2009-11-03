@@ -20,7 +20,6 @@ WizardFirstPane2 >> initialize [
 
 	super initialize .
 	nextButton := self newNextButton .
-	self displayButtons 
 	
 	
 ]
