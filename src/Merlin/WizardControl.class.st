@@ -1,0 +1,155 @@
+"
+A WizardControl is the object controling the differents panes (WizardPane) that will be displayed in a Wizard. It make all the transition between those panes when button like 'next' or 'previous' are pressed. Those transitions are composed by opening and closing the panes but also by managing their inputs and outputs. Values of those outputs (representing the information you want to retrieve at the end of the wizard operation) are all stored in the WizardControl.
+
+Instance Variables
+	builder:		<StandardWindow>
+	currentPane:		<Integer>
+	dialogWindow:		<PluggableDialogWindow>
+	paneCompter:		<Object>
+	wizardInformations:		<Dictionary>
+	wizardPanes:		<OrderedCollection>
+
+builder
+	- the main window (common to all panes) in which we plugg a dialogWindow
+
+currentPane
+	- an index pointing on the current displayed pane.
+
+dialogWindow
+	- in which panes will position their elements (WizardPart). The dialog window is also common to all panes so that the wizard panes windows stay at the same position. (Create a new dialog window for each pane open a window at different positions each times)
+
+paneCompter
+	- xxxxx
+
+wizardInformations
+	- A dictionary to memorize output from the different panes. The keys of this dictionary are define when you create a WizardPart (object that composed a WizardPane).
+
+wizardPanes
+	- the different panes that composed a wizard. Those panes will be displayed in the order specify by this OrderedCollection. 
+
+"
+Class {
+	#name : #WizardControl,
+	#superclass : #Object,
+	#instVars : [
+		'currentPane',
+		'wizardPanes',
+		'builder',
+		'paneCompter',
+		'wizardInformations',
+		'dialogWindow'
+	],
+	#category : #Merlin
+}
+
+{ #category : #'as yet unclassified' }
+WizardControl class >> new [
+
+	^super new initialize.
+]
+
+{ #category : #accessing }
+WizardControl >> addPane: aWizardPane [  
+	"add the WizardPane aWizardPane at the end of the panes list of this wizard control. Therefore, this pane will be the last one to be display "
+	aWizardPane wizardControl: self.
+	wizardPanes add: aWizardPane .
+
+]
+
+{ #category : #accessing }
+WizardControl >> builder [ 
+
+	^ builder
+]
+
+{ #category : #accessing }
+WizardControl >> dialogWindow [
+	
+	"return the dialog window of this WizardControl. This dialog window is common to all the panes composing the wizard so that each pane can be open at the same position"
+	^ dialogWindow 
+]
+
+{ #category : #'initialize-release' }
+WizardControl >> initialize [
+	
+	super initialize.
+	builder := StandardWindow new.
+	
+	dialogWindow :=  PluggableDialogWindow new.
+	dialogWindow contentMorph: (dialogWindow newColumn: {   }).
+	
+	wizardInformations := Dictionary new.
+
+	wizardPanes := OrderedCollection new.
+	paneCompter := 1.	
+
+
+]
+
+{ #category : #start }
+WizardControl >> openFirstWizardPane [
+	"launch the the wizard system by opening the first wizard pane."
+	(wizardPanes size = 0)
+		ifFalse: [
+			currentPane := 1.
+			(wizardPanes at: currentPane ) open
+			]
+	
+]
+
+{ #category : #'wizard panes transition' }
+WizardControl >> performNextButtonAction [
+	"this method is run when a next button is clicked"
+	(wizardPanes at: currentPane) close.
+	currentPane := currentPane  + 1.
+	(wizardPanes at: currentPane ) open. 
+]
+
+{ #category : #'wizard panes transition' }
+WizardControl >> performPreviousButtonAction [
+	"this method is run when a previous button is clicked"
+	(wizardPanes at: currentPane) close.
+	currentPane := currentPane  - 1.
+	(wizardPanes at: currentPane ) open. 
+]
+
+{ #category : #'wizard panes transition' }
+WizardControl >> performTerminateButtonAction [
+
+	"by default, just close the last current pane. Override this method if you want to create a subclass of WizardControl making a specific action"
+		"^self subclassResponsibility"
+		(wizardPanes at: currentPane) close.
+		
+]
+
+{ #category : #accessing }
+WizardControl >> setInformation: aSymbol withValue: value [ 
+	"set the value of the information designed by aSymbol. It is used by a pane when a next button or a terminate button is clicked to spread the information"
+	wizardInformations 
+		at: aSymbol
+		put: value
+]
+
+{ #category : #accessing }
+WizardControl >> valueOfInformation: aSymbol [
+	"return the value of the output named aSymbol"
+	^ wizardInformations at: aSymbol.
+]
+
+{ #category : #accessing }
+WizardControl >> wizardInformations [ 
+	"return a Dictionary containing the ids of the informations retrieved by the wizard and their values"
+	^ wizardInformations 
+]
+
+{ #category : #accessing }
+WizardControl >> wizardPanes [
+	"return all the wizard panes controled by this wizard control"
+	^wizardPanes 
+]
+
+{ #category : #accessing }
+WizardControl >> wizardPanes: anOrderedCollection [
+	"set all the wizard panes controled by this wizard control. Those panes will be display in the same order than the one of anOrderedCollection"
+	^wizardPanes := anOrderedCollection
+]

@@ -1,22 +1,22 @@
 Class {
-	#name : #TestTextDisplayBlock,
+	#name : #TextDisplayPart,
 	#superclass : #WizardPart,
 	#category : #Merlin
 }
 
 { #category : #'initialize-release' }
-TestTextDisplayBlock >> initialize [
+TextDisplayPart >> initialize [
 
 	super initialize
 ]
 
 { #category : #'morph content setup tools' }
-TestTextDisplayBlock >> newStringFor: aString [ 
+TextDisplayPart >> newStringFor: aString [ 
 	^ StringMorph contents: aString
 ]
 
 { #category : #'accessing - morph' }
-TestTextDisplayBlock >> text: aString [ 
+TextDisplayPart >> text: aString [ 
 	| tmp |
 	self contents: {  (tmp := self newStringFor: aString)  }.
 	Transcript show: 'text:' , tmp asString

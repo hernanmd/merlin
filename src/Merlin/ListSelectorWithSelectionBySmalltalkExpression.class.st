@@ -44,12 +44,6 @@ ListSelectorWithSelectionBySmalltalkExpression >> evaluateTextEntryContents [
 			]
 ]
 
-{ #category : #'accessing - wizard mangement' }
-ListSelectorWithSelectionBySmalltalkExpression >> informationValue [
-	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
-	^ selectionList .
-]
-
 { #category : #'initialize-release' }
 ListSelectorWithSelectionBySmalltalkExpression >> initialize [
 
@@ -109,6 +103,12 @@ ListSelectorWithSelectionBySmalltalkExpression >> newValidateButton [
 	"return a button opening the context frame when clicked"
 	^ self newButtonNamed: 'Validate' withAction: #validateButtonAction
 
+]
+
+{ #category : #'accessing - wizard mangement' }
+ListSelectorWithSelectionBySmalltalkExpression >> outputValue [
+	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
+	^ selectionList
 ]
 
 { #category : #'text entry control' }

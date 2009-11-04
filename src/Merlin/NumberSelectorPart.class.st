@@ -1,11 +1,11 @@
 Class {
-	#name : #TestNumberSelectorBlock,
-	#superclass : #TestDropListBlock,
+	#name : #NumberSelectorPart,
+	#superclass : #DropListPart,
 	#category : #Merlin
 }
 
 { #category : #'initialize-release' }
-TestNumberSelectorBlock >> initialize [
+NumberSelectorPart >> initialize [
 
 	self list: {1. 2. 3. 4. 5. 6. 7. 8. 9.}.
 ]

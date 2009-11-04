@@ -1,12 +1,37 @@
+"
+A WizardPart represent a part of a WizardPane. It only provide one input (information), in other words, it deals with a maximum of one information to retrieve. A wizardPane can maybe deal with several input information and should therefore be composed by several WizardPart.However, a WizardPart can require several output informations.
+WizardPart is an abstract class that you should subclass to create your own component in the pane. It's up to you to build the morph contents of a WizardPart (even if some tools to create basic elements are provided by the abstract class). And it's up to you to specify what is the information you want to retrieve from this interface: to do that, you only have to implement the abstrat method 'outputValue' and put into the value you want to transmit (for example, if your wizardpart is composed by a simple drop list you may want to transmit the value of the item selected).
+You may also want to override the method 'retrieveRequiredInput' to retrieve some informations and make what you want with it(by default it does nothing). This method is called before each pane opening.
+
+Instance Variables
+	blockContents:		<PanelMorph>
+	morphElements:		<Object>
+	name:		<Object>
+	title:		<Object>
+	wizardPane:		<WizardPane>
+
+blockContents
+	- is to morph contents of this wizard part. It will be added by wizardPane to the main dialog window contents .
+
+morphElements
+	- xxxxx
+
+name
+	- xxxxx
+
+title
+	- xxxxx
+
+wizardPane
+	- the wizard pane controling this wizard part
+
+"
 Class {
 	#name : #WizardPart,
 	#superclass : #Object,
 	#instVars : [
-		'morphElements',
-		'title',
 		'blockContents',
-		'wizardPane',
-		'name'
+		'wizardPane'
 	],
 	#category : #Merlin
 }
@@ -19,15 +44,15 @@ WizardPart class >> named: aString [
 
 { #category : #'accessing - morph' }
 WizardPart >> contents [
-	"this method should return a morph containing all the elements of this block. It is an abstract method as you should decide the way those elements will be display (for example in a simple PanelMorph or maybe in a GroupBoxMorph or anything else). Use methods like #newRowWith: or #newColumnWith: to dispatch those elements in the way you want. The result should be pluggable to a standard window"
-	"^ self subclassResponsibility "
+	"return the morph contents of this WizardPart."
+
 	^   blockContents. 
 	
 ]
 
 { #category : #'accessing - morph' }
 WizardPart >> contents: aCollectionOfMorphElement [
-	"this method should return a morph containing all the elements of this block. It is an abstract method as you should decide the way those elements will be display (for example in a simple PanelMorph or maybe in a GroupBoxMorph or anything else). Use methods like #newRowWith: or #newColumnWith: to dispatch those elements in the way you want. The result should be pluggable to a standard window"
+	"Set the morph contents Of this WizardPart. Create a panel morph containing all the elements in aCollectionOfMorphElements one under the other"
 	 	
 	blockContents := PanelMorph new
 		hResizing: #spaceFill;
@@ -38,37 +63,6 @@ WizardPart >> contents: aCollectionOfMorphElement [
 		
 	aCollectionOfMorphElement do: [:each | blockContents addMorphBack: each ].
 	^blockContents
-]
-
-{ #category : #'accessing - wizard mangement' }
-WizardPart >> getInformationRequired [
-	"this method is an abstract method as only the subclass itself know what to do with the information that it need to make its work "
-	self subclassResponsibility
-]
-
-{ #category : #'accessing - wizard mangement' }
-WizardPart >> informationValue [
-	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
-	self subclassResponsibility .
-]
-
-{ #category : #'initialize-release' }
-WizardPart >> initialize [
-
-	super initialize.
-	morphElements := OrderedCollection new.
-]
-
-{ #category : #'accessing - wizard mangement' }
-WizardPart >> name [
-
-	^name.
-]
-
-{ #category : #'accessing - wizard mangement' }
-WizardPart >> name: aString [
-
-	name := aString
 ]
 
 { #category : #'morph content setup tools' }
@@ -84,7 +78,7 @@ WizardPart >> newButtonNamed: aString withAction: selector [
 
 { #category : #'morph content setup tools' }
 WizardPart >> newButtonNamed: aString withAction: selector andArguments: aCollectionOfArguments [
-	"use this method to create a new classic button that will execute the method designed by selector when clicked. The method selector must define and implemented in the subclass"
+	"use this method to create a new classic button that will execute the method designed by selector when pressed with the arguments aCollectionOfArguments. The method selector must define and implemented in the subclass"
 	
 	| button |
 	button := PluggableButtonMorphPlus
@@ -96,7 +90,8 @@ WizardPart >> newButtonNamed: aString withAction: selector andArguments: aCollec
 
 { #category : #'morph content setup tools' }
 WizardPart >> newCheckboxFor: aModel getSelected: getSel setSelected: setSel label: label [
-
+	
+	"return a checkbox with the label label. the value of the checkbox will be accessed by the selector getSel (send to aModel) and set by the selector setSel (send to aModel)."
 	^(CheckboxMorph
 			on: aModel selected: getSel changeSelected: setSel)
 		font: Preferences standardDefaultTextFont;
@@ -150,13 +145,13 @@ WizardPart >> newGroupboxNamed: aString WithAll: aCollectionOfMorph [
 
 { #category : #'morph content setup tools' }
 WizardPart >> newLabel: aString [
-
+	"return a simple label displaying the text aString"
 	^LabelMorph contents: aString font: Preferences standardDefaultTextFont
 ]
 
 { #category : #'morph content setup tools' }
 WizardPart >> newListFor: aModel list: listSelector selected: getSelector changeSelected: setSelector [
-	
+	"return a PluggableListMorph. the value of the list will be accessed by the selector listSelector (send to aModel). the index of the current item selected will be accessed by getSelector (send to aModel) and set by the selector setSelector (send to aModel)."
 	^PluggableListMorph new
 		"selectionColor: self selectionColor;"
 		font: Preferences standardDefaultTextFont;
@@ -192,19 +187,27 @@ WizardPart >> newRowWith: aCollectionOfMorphElements [
 ]
 
 { #category : #'accessing - wizard mangement' }
-WizardPart >> retrieveInformationRequired [
-	"this method is an abstract method as only the subclass itself know what to do with the information that it need to make its work "
+WizardPart >> outputValue [
+	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
+	self subclassResponsibility
+]
+
+{ #category : #'accessing - wizard mangement' }
+WizardPart >> retrieveInputRequired [
+	"this method is an abstract method as only the subclass itself know what to do with the input that it needs to make its work "
 	"by default do nothing"
+	"make here all the thing required to build or make run this wizard part. This method will be clalled by wizardPane before opening the 'page'"
+	
 ]
 
 { #category : #'accessing - wizard mangement' }
 WizardPart >> wizardPane [ 
-
+	"return the wizard pane controling this wizard part"
 	^wizardPane 
 ]
 
 { #category : #'accessing - wizard mangement' }
 WizardPart >> wizardPane: aWizardPane [ 
-
+	"set the wizard pane controling this wizard part"
 	^wizardPane := aWizardPane 
 ]

@@ -20,12 +20,6 @@ CheckboxPart class >> withLabel: aString inGroupboxNamed: anotherString [
 	^ super new initialize ; label: aString inGroupboxNamed: anotherString  .
 ]
 
-{ #category : #'accessing - wizard mangement' }
-CheckboxPart >> informationValue [
-	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
-	^model contents .
-]
-
 { #category : #accessing }
 CheckboxPart >> label:  aLabel [
 	label := aLabel.
@@ -50,4 +44,10 @@ CheckboxPart >> newMergeClassAndMetaClassCheckbox [
 		
 	checkbox buttonMorph selected: true.
 	^checkbox .
+]
+
+{ #category : #'accessing - wizard mangement' }
+CheckboxPart >> outputValue [
+	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
+	^ model contents
 ]
