@@ -6,6 +6,6 @@ Class {
 
 { #category : #'initialize-release' }
 OperatorSelectorPart >> initialize [
-
+	super initialize.
 	self list: {'+'. '-'. '/'. '*'}.
 ]

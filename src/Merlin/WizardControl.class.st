@@ -35,14 +35,47 @@ Class {
 		'currentPane',
 		'wizardPanes',
 		'builder',
-		'paneCompter',
 		'wizardInformations',
 		'dialogWindow'
 	],
 	#category : #Merlin
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #example }
+WizardControl class >> example [
+	<lint: 'Long methods' rationale: 'Just an example of how to use the library ' author: 'cyrille.delaunay'>
+	"self example"
+	| wizardControl firstPane lastPane block1 block2 block3 block4 middlePane1 middlePane2 |
+	wizardControl := self new.
+	firstPane := WizardFirstPane new.
+	middlePane1 := WizardMiddlePane new.
+	middlePane2 := WizardMiddlePane new.
+	lastPane := WizardLastPane new.
+	wizardControl addPane: firstPane.
+	wizardControl addPane: middlePane1.
+	wizardControl addPane: middlePane2.
+	wizardControl addPane: lastPane.
+	block1 := NumberSelectorPart new.
+	block2 := OperatorSelectorPart new.
+	block3 := NumberSelectorPart new.
+	block4 := DisplayOperationResultPart new.
+	firstPane 
+		addPart: block1
+		associatedTo: #firstNumber.
+	middlePane1 
+		addPart: block2
+		associatedTo: #operator.
+	middlePane2 
+		addPart: block3
+		associatedTo: #secondNumber.
+	lastPane 
+		addPart: block4
+		associatedTo: nil
+		requiring: {  #firstNumber. #operator. #secondNumber  }.
+	wizardControl openFirstWizardPane
+]
+
+{ #category : #'instance creation' }
 WizardControl class >> new [
 
 	^super new initialize.
@@ -81,7 +114,7 @@ WizardControl >> initialize [
 	wizardInformations := Dictionary new.
 
 	wizardPanes := OrderedCollection new.
-	paneCompter := 1.	
+
 
 
 ]
@@ -89,12 +122,9 @@ WizardControl >> initialize [
 { #category : #start }
 WizardControl >> openFirstWizardPane [
 	"launch the the wizard system by opening the first wizard pane."
-	(wizardPanes size = 0)
-		ifFalse: [
-			currentPane := 1.
-			(wizardPanes at: currentPane ) open
-			]
-	
+	wizardPanes isEmpty ifTrue: [ ^ self ].
+	currentPane := 1.
+	(wizardPanes at: currentPane) open
 ]
 
 { #category : #'wizard panes transition' }
@@ -138,18 +168,14 @@ WizardControl >> valueOfInformation: aSymbol [
 
 { #category : #accessing }
 WizardControl >> wizardInformations [ 
+	<lint: 'Methods implemented but not sent' rationale: 'method provided  to the user of the library' author: 'cyrille.delaunay'>
 	"return a Dictionary containing the ids of the informations retrieved by the wizard and their values"
 	^ wizardInformations 
 ]
 
 { #category : #accessing }
-WizardControl >> wizardPanes [
-	"return all the wizard panes controled by this wizard control"
-	^wizardPanes 
-]
-
-{ #category : #accessing }
 WizardControl >> wizardPanes: anOrderedCollection [
+	<lint: 'Methods implemented but not sent' rationale: 'method provided  to the user of the library' author: 'cyrille.delaunay'>
 	"set all the wizard panes controled by this wizard control. Those panes will be display in the same order than the one of anOrderedCollection"
 	^wizardPanes := anOrderedCollection
 ]

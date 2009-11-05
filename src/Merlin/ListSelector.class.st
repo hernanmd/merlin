@@ -13,9 +13,11 @@ Class {
 }
 
 { #category : #'instance creation' }
-ListSelector class >> on: initialList [
-
-	^super new initialize ;initialList: initialList; boxInitialization .
+ListSelector class >> on: initialList [ 
+	^ self new
+		initialize;
+		initialList: initialList;
+		boxInitialization ; yourself
 ]
 
 { #category : #'private - customization' }
@@ -45,23 +47,20 @@ ListSelector >> addStringMessage: aString ForRowIndexedBy: anIndex [
 	
 	initialBuilderMainContent := self contents submorphs asOrderedCollection .
 	"tmpBuilderMainContent represent the new content of main window (in wich we will add the message)"
-	tmpBuilderMainContent := OrderedCollection new.
-	"all the row before the the row number anIndex don't change"
-	1 to: (anIndex - 1) do: [:index | tmpBuilderMainContent add: (initialBuilderMainContent at: index)].
+	tmpBuilderMainContent := initialBuilderMainContent copy.
+
 	"We add the message to the row number anIndex"
-	tmpBuilderMainContent add: (
+	tmpBuilderMainContent at: anIndex put: (
 		self newRowWith: {
-			(initialBuilderMainContent at: anIndex) submorphs detect: [:component | component isKindOf: GroupboxMorph ].
+			(initialBuilderMainContent at: anIndex) submorphs first.
 			self newColumnWith: { self newGroupboxNamed:   'Information' With: (self newLabel: aString)}.
 		}).
-	"the rows remaining don't change'"
-	anIndex  to: (initialBuilderMainContent size) - 1 do: [:index | tmpBuilderMainContent add: (initialBuilderMainContent at: (index + 1))].
 	
 	"we set the new content of the window"
 		self contents:(  
 		tmpBuilderMainContent
 	).
-	wizardPane buildDialogWindow  .
+	self wizardPane buildDialogWindow  .
 	
 	
 ]
@@ -69,10 +68,10 @@ ListSelector >> addStringMessage: aString ForRowIndexedBy: anIndex [
 { #category : #'morph initialization' }
 ListSelector >> boxInitialization [
 	| morphPackagesList morphSelectionList |
-	"morphElements add: "(morphSelectionList := self newSelectionList).
-	"morphElements add: "(morphPackagesList := self newInitialList).
+	(morphSelectionList := self newSelectionList).
+	(morphPackagesList := self newInitialList).
 	self contents:{ self newRowWith: { 
-			("morphElements add:" (self 
+			((self 
 					newGroupboxNamed: 'Packages' translated
 					With: morphPackagesList)).
 			(self newColumnWith: { 
@@ -97,23 +96,20 @@ ListSelector >> deleteStringMessageFromRowIndexedBy: anIndex [
 	| initialBuilderMainContent tmpBuilderMainContent |
 	
 	initialBuilderMainContent := self contents submorphs asOrderedCollection .
-	"tmpBuilderMainContent represent the new content of main window (in wich we will add the message)"
-	tmpBuilderMainContent := OrderedCollection new.
-	"all the row before the the row number anIndex don't change"
-	1 to: (anIndex - 1) do: [:index | tmpBuilderMainContent add: (initialBuilderMainContent at: index)].
+	"tmpBuilderMainContent represent the new content of main window (in wich we will delete the message)"
+	tmpBuilderMainContent := initialBuilderMainContent copy.
+
 	"We delete the message from the row number anIndex"
-	tmpBuilderMainContent add: (
+	tmpBuilderMainContent at: anIndex put: (
 		self newRowWith: {
-			(initialBuilderMainContent at: anIndex) submorphs detect: [:component | (component isKindOf: GroupboxMorph)  ].
+			(initialBuilderMainContent at: anIndex) submorphs first "detect: [:component | (component isKindOf: GroupboxMorph)  ]".
 			self newColumnWith: { }.
 		}).
-	"the rows remaining don't change'"
-	anIndex  to: (initialBuilderMainContent size) - 1 do: [:index | tmpBuilderMainContent add: (initialBuilderMainContent at: (index + 1))].
 	"we set the new content of the window"
 		self contents:( 
 		tmpBuilderMainContent asArray
 	).
-	wizardPane buildDialogWindow .
+	self wizardPane buildDialogWindow .
 	
 ]
 
@@ -133,6 +129,7 @@ ListSelector >> initialize [
 	"initialization for the selection list control : "
 	selectionListSelectionIndex := 0.
 	selectionList := SortedCollection new.
+
 	
 ]
 
@@ -149,59 +146,12 @@ ListSelector >> newAddButton [
 ]
 
 { #category : #'morph initialization' }
-ListSelector >> newColumnWith: aCollectionOfMorphElements [
-
-	|answer|
-	answer := PanelMorph new
-		hResizing: #spaceFill;
-		vResizing: #spaceFill;
-		fillStyle: Color transparent; "non pane color tracking"
-		changeTableLayout;
-		cellInset: 8.
-	aCollectionOfMorphElements do: [:m | answer addMorphBack: m].
-	^answer
-]
-
-{ #category : #'morph initialization' }
-ListSelector >> newGroupboxNamed: aString [ 
-	"Answer a groupbox with the given label."
-	^ GroupboxMorph new
-		cornerStyle:#rounded;
-		hResizing: #spaceFill;
-		vResizing: #spaceFill;
-		label: aString;
-		yourself
-		"^ wizardPane dialogWindow newGroupbox: aString"
-]
-
-{ #category : #'morph initialization' }
-ListSelector >> newGroupboxNamed: aString With: aMorph [ 
-	"Answer a groupbox with the given label and control."
-	^ (self newGroupboxNamed: aString)
-		addContentMorph: aMorph;
-		yourself
-]
-
-{ #category : #'morph initialization' }
-ListSelector >> newGroupboxNamed: aString WithAll: aCollectionOfMorph [ 
-	"Answer a groupbox with the given label and controls."
-	^ (self newGroupboxNamed: aString)
-		addContentMorph: (self newColumnWith: aCollectionOfMorph);
-		yourself
-]
-
-{ #category : #'morph initialization' }
 ListSelector >> newInitialList [
 	"return a new list (PluggableListMorph) that will contain the initial list of items that can be selected by the user"
-	"^ (PluggableListMorph  
-		on: self
-		list: #packagesList
-		selected: #packagesListSelectionIndex
-		changeSelected: #packagesListSelectionIndex:
-		)"
+
 		^ (self newListFor: self list: #packagesList  selected: #packagesListSelectionIndex changeSelected: #packagesListSelectionIndex: )
-		minWidth: 300;
-		minHeight: 400; yourself
+		minWidth: 250;
+		minHeight: 350; yourself
 ]
 
 { #category : #'morph initialization' }
@@ -217,34 +167,14 @@ ListSelector >> newRemoveButton [
 ]
 
 { #category : #'morph initialization' }
-ListSelector >> newRowWith: aCollectionOfMorphElements [
-
-		|answer|
-	answer := PanelMorph new
-		hResizing: #spaceFill;
-		vResizing: #shrinkWrap;
-		fillStyle: Color transparent; "non pane color tracking"
-		changeTableLayout;
-		listDirection: #leftToRight;
-		cellInset: 8.
-	aCollectionOfMorphElements do: [:m | answer addMorphBack: m].
-	^answer
-]
-
-{ #category : #'morph initialization' }
 ListSelector >> newSelectionList [
 	"return a new list (PluggableListMorph) that will contain all the packages selected by the user"
-	"^ (PluggableListMorph 
-		on: self
-		list: #selectionList
-		selected: #selectionListSelectionIndex
-		changeSelected: #selectionListSelectionIndex:)"
 	^( self newListFor: self 
 			list: #selectionList
 			selected:  #selectionListSelectionIndex
 			changeSelected: #selectionListSelectionIndex:)
-		minWidth: 300;
-		minHeight: 400;
+		minWidth: 250;
+		minHeight: 350;
 		yourself
 ]
 
@@ -315,12 +245,19 @@ ListSelector >> selectionList: anObject [
 	selectionList := anObject.
 	self changed: #selectionList.
 	
+		"we check the new size of the selection list. If nothing is selected, we can't go to the next 	'page'"
+	self selectionList isEmpty
+		ifTrue: [ self enableNextButton: false ]
+		ifFalse: [self enableNextButton: true ].
+	
 	"Here we check that the selectionIndex is updated according the new list size  "
 	self selectionListSelectionIndex > self selectionList size
 		ifFalse: [^self ].
 	
 	self selectionListSelectionIndex: self selectionList size.
-	self changed: #selectionListSelectionIndex  
+	self changed: #selectionListSelectionIndex .
+	
+	
 			
 ]
 
@@ -354,7 +291,12 @@ ListSelector >> selectionListSelectionIndex: anIndex [
 			self packagesListSelectionIndex: 0.
 			self changed: # packagesListSelectionIndex
 			]
-		ifFalse: [removeButton disable].
+		ifFalse: [
+			removeButton disable
+			
+			].
+		
+
 ]
 
 { #category : #actions }

@@ -2,7 +2,6 @@ Class {
 	#name : #WizardLastPane,
 	#superclass : #WizardPane,
 	#instVars : [
-		'previousButton',
 		'terminateButton'
 	],
 	#category : #Merlin
@@ -11,16 +10,7 @@ Class {
 { #category : #'private - accessing' }
 WizardLastPane >> displayButtons [
 
-	self buttons: {cancelButton. previousButton := self newPreviousButton. terminateButton := self newTerminateButton  }.
-]
-
-{ #category : #'initialize-release' }
-WizardLastPane >> initialize [
-
-	super initialize .
-
-
-	
+	self buttons: {cancelButton. self newPreviousButton. terminateButton := self newTerminateButton  }.
 ]
 
 { #category : #'morph creation' }
@@ -35,8 +25,8 @@ WizardLastPane >> terminateButtonAction [
 	"action executed when the terminate button is pressed "
 	partsAndInformationsAssociated keysAndValuesDo: 
 		[ :key :value | 
-		wizardControl 
+		self wizardControl 
 			setInformation: value
 			withValue: key outputValue ].
-	wizardControl performTerminateButtonAction
+	self wizardControl performTerminateButtonAction
 ]

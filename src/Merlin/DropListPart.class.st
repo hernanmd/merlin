@@ -8,23 +8,19 @@ Class {
 }
 
 { #category : #'instance creation' }
-DropListPart class >> on: aCollectionOfItems. [
-
-	^ super new initialize; list: aCollectionOfItems .  
+DropListPart class >> on: aCollectionOfItems [ 
+	^ self new
+		initialize;
+		list: aCollectionOfItems ; yourself
 ]
 
 { #category : #'instance creation' }
-DropListPart class >> on: aCollectionOfItems inGroupboxNamed: aString. [
+DropListPart class >> on: aCollectionOfItems inGroupboxNamed: aString [ 
 	"the drop list will be put into a groupbox named aString. by default it is put into a groupbox named 'Choose an item'"
-
-	^ super new initialize; list: aCollectionOfItems inGroupboxNamed: aString.  
-]
-
-{ #category : #'initialize-release' }
-DropListPart >> initialize [
-
-	super initialize.
-	
+	^ self new
+		initialize;
+		list: aCollectionOfItems
+			inGroupboxNamed: aString ; yourself
 ]
 
 { #category : #'accessing - morph' }
@@ -59,8 +55,9 @@ dropList := (DropListMorph
 		"font: self dropListFont;"
 		cornerStyle: #rounded;
 		hResizing: #spaceFill;
-		vResizing: #shrinkWrap.
+		vResizing: #shrinkWrap;
 		"setBalloonText: helpText"
+		yourself.
 		
 	model selectionIndex: 1.
 	^ dropList.

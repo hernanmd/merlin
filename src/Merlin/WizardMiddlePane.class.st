@@ -2,8 +2,7 @@ Class {
 	#name : #WizardMiddlePane,
 	#superclass : #WizardPane,
 	#instVars : [
-		'nextButton',
-		'previousButton'
+		'nextButton'
 	],
 	#category : #Merlin
 }
@@ -11,12 +10,5 @@ Class {
 { #category : #'private - accessing' }
 WizardMiddlePane >> displayButtons [
 
-	self buttons: {cancelButton. previousButton := self newPreviousButton. nextButton := self newNextButton . }.
-]
-
-{ #category : #'initialize-release' }
-WizardMiddlePane >> initialize [ 
-	
-	super initialize.
-
+	self buttons: {cancelButton.  self newPreviousButton. nextButton := self newNextButton . }.
 ]

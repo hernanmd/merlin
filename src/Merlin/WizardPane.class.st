@@ -34,19 +34,12 @@ Class {
 	#instVars : [
 		'wizardControl',
 		'cancelButton',
-		'contents',
 		'partsAndInformationsAssociated',
 		'partsAndRequiredInformations',
 		'wizardParts'
 	],
 	#category : #Merlin
 }
-
-{ #category : #'instance creation' }
-WizardPane class >> dependingOn: aWizardControl. [
-
-	^ super new wizarControl: aWizardControl ; initialize .
-]
 
 { #category : #'instance creation' }
 WizardPane class >> new [
@@ -106,7 +99,7 @@ WizardPane >> buildDialogWindow [
 { #category : #accessing }
 WizardPane >> builder [
 	"return the builder stored in the WizardControl"
-	^ wizardControl builder.
+	^ self wizardControl builder.
 ]
 
 { #category : #'private - accessing' }
@@ -133,12 +126,13 @@ WizardPane >> close [
 { #category : #accessing }
 WizardPane >> contents: aCollectionOfMorphElements [
 	"fill in the morph contents of the dialog window with morphs from aCollectionOfMorpElements. Each element will be diplayed one under the other"
+	|contents|
 	contents := PanelMorph new
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		fillStyle: Color transparent; "non pane color tracking"
 		changeTableLayout;
-		cellInset: 8.
+		cellInset: 8; yourself.
 
 	aCollectionOfMorphElements do: [:each | contents addMorphBack: each].
 	self dialogWindow  contentMorph: contents.
@@ -150,7 +144,13 @@ WizardPane >> contents: aCollectionOfMorphElements [
 { #category : #accessing }
 WizardPane >> dialogWindow [ 		
 	"return the common dialog window store ine the wizard control"
-	^wizardControl dialogWindow .
+	^self wizardControl dialogWindow .
+]
+
+{ #category : #actions }
+WizardPane >> disableNextButton [
+
+	"by default (if no next button is define, do nothing)"
 ]
 
 { #category : #'private - accessing' }
@@ -159,12 +159,18 @@ WizardPane >> displayButtons [
 	self subclassResponsibility
 ]
 
+{ #category : #actions }
+WizardPane >> enableNextButton [
+
+	"by default (if no next button is define, do nothing)"
+]
+
 { #category : #accessing }
 WizardPane >> getInputRequiredBy: aWizarPart [ 
 	"enable a WizardPart to retrieve  from the wizard control an input required to perform its tasks."
 	| informationsRequired |
 	informationsRequired := partsAndRequiredInformations at: aWizarPart.
-	^ informationsRequired collect: [ :each | wizardControl valueOfInformation: each ]
+	^ informationsRequired collect: [ :each | self wizardControl valueOfInformation: each ]
 ]
 
 { #category : #'initialize-release' }
@@ -172,6 +178,8 @@ WizardPane >> initialize [
 	"by default, the dialog window is a new empty pluggable dialog window "
 	partsAndInformationsAssociated := Dictionary new.
 	partsAndRequiredInformations := Dictionary new.
+
+	
 	wizardParts := OrderedCollection new.
 	cancelButton := self newCancelButton
 ]
@@ -197,7 +205,8 @@ WizardPane >> newCancelButton [
 
 { #category : #'contents setup tools' }
 WizardPane >> newColumn: aSymbol with: aMorphBlock [
-
+	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
+	<lint: 'Methods implemented but not sent' rationale: 'method provided  to the user of the library' author: 'cyrille.delaunay'>
 	"enable the user to devide vertically the frame. aSymbol will be used to identify this row (corresponding to a new morph ) and therefore keep a link to it."
 	|answer|
 	"wizardMorphBlocks at: aSymbol put: aMorphBlock ."
@@ -207,14 +216,15 @@ WizardPane >> newColumn: aSymbol with: aMorphBlock [
 		vResizing: #spaceFill;
 		fillStyle: Color transparent; "non pane color tracking"
 		changeTableLayout;
-		cellInset: 8.
+		cellInset: 8; yourself.
 	answer addMorphBack: aMorphBlock contents.
 	^answer
 ]
 
 { #category : #'contents setup tools' }
 WizardPane >> newColumn: aSymbol withAll: aCollectionOfMorphElements [
-
+	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
+	<lint: 'Methods implemented but not sent' rationale: 'method provided  to the user of the library' author: 'cyrille.delaunay'>
 	"enable the user to devide vertically the frame. aSymbol will be used to identify this row (corresponding to a new morph ) and therefore keep a link to it."
 	|answer|
 	"wizardMorphBlocks at: aSymbol put: aCollectionOfMorphElements  ."
@@ -224,7 +234,7 @@ WizardPane >> newColumn: aSymbol withAll: aCollectionOfMorphElements [
 		vResizing: #spaceFill;
 		fillStyle: Color transparent; "non pane color tracking"
 		changeTableLayout;
-		cellInset: 8.
+		cellInset: 8; yourself.
 	aCollectionOfMorphElements do: [ :each | answer addMorphBack: each ].
 	^answer
 ]
@@ -232,7 +242,7 @@ WizardPane >> newColumn: aSymbol withAll: aCollectionOfMorphElements [
 { #category : #'morph creation' }
 WizardPane >> newNextButton [
 
-	^ self newButtonNamed: 'Next' withAction:   #nextButtonAction.
+	^ (self newButtonNamed: 'Next' withAction:   #nextButtonAction) .
 
 ]
 
@@ -245,7 +255,8 @@ WizardPane >> newPreviousButton [
 
 { #category : #'contents setup tools' }
 WizardPane >> newRow: aSymbol with: aMorphBlock [
-
+	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
+	<lint: 'Methods implemented but not sent' rationale: 'method provided  to the user of the library' author: 'cyrille.delaunay'>
 	"enable the user to devide horizontaly the frame. aSymbol will be used to identify this row (corresponding to a new morph ) and therefore keep a link to it."
 	|answer|
 "	wizardMorphBlocks at: aSymbol put: aMorphBlock ."
@@ -255,14 +266,15 @@ WizardPane >> newRow: aSymbol with: aMorphBlock [
 		fillStyle: Color transparent; "non pane color tracking"
 		changeTableLayout;
 		listDirection: #leftToRight;
-		cellInset: 8.
+		cellInset: 8; yourself.
 	answer addMorphBack: aMorphBlock contents.
 	^answer
 ]
 
 { #category : #'contents setup tools' }
 WizardPane >> newRow: aSymbol withAll: aCollectionOfMorphElements [
-
+	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
+	<lint: 'Methods implemented but not sent' rationale: 'method provided  to the user of the library' author: 'cyrille.delaunay'>
 	"enable the user to devide horizontaly the frame. aSymbol will be used to identify this row (corresponding to a new morph ) and therefore keep a link to it."
 	|answer|
 	"wizardMorphBlocks at: aSymbol put: aCollectionOfMorphElements ."
@@ -272,7 +284,7 @@ WizardPane >> newRow: aSymbol withAll: aCollectionOfMorphElements [
 		fillStyle: Color transparent; "non pane color tracking"
 		changeTableLayout;
 		listDirection: #leftToRight;
-		cellInset: 8.
+		cellInset: 8; yourself.
 	aCollectionOfMorphElements do: [:each | answer addMorphBack: each].
 	^answer
 ]
@@ -282,17 +294,18 @@ WizardPane >> nextButtonAction [
 	"action executed when the next button is pressed"
 	partsAndInformationsAssociated keysAndValuesDo: 
 		[ :key :value | 
-		wizardControl 
+		self wizardControl 
 			setInformation: value
 			withValue: key outputValue ].
-	wizardControl performNextButtonAction
+	self wizardControl performNextButtonAction
 ]
 
 { #category : #'window control' }
 WizardPane >> open [
-	"open this pane with. To do that, we make sure that all the WizardParts retrieve the inputs they require and then display their morph contents"
+	"open this pane. To do that, we make sure that all the WizardParts retrieve the inputs they require and then display their morph contents"
 	wizardParts do: [ :each | each retrieveInputRequired ].
-	self buildDialogWindow.
+	"wizardParts  detect: [:each | each enableNextButton  = false  ]  ifNone: [self enableNextButton ]".
+	self  buildDialogWindow.
 	self displayButtons.
 	self builder openModal: self dialogWindow
 ]
@@ -301,7 +314,7 @@ WizardPane >> open [
 WizardPane >> previousButtonAction [
 
 	"action executed when the previous button is pressed"
-	wizardControl performPreviousButtonAction 
+	self wizardControl performPreviousButtonAction 
 ]
 
 { #category : #accessing }

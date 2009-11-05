@@ -36,12 +36,6 @@ Class {
 	#category : #Merlin
 }
 
-{ #category : #'instance creation' }
-WizardPart class >> named: aString [
-
-	^ super new initialize; name: aString .
-]
-
 { #category : #'accessing - morph' }
 WizardPart >> contents [
 	"return the morph contents of this WizardPart."
@@ -59,10 +53,25 @@ WizardPart >> contents: aCollectionOfMorphElement [
 		vResizing: #spaceFill;
 		fillStyle: Color transparent; "non pane color tracking"
 		changeTableLayout;
-		cellInset: 8.
+		cellInset: 8; yourself.
 		
 	aCollectionOfMorphElement do: [:each | blockContents addMorphBack: each ].
 	^blockContents
+]
+
+{ #category : #'accessing - wizard mangement' }
+WizardPart >> enableNextButton: trueOrFalse [
+	" set the value of enableNextButton"
+	trueOrFalse 
+		ifTrue: [
+			self wizardPane enableNextButton 
+			]
+		ifFalse: [
+			self wizardPane disableNextButton
+			]
+	
+
+
 ]
 
 { #category : #'morph content setup tools' }
@@ -78,6 +87,7 @@ WizardPart >> newButtonNamed: aString withAction: selector [
 
 { #category : #'morph content setup tools' }
 WizardPart >> newButtonNamed: aString withAction: selector andArguments: aCollectionOfArguments [
+	<lint: 'Methods implemented but not sent' rationale: 'method provided  to the user of the library' author: 'cyrille.delaunay'>
 	"use this method to create a new classic button that will execute the method designed by selector when pressed with the arguments aCollectionOfArguments. The method selector must define and implemented in the subclass"
 	
 	| button |
@@ -90,32 +100,35 @@ WizardPart >> newButtonNamed: aString withAction: selector andArguments: aCollec
 
 { #category : #'morph content setup tools' }
 WizardPart >> newCheckboxFor: aModel getSelected: getSel setSelected: setSel label: label [
-	
+	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
 	"return a checkbox with the label label. the value of the checkbox will be accessed by the selector getSel (send to aModel) and set by the selector setSel (send to aModel)."
 	^(CheckboxMorph
 			on: aModel selected: getSel changeSelected: setSel)
 		font: Preferences standardDefaultTextFont;
 		label: label;
 		hResizing: #shrinkWrap;
-		vResizing: #shrinkWrap.
+		vResizing: #shrinkWrap;
+		yourself
 ]
 
 { #category : #'morph content setup tools' }
 WizardPart >> newColumnWith: aCollectionOfMorphElements [
-		"use this method to create a new column in your block"
+	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
+	"use this method to create a new column in your block"
 	|answer|
 	answer := PanelMorph new
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		fillStyle: Color transparent; "non pane color tracking"
 		changeTableLayout;
-		cellInset: 8.
+		cellInset: 8; yourself.
 	aCollectionOfMorphElements do: [:m | answer addMorphBack: m].
 	^answer
 ]
 
 { #category : #'morph content setup tools' }
 WizardPart >> newGroupboxNamed: aString [ 
+	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
 	"Answer a groupbox with the given label."
 	^ GroupboxMorph new
 		cornerStyle: #rounded;
@@ -151,6 +164,7 @@ WizardPart >> newLabel: aString [
 
 { #category : #'morph content setup tools' }
 WizardPart >> newListFor: aModel list: listSelector selected: getSelector changeSelected: setSelector [
+	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
 	"return a PluggableListMorph. the value of the list will be accessed by the selector listSelector (send to aModel). the index of the current item selected will be accessed by getSelector (send to aModel) and set by the selector setSelector (send to aModel)."
 	^PluggableListMorph new
 		"selectionColor: self selectionColor;"
@@ -166,13 +180,14 @@ WizardPart >> newListFor: aModel list: listSelector selected: getSelector change
 		color: Color white;
 		borderStyle: (BorderStyle inset width: 1);
 		hResizing: #spaceFill;
-		vResizing: #spaceFill.
+		vResizing: #spaceFill; yourself.
 		"getEnabledSelector: enabledSel;
 		setBalloonText: helpText"
 ]
 
 { #category : #'morph content setup tools' }
 WizardPart >> newRowWith: aCollectionOfMorphElements [
+	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
 	"use this method to create a new row in your block"
 		|answer|
 	answer := PanelMorph new
@@ -181,7 +196,7 @@ WizardPart >> newRowWith: aCollectionOfMorphElements [
 		fillStyle: Color transparent; "non pane color tracking"
 		changeTableLayout;
 		listDirection: #leftToRight;
-		cellInset: 8.
+		cellInset: 8; yourself.
 	aCollectionOfMorphElements do: [:m | answer addMorphBack: m].
 	^answer
 ]

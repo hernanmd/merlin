@@ -9,15 +9,20 @@ Class {
 }
 
 { #category : #'instance creation' }
-CheckboxPart class >> withLabel: aString [
-
-	^ super new initialize ; label: aString .
+CheckboxPart class >> withLabel: aString [ 
+	<lint: 'Methods implemented but not sent' rationale: 'method provided  to the user' author: 'cyrille.delaunay'>
+	^ self new
+		initialize;
+		label: aString ; yourself
 ]
 
 { #category : #'instance creation' }
-CheckboxPart class >> withLabel: aString inGroupboxNamed: anotherString [
+CheckboxPart class >> withLabel: aString inGroupboxNamed: anotherString [ 
 	"the checkbox will be put into a groupbox named aString."
-	^ super new initialize ; label: aString inGroupboxNamed: anotherString  .
+	^ self new
+		initialize;
+		label: aString
+			inGroupboxNamed: anotherString ; yourself
 ]
 
 { #category : #accessing }

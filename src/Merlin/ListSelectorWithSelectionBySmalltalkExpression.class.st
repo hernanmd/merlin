@@ -44,16 +44,9 @@ ListSelectorWithSelectionBySmalltalkExpression >> evaluateTextEntryContents [
 			]
 ]
 
-{ #category : #'initialize-release' }
-ListSelectorWithSelectionBySmalltalkExpression >> initialize [
-
-	super initialize.
-	"self addSmalltalkExpressionRowToPackageSelector ".
-]
-
 { #category : #'morph content setup tools' }
 ListSelectorWithSelectionBySmalltalkExpression >> newLabel: aString [
-
+	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
 	^LabelMorph contents: aString font: Preferences standardDefaultTextFont
 ]
 
@@ -86,8 +79,9 @@ ListSelectorWithSelectionBySmalltalkExpression >> newTextEntry [
 		color: Color white;
 		"selectionColor: self selectionColor;"
 		hideScrollBarsIndefinitely;
-		extent: 24@(Preferences standardDefaultTextFont height + 8).
+		extent: 24@(Preferences standardDefaultTextFont height + 8);
 		"setBalloonText: helpText."
+		yourself.
 	pt textMorph
 		autoFit: true;
 		wrapFlag: false;
