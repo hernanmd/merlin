@@ -11,7 +11,7 @@ Class {
 WizardFirstPane >> disableNextButton [
 
 	"by default (if no next button is define, do nothing)"
-	nextButton disable
+	nextButton disable.
 ]
 
 { #category : #'private - accessing' }

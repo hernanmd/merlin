@@ -8,6 +8,12 @@ Class {
 	#category : #Merlin
 }
 
+{ #category : #'instance creation' }
+ListSelectorWithSelectionBySmalltalkExpression class >> on: collectionOfItems [
+
+	^ (super on: collectionOfItems ) addSmalltalkExpressionRowToPackageSelector ; yourself
+]
+
 { #category : #'initialize-release' }
 ListSelectorWithSelectionBySmalltalkExpression >> addSmalltalkExpressionRowToPackageSelector [
 	self 
@@ -107,6 +113,7 @@ ListSelectorWithSelectionBySmalltalkExpression >> outputValue [
 
 { #category : #'text entry control' }
 ListSelectorWithSelectionBySmalltalkExpression >> smalltalkExpressionToEvaluate [
+
 	^ 'initialList select: [ :each |' , textEntryContents , ']'
 ]
 

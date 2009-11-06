@@ -43,33 +43,36 @@ Class {
 
 { #category : #example }
 WizardControl class >> example [
-	<lint: 'Long methods' rationale: 'Just an example of how to use the library ' author: 'cyrille.delaunay'>
 	"self example"
-	| wizardControl firstPane lastPane block1 block2 block3 block4 middlePane1 middlePane2 |
+	| wizardControl firstPane lastPane part1 part2 part3 part4 middlePane1 middlePane2 |
+	<lint: 'Long methods' rationale: 'Just an example of how to use the library ' author: 'cyrille.delaunay'>
 	wizardControl := self new.
 	firstPane := WizardFirstPane new.
 	middlePane1 := WizardMiddlePane new.
 	middlePane2 := WizardMiddlePane new.
 	lastPane := WizardLastPane new.
+	
 	wizardControl addPane: firstPane.
 	wizardControl addPane: middlePane1.
 	wizardControl addPane: middlePane2.
 	wizardControl addPane: lastPane.
-	block1 := NumberSelectorPart new.
-	block2 := OperatorSelectorPart new.
-	block3 := NumberSelectorPart new.
-	block4 := DisplayOperationResultPart new.
+	
+	part1 := NumberSelectorPart new.
+	part2 := OperatorSelectorPart new.
+	part3 := NumberSelectorPart new.
+	part4 := DisplayOperationResultPart new.
+	
 	firstPane 
-		addPart: block1
+		addPart: part1
 		associatedTo: #firstNumber.
 	middlePane1 
-		addPart: block2
+		addPart: part2
 		associatedTo: #operator.
 	middlePane2 
-		addPart: block3
+		addPart: part3
 		associatedTo: #secondNumber.
 	lastPane 
-		addPart: block4
+		addPart: part4
 		associatedTo: nil
 		requiring: {  #firstNumber. #operator. #secondNumber  }.
 	wizardControl openFirstWizardPane

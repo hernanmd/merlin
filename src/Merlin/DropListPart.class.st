@@ -37,14 +37,9 @@ DropListPart >> list: aCollectionOfItems inGroupboxNamed: aString [
 
 { #category : #'morph content setup tools' }
 DropListPart >> newDropListFor: aCollectionOfItems [
-"^(DropListMorph
-			on: (model := (ListModel new packagesList: aCollectionOfItems ))
-			list: #list
-			selected: #selectionIndex
-			changeSelected: #selectionIndex:)"
 			
-| dropList |
-dropList := (DropListMorph
+	| dropList |
+	dropList := (DropListMorph
 			on: (model := (ListModel new packagesList: aCollectionOfItems ))
 			list: #list
 			selected: #selectionIndex

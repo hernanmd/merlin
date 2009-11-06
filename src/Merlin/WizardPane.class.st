@@ -54,26 +54,27 @@ WizardPane >> adaptSize [
 ]
 
 { #category : #accessing }
-WizardPane >> addPart: aWizardBlock associatedTo: aSymbol [ 
+WizardPane >> addPart: aWizardPart associatedTo: aSymbol [ 
 	"when a part is added to a WizardPane, an output is associated to it. Each part is associate to only one output "
-	wizardParts add: aWizardBlock.
-	aWizardBlock wizardPane: self.
+	wizardParts add: aWizardPart.
+	aWizardPart wizardPane: self.
 	partsAndInformationsAssociated 
-		at: aWizardBlock
-		put: aSymbol
+		at: aWizardPart
+		put: aSymbol.
 ]
 
 { #category : #accessing }
-WizardPane >> addPart: aWizardBlock associatedTo: aSymbol requiring: aCollectionOfSymbols [ 
+WizardPane >> addPart: aWizardPart associatedTo: aSymbol requiring: aCollectionOfSymbols [ 
 	"when a part is added to a WizardPane, an output is associated to it. Each part is associate to only one output but can require several inputs specified by aCollectionOfSymbols "
-	wizardParts add: aWizardBlock.
-	aWizardBlock wizardPane: self.
+	wizardParts add: aWizardPart.
+	aWizardPart wizardPane: self.
 	partsAndInformationsAssociated 
-		at: aWizardBlock
+		at: aWizardPart
 		put: aSymbol.
 	partsAndRequiredInformations 
-		at: aWizardBlock
-		put: aCollectionOfSymbols
+		at: aWizardPart
+		put: aCollectionOfSymbols.
+	
 ]
 
 { #category : #updating }
@@ -115,6 +116,15 @@ WizardPane >> buttons: aCollectionOfButtons [
 WizardPane >> cancelButtonAction [
 	"represent the action to execute when the cancel button is pressed"
 	self dialogWindow  close.
+]
+
+{ #category : #actions }
+WizardPane >> checkForEnablingNextButton [
+
+	"this method is called each time a wizard part change is state about enabling or not the next button. Just look if all wizard parts are 'ok'"
+	
+	wizardParts detect: [:each | each enableNextButtonValue = false ] ifNone: [^ self enableNextButton ].
+	self disableNextButton .
 ]
 
 { #category : #'window control' }
@@ -307,7 +317,9 @@ WizardPane >> open [
 	"wizardParts  detect: [:each | each enableNextButton  = false  ]  ifNone: [self enableNextButton ]".
 	self  buildDialogWindow.
 	self displayButtons.
-	self builder openModal: self dialogWindow
+	self checkForEnablingNextButton .
+	self builder openModal: self dialogWindow.
+	
 ]
 
 { #category : #actions }

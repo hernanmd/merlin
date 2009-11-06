@@ -31,7 +31,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'blockContents',
-		'wizardPane'
+		'wizardPane',
+		'enableNextButton'
 	],
 	#category : #Merlin
 }
@@ -61,17 +62,31 @@ WizardPart >> contents: aCollectionOfMorphElement [
 
 { #category : #'accessing - wizard mangement' }
 WizardPart >> enableNextButton: trueOrFalse [
-	" set the value of enableNextButton"
-	trueOrFalse 
-		ifTrue: [
-			self wizardPane enableNextButton 
-			]
-		ifFalse: [
-			self wizardPane disableNextButton
-			]
+	" set the value of enableNextButton and update the next button in the wizard pane (if the wizard pane is yet initialized)"
+	enableNextButton := trueOrFalse.
+
+	self wizardPane ifNotNil: [self wizardPane checkForEnablingNextButton ]
+		
+
+
+]
+
+{ #category : #'accessing - wizard mangement' }
+WizardPart >> enableNextButtonValue [
+	" return true if the next button in the wizard pane should be enable"
+	^ enableNextButton.
+	
 	
 
 
+]
+
+{ #category : #'initialize-release' }
+WizardPart >> initialize [
+	
+	super initialize.
+	"by default, a wizard part doesn't require anything to enable the next button of the wizard pane"
+	self enableNextButton:  true.
 ]
 
 { #category : #'morph content setup tools' }

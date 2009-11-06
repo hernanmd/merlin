@@ -129,6 +129,8 @@ ListSelector >> initialize [
 	"initialization for the selection list control : "
 	selectionListSelectionIndex := 0.
 	selectionList := SortedCollection new.
+	
+	self enableNextButton: false.
 
 	
 ]
