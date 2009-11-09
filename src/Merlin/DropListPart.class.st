@@ -40,7 +40,7 @@ DropListPart >> newDropListFor: aCollectionOfItems [
 			
 	| dropList |
 	dropList := (DropListMorph
-			on: (model := (ListModel new packagesList: aCollectionOfItems ))
+			on: (model := (ListModel new list: aCollectionOfItems ))
 			list: #list
 			selected: #selectionIndex
 			changeSelected: #selectionIndex:
