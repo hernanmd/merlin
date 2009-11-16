@@ -135,6 +135,38 @@ ListSelector >> initialize [
 	
 ]
 
+{ #category : #'initial list control' }
+ListSelector >> list [
+	^initialList
+]
+
+{ #category : #'initial list control' }
+ListSelector >> list: anObject [ 
+	"Set the value of list"
+
+	initialList := anObject.
+	self changed: #list.
+
+	"Here we check that the selectionIndex is updated according the new list size  "
+	self listSelectionIndex > self list size ifFalse: [^self].
+	self packagesListSelectionIndex: self list size.
+	self changed: #listSelectionIndex
+]
+
+{ #category : #'initial list control' }
+ListSelector >> listSelectedItem [
+	"Answer the currently selected item or nil if none."
+
+	^self listSelectionIndex = 0 
+		ifTrue: [nil]
+		ifFalse: [self list at: self listSelectionIndex]
+]
+
+{ #category : #'initial list control' }
+ListSelector >> listSelectionIndex [
+	^initialListSelectionIndex
+]
+
 { #category : #'morph initialization' }
 ListSelector >> newAddButton [ 
 	"return the button that will be used to add a package from the packagesList to the selectionList. While no item is selected in the packagesList, this button is disable "
@@ -151,7 +183,7 @@ ListSelector >> newAddButton [
 ListSelector >> newInitialList [
 	"return a new list (PluggableListMorph) that will contain the initial list of items that can be selected by the user"
 
-		^ (self newListFor: self list: #packagesList  selected: #packagesListSelectionIndex changeSelected: #packagesListSelectionIndex: )
+		^ (self newListFor: self list: #list  selected: #listSelectionIndex changeSelected: #packagesListSelectionIndex: )
 		minWidth: 250;
 		minHeight: 350; yourself
 ]
@@ -178,39 +210,6 @@ ListSelector >> newSelectionList [
 		minWidth: 250;
 		minHeight: 350;
 		yourself
-]
-
-{ #category : #'initial list control' }
-ListSelector >> packagesList [
-	^ initialList
-	
-]
-
-{ #category : #'initial list control' }
-ListSelector >> packagesList: anObject [ 
-	"Set the value of list"
-	initialList := anObject.
-	self changed: #packagesList.
-	
-	"Here we check that the selectionIndex is updated according the new list size  "
-	self packagesListSelectionIndex > self packagesList size
-		ifFalse: [^self ].
-	
-	self packagesListSelectionIndex: self packagesList size.
-	self changed: #selectionListSelectionIndex  
-]
-
-{ #category : #'initial list control' }
-ListSelector >> packagesListSelectedItem [
-	"Answer the currently selected item or nil if none."
-	^ self packagesListSelectionIndex = 0 
-		ifTrue: [ nil ]
-		ifFalse: [ self packagesList at: self packagesListSelectionIndex ]
-]
-
-{ #category : #'initial list control' }
-ListSelector >> packagesListSelectionIndex [
-	^ initialListSelectionIndex
 ]
 
 { #category : #'initial list control' }
@@ -304,14 +303,14 @@ ListSelector >> selectionListSelectionIndex: anIndex [
 { #category : #actions }
 ListSelector >> updateWhenAddingItem [
 	| tmpPackagesList package initialPackages |
-	package := self packagesListSelectedItem asString.
+	package := self listSelectedItem asString.
 	tmpPackagesList := OrderedCollection withAll: self selectionList.
 	tmpPackagesList add: package.
 
 	" we remove the selected package from the initial list :"
-	initialPackages := self packagesList.
+	initialPackages := self list.
 	initialPackages remove: package.
-	self packagesList: initialPackages.
+	self list: initialPackages.
 	"if the initial become empty, we disable de add button"
 	initialPackages isEmpty ifTrue: [addButton disable].	
 
@@ -333,8 +332,8 @@ ListSelector >> updateWhenRemovingItem [
 	list isEmpty ifTrue: [removeButton disable]. 
 
 	"we move the removed package into the packages list :"
-	tmpPackagesList := self packagesList.
+	tmpPackagesList := self list.
 	tmpPackagesList add: package.
-	self packagesList: tmpPackagesList.
+	self list: tmpPackagesList.
 
 ]

@@ -14,6 +14,12 @@ TextFieldPart class >> inGroupboxNamed: aString [
 	^ super new inGroupboxNamed: aString.
 ]
 
+{ #category : #'instance creation' }
+TextFieldPart class >> inGroupboxNamed: aString defaultText: anotherString [
+
+	^ (super new inGroupboxNamed: aString) initialize: anotherString ; yourself.
+]
+
 { #category : #'initialize-release' }
 TextFieldPart >> inGroupboxNamed: aString [
 
@@ -25,6 +31,14 @@ TextFieldPart >> initialize [
 
 	super initialize.
 	self enableNextButton: false.
+]
+
+{ #category : #'initialize-release' }
+TextFieldPart >> initialize: defaultText [
+
+	self initialize.
+	self textEntryContents: defaultText
+	
 ]
 
 { #category : #'morph content setup tools' }
@@ -79,6 +93,6 @@ TextFieldPart >> textEntryContents [
 TextFieldPart >> textEntryContents: newContents [ 
 	"set the content of the text entry "
 	textEntryContents := newContents.
-	self contentsChanged.
+	self changed: #textEntryContents.
 	
 ]

@@ -1,6 +1,6 @@
 Class {
-	#name : #ListSelectorWithSelectionBySmalltalkExpression,
-	#superclass : #ListSelector,
+	#name : #MultiSelectionListSelectorWithSmalltalkExpression,
+	#superclass : #MultiSelectionListSelector,
 	#instVars : [
 		'textEntry',
 		'textEntryContents'
@@ -8,14 +8,8 @@ Class {
 	#category : #Merlin
 }
 
-{ #category : #'instance creation' }
-ListSelectorWithSelectionBySmalltalkExpression class >> on: collectionOfItems [
-
-	^ (super on: collectionOfItems ) addSmalltalkExpressionRowToPackageSelector ; yourself
-]
-
 { #category : #'initialize-release' }
-ListSelectorWithSelectionBySmalltalkExpression >> addSmalltalkExpressionRowToPackageSelector [
+MultiSelectionListSelectorWithSmalltalkExpression >> addSmalltalkExpressionRowToPackageSelector [
 	self 
 		addRowWithAll: { 
 				((self newLabel: 'select: [ :each |') disable).
@@ -27,7 +21,7 @@ ListSelectorWithSelectionBySmalltalkExpression >> addSmalltalkExpressionRowToPac
 ]
 
 { #category : #'text entry control' }
-ListSelectorWithSelectionBySmalltalkExpression >> evaluateTextEntryContents [
+MultiSelectionListSelectorWithSmalltalkExpression >> evaluateTextEntryContents [
 	"make a package selection by evaluating the text entry content"
 	| selectionCollection |
 	
@@ -50,14 +44,21 @@ ListSelectorWithSelectionBySmalltalkExpression >> evaluateTextEntryContents [
 			]
 ]
 
+{ #category : #'initialize-release' }
+MultiSelectionListSelectorWithSmalltalkExpression >> initialize: aCollectionOfItems [
+
+	super initialize: aCollectionOfItems.
+	self addSmalltalkExpressionRowToPackageSelector
+]
+
 { #category : #'morph content setup tools' }
-ListSelectorWithSelectionBySmalltalkExpression >> newLabel: aString [
+MultiSelectionListSelectorWithSmalltalkExpression >> newLabel: aString [
 	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
 	^LabelMorph contents: aString font: Preferences standardDefaultTextFont
 ]
 
 { #category : #'morph content setup tools' }
-ListSelectorWithSelectionBySmalltalkExpression >> newTextEntry [
+MultiSelectionListSelectorWithSmalltalkExpression >> newTextEntry [
 	
 	"^textEntry := PluggableTextFieldMorph new
 		on: self 
@@ -94,11 +95,10 @@ ListSelectorWithSelectionBySmalltalkExpression >> newTextEntry [
 		margins: (2@1 corner: 2@1).
 	^textEntry := pt
 		
-
 ]
 
 { #category : #'morph content setup tools' }
-ListSelectorWithSelectionBySmalltalkExpression >> newValidateButton [
+MultiSelectionListSelectorWithSmalltalkExpression >> newValidateButton [
 
 	"return a button opening the context frame when clicked"
 	^ self newButtonNamed: 'Validate' withAction: #validateButtonAction
@@ -106,42 +106,42 @@ ListSelectorWithSelectionBySmalltalkExpression >> newValidateButton [
 ]
 
 { #category : #'accessing - wizard mangement' }
-ListSelectorWithSelectionBySmalltalkExpression >> outputValue [
+MultiSelectionListSelectorWithSmalltalkExpression >> outputValue [
 	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
 	^ selectionList
 ]
 
 { #category : #'text entry control' }
-ListSelectorWithSelectionBySmalltalkExpression >> smalltalkExpressionToEvaluate [
+MultiSelectionListSelectorWithSmalltalkExpression >> smalltalkExpressionToEvaluate [
 
 	^ 'initialList select: [ :each |' , textEntryContents , ']'
 ]
 
 { #category : #'text entry control' }
-ListSelectorWithSelectionBySmalltalkExpression >> textEntryContents [
+MultiSelectionListSelectorWithSmalltalkExpression >> textEntryContents [
 	"return the contents of the text entry used to evaluate smalltalk expressions"
 	^ textEntryContents
 ]
 
 { #category : #'text entry control' }
-ListSelectorWithSelectionBySmalltalkExpression >> textEntryContents: newContents [ 
+MultiSelectionListSelectorWithSmalltalkExpression >> textEntryContents: newContents [ 
 	"set the content of the text entry "
 	textEntryContents := newContents.
 	self contentsChanged
 ]
 
 { #category : #'text entry control' }
-ListSelectorWithSelectionBySmalltalkExpression >> updatePackagesListByRemoving: aPackageName [
+MultiSelectionListSelectorWithSmalltalkExpression >> updatePackagesListByRemoving: aPackageName [
 
 	| tmpPackagesList |
-	tmpPackagesList := self list.
+	tmpPackagesList := self initialList.
 	tmpPackagesList remove: aPackageName .
-	self list: tmpPackagesList.
+	self initialList: tmpPackagesList.
 					
 ]
 
 { #category : #'text entry control' }
-ListSelectorWithSelectionBySmalltalkExpression >> updateSelectionListByAdding: aPackageName [ 
+MultiSelectionListSelectorWithSmalltalkExpression >> updateSelectionListByAdding: aPackageName [ 
 
 	| tmpSelectionList |
 	tmpSelectionList := self selectionList.
@@ -150,7 +150,7 @@ ListSelectorWithSelectionBySmalltalkExpression >> updateSelectionListByAdding: a
 ]
 
 { #category : #actions }
-ListSelectorWithSelectionBySmalltalkExpression >> validateButtonAction [
+MultiSelectionListSelectorWithSmalltalkExpression >> validateButtonAction [
 
 	textEntry acceptTextInModel.
 	self evaluateTextEntryContents.

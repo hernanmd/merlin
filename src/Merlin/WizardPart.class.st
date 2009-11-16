@@ -201,6 +201,26 @@ WizardPart >> newListFor: aModel list: listSelector selected: getSelector change
 ]
 
 { #category : #'morph content setup tools' }
+WizardPart >> newMultiSelectionListFor: aModel list: listSelector primarySelection: primarySelectionSelector changePrimarySelection: changePrimarySelectionSelector listSelection: listSelectionSelector changeListSelection: changeListSelectionSelector [
+
+^ (PluggableListMorphOfMany
+		on: aModel
+		list: listSelector 
+		primarySelection: primarySelectionSelector 
+		changePrimarySelection: changePrimarySelectionSelector 
+		listSelection: listSelectionSelector 
+		changeListSelection: changeListSelectionSelector
+		menu: nil )
+		font: Preferences standardDefaultTextFont;
+		autoDeselect: false;
+		cornerStyle: #rounded;
+		color: Color white;
+		borderStyle: (BorderStyle inset width: 1);
+		hResizing: #spaceFill;
+		vResizing: #spaceFill; yourself.
+]
+
+{ #category : #'morph content setup tools' }
 WizardPart >> newRowWith: aCollectionOfMorphElements [
 	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
 	"use this method to create a new row in your block"
