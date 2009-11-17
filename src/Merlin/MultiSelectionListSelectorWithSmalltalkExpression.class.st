@@ -12,7 +12,7 @@ Class {
 MultiSelectionListSelectorWithSmalltalkExpression >> addSmalltalkExpressionRowToPackageSelector [
 	self 
 		addRowWithAll: { 
-				((self newLabel: 'select: [ :each |') disable).
+				((self newLabel: 'select: [ :packageName |') disable).
 				(self newTextEntry).
 				((self newLabel: ']') disable).
 				(self newValidateButton)
@@ -114,7 +114,7 @@ MultiSelectionListSelectorWithSmalltalkExpression >> outputValue [
 { #category : #'text entry control' }
 MultiSelectionListSelectorWithSmalltalkExpression >> smalltalkExpressionToEvaluate [
 
-	^ 'initialList select: [ :each |' , textEntryContents , ']'
+	^ 'initialList select: [ :packageName |' , textEntryContents , ']'
 ]
 
 { #category : #'text entry control' }

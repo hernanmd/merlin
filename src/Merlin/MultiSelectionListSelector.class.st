@@ -384,7 +384,7 @@ MultiSelectionListSelector >> selectionListSelectionAt: anIndex put: value [
 MultiSelectionListSelector >> updateWhenAddingItem [
 	|    selectedItemsInInitialList tmpList initialListOfItems |
 	selectedItemsInInitialList := self initialListSelectedItems .
-	tmpList := OrderedCollection withAll: self selectionList.
+	tmpList := SortedCollection withAll: self selectionList.
 	tmpList addAll: selectedItemsInInitialList.
 
 	" we remove the selected package from the initial list :"
@@ -414,7 +414,7 @@ MultiSelectionListSelector >> updateWhenRemovingItem [
 	tmpSelectionList isEmpty ifTrue: [removeButton disable]. 
 
 	"we move the removed package into the initial list :"
-	tmpList := self initialList.
+	tmpList := self initialList asSortedCollection: [:a :b | a<b].
 	tmpList addAll: selectedItems.
 	self initialList: tmpList.
 
