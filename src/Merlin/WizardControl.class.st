@@ -5,7 +5,7 @@ Instance Variables
 	builder:		<StandardWindow>
 	currentPane:		<Integer>
 	dialogWindow:		<PluggableDialogWindow>
-	paneCompter:		<Object>
+	
 	wizardInformations:		<Dictionary>
 	wizardPanes:		<OrderedCollection>
 
@@ -18,8 +18,7 @@ currentPane
 dialogWindow
 	- in which panes will position their elements (WizardPart). The dialog window is also common to all panes so that the wizard panes windows stay at the same position. (Create a new dialog window for each pane open a window at different positions each times)
 
-paneCompter
-	- xxxxx
+
 
 wizardInformations
 	- A dictionary to memorize output from the different panes. The keys of this dictionary are define when you create a WizardPart (object that composed a WizardPane).
@@ -86,7 +85,7 @@ WizardControl class >> new [
 
 { #category : #accessing }
 WizardControl >> addPane: aWizardPane [  
-	"add the WizardPane aWizardPane at the end of the panes list of this wizard control. Therefore, this pane will be the last one to be display "
+	"add the WizardPane aWizardPane at the end of the panes list of this wizard control. Therefore, this pane will be the last one to be displayed "
 	aWizardPane wizardControl: self.
 	wizardPanes add: aWizardPane .
 
@@ -124,7 +123,7 @@ WizardControl >> initialize [
 
 { #category : #start }
 WizardControl >> openFirstWizardPane [
-	"launch the the wizard system by opening the first wizard pane."
+	"launch the wizard system by opening the first wizard pane."
 	wizardPanes isEmpty ifTrue: [ ^ self ].
 	currentPane := 1.
 	(wizardPanes at: currentPane) open
@@ -132,7 +131,7 @@ WizardControl >> openFirstWizardPane [
 
 { #category : #'wizard panes transition' }
 WizardControl >> performNextButtonAction [
-	"this method is run when a next button is clicked"
+	"this method is run when a next button is pressed"
 	(wizardPanes at: currentPane) close.
 	currentPane := currentPane  + 1.
 	(wizardPanes at: currentPane ) open. 
@@ -140,7 +139,7 @@ WizardControl >> performNextButtonAction [
 
 { #category : #'wizard panes transition' }
 WizardControl >> performPreviousButtonAction [
-	"this method is run when a previous button is clicked"
+	"this method is run when a previous button is pressed"
 	(wizardPanes at: currentPane) close.
 	currentPane := currentPane  - 1.
 	(wizardPanes at: currentPane ) open. 
@@ -150,14 +149,13 @@ WizardControl >> performPreviousButtonAction [
 WizardControl >> performTerminateButtonAction [
 
 	"by default, just close the last current pane. Override this method if you want to create a subclass of WizardControl making a specific action"
-		"^self subclassResponsibility"
 		(wizardPanes at: currentPane) close.
 		
 ]
 
 { #category : #accessing }
 WizardControl >> setInformation: aSymbol withValue: value [ 
-	"set the value of the information designed by aSymbol. It is used by a pane when a next button or a terminate button is clicked to spread the information"
+	"set the value of the information designed by aSymbol. It is used by a pane when a next button or a terminate button is clicked to spread its output information"
 	wizardInformations 
 		at: aSymbol
 		put: value
@@ -165,7 +163,7 @@ WizardControl >> setInformation: aSymbol withValue: value [
 
 { #category : #accessing }
 WizardControl >> valueOfInformation: aSymbol [
-	"return the value of the output named aSymbol"
+	"return the value of the output information named aSymbol"
 	^ wizardInformations at: aSymbol.
 ]
 

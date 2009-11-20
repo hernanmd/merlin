@@ -55,7 +55,7 @@ WizardPane >> adaptSize [
 
 { #category : #accessing }
 WizardPane >> addPart: aWizardPart associatedTo: aSymbol [ 
-	"when a part is added to a WizardPane, an output is associated to it. Each part is associate to only one output "
+	"when a wizard part is added to a WizardPane, an output is associated to it. Each part is associate to only one output "
 	wizardParts add: aWizardPart.
 	aWizardPart wizardPane: self.
 	partsAndInformationsAssociated 
@@ -65,7 +65,7 @@ WizardPane >> addPart: aWizardPart associatedTo: aSymbol [
 
 { #category : #accessing }
 WizardPane >> addPart: aWizardPart associatedTo: aSymbol requiring: aCollectionOfSymbols [ 
-	"when a part is added to a WizardPane, an output is associated to it. Each part is associate to only one output but can require several inputs specified by aCollectionOfSymbols "
+	"when a wizard part is added to a WizardPane, an output is associated to it. Each part is associate to only one output but can require several inputs specified by aCollectionOfSymbols "
 	wizardParts add: aWizardPart.
 	aWizardPart wizardPane: self.
 	partsAndInformationsAssociated 
@@ -88,7 +88,7 @@ WizardPane >> applyChanges [
 	
 ]
 
-{ #category : #'morph creation' }
+{ #category : #'private - actions' }
 WizardPane >> buildDialogWindow [
 	"this method fill in the contents of the dialog window with all the WizardPart morph contents. Each wizardPart will be displayed one under the other. "
 	| blocksContents |
@@ -133,9 +133,9 @@ WizardPane >> close [
 	self dialogWindow  close
 ]
 
-{ #category : #accessing }
+{ #category : #'private - accessing' }
 WizardPane >> contents: aCollectionOfMorphElements [
-	"fill in the morph contents of the dialog window with morphs from aCollectionOfMorpElements. Each element will be diplayed one under the other"
+	"fill in the morph contents of the dialog window with morphs from aCollectionOfMorpElements. aCollectionOfMorpElements represent the morph contents of all wizard parts composing this wizardPane. Used in the method open. Each element will be diplayed one under the other"
 	|contents|
 	contents := PanelMorph new
 		hResizing: #spaceFill;
@@ -163,7 +163,7 @@ WizardPane >> disableNextButton [
 	"by default (if no next button is define, do nothing)"
 ]
 
-{ #category : #'private - accessing' }
+{ #category : #'private - actions' }
 WizardPane >> displayButtons [
 	"add buttons to the dialogWindow. each subclass know which buttons have to be added to their dialogWindow"
 	self subclassResponsibility
@@ -312,7 +312,7 @@ WizardPane >> nextButtonAction [
 
 { #category : #'window control' }
 WizardPane >> open [
-	"open this pane. To do that, we make sure that all the WizardParts retrieve the inputs they require and then display their morph contents"
+	"open this pane. To do that, we make sure that all the WizardParts retrieve the inputs they require and then, we display their morph contents"
 	wizardParts do: [ :each | each retrieveInputRequired ].
 	"wizardParts  detect: [:each | each enableNextButton  = false  ]  ifNone: [self enableNextButton ]".
 	self  buildDialogWindow.

@@ -215,6 +215,9 @@ MultiSelectionListSelector >> initialize [
 	selectionList := OrderedCollection new.
 	selectionListSelections := Dictionary new. 
 	selectionListIndex := 0.
+	
+	"while no item has been selected and put into the selectionList, the nextButton doesn't have to be enabled'"
+	"self enableNextButton: false."
 ]
 
 { #category : #'initialize-release' }
@@ -348,6 +351,11 @@ MultiSelectionListSelector >> selectionList: aCollection [
 	"Here we check that the selectionListIndex is updated according the new list size  "
 	self selectionListIndex > self selectionList size ifFalse: [^self].
 	self changeSelectionListIndex: self selectionList size.
+	
+	"if the list has become empty, we disable the next button"
+	"self selectionList isEmpty
+		ifTrue: [ self enableNextButton: false]
+		ifFalse: [ self enableNextButton: true]."
 
 	
 

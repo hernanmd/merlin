@@ -10,7 +10,7 @@ Class {
 { #category : #actions }
 WizardFirstPane >> disableNextButton [
 
-	"by default (if no next button is define, do nothing)"
+	""
 	nextButton disable.
 ]
 
@@ -25,7 +25,7 @@ WizardFirstPane >> displayButtons [
 { #category : #actions }
 WizardFirstPane >> enableNextButton [
 
-	"by default if no next button is defined, do nothing"
+	""
 	nextButton enable.
 	
 ]
