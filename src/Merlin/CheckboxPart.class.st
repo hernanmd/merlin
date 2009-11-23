@@ -39,10 +39,10 @@ CheckboxPart >> label:  aLabel inGroupboxNamed: aString [
 
 { #category : #'morph content setup tools' }
 CheckboxPart >> newMergeClassAndMetaClassCheckbox [
-	"Return a checkbox that allow the user to choose between merging classes et metaclasses or not"
+	"Return a checkbox that allow the user to choose between merging classes and metaclasses or not"
 	| checkbox |
 	checkbox := self newCheckboxFor:   
-	( model := (ValueHolder new contents: false))
+	( model := (ValueHolder new contents: true))
 		getSelected: #contents
 		setSelected: #contents:
 		label: label.
