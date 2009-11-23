@@ -252,14 +252,14 @@ WizardPane >> newColumn: aSymbol withAll: aCollectionOfMorphElements [
 { #category : #'morph creation' }
 WizardPane >> newNextButton [
 
-	^ (self newButtonNamed: 'Next' withAction:   #nextButtonAction) .
+	^ (self newButtonNamed: 'Next >>' withAction:   #nextButtonAction) .
 
 ]
 
 { #category : #'morph creation' }
 WizardPane >> newPreviousButton [
 
-	^ self newButtonNamed: 'Previous' withAction:   #previousButtonAction.
+	^ self newButtonNamed: '<< Back' withAction:   #previousButtonAction.
 
 ]
 
