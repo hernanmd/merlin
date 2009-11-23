@@ -28,27 +28,27 @@ CheckboxPart class >> withLabel: aString inGroupboxNamed: anotherString [
 { #category : #accessing }
 CheckboxPart >> label:  aLabel [
 	label := aLabel.
-	self contents: {self newMergeClassAndMetaClassCheckbox}
+	self contents: {self newCheckbox}
 ]
 
 { #category : #accessing }
 CheckboxPart >> label:  aLabel inGroupboxNamed: aString [
 	label := aLabel.
-	self contents: {self newGroupboxNamed: aString With: self newMergeClassAndMetaClassCheckbox}
+	self contents: {self newGroupboxNamed: aString With: self newCheckbox}
 ]
 
 { #category : #'morph content setup tools' }
-CheckboxPart >> newMergeClassAndMetaClassCheckbox [
+CheckboxPart >> newCheckbox [
 	"Return a checkbox that allow the user to choose between merging classes and metaclasses or not"
+
 	| checkbox |
-	checkbox := self newCheckboxFor:   
-	( model := (ValueHolder new contents: true))
-		getSelected: #contents
-		setSelected: #contents:
-		label: label.
-		
+	checkbox := self 
+				newCheckboxFor: (model := ValueHolder new contents: true)
+				getSelected: #contents
+				setSelected: #contents:
+				label: label.
 	checkbox buttonMorph selected: true.
-	^checkbox .
+	^checkbox
 ]
 
 { #category : #'accessing - wizard mangement' }
