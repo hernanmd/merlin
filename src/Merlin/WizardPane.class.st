@@ -36,10 +36,17 @@ Class {
 		'cancelButton',
 		'partsAndInformationsAssociated',
 		'partsAndRequiredInformations',
-		'wizardParts'
+		'wizardParts',
+		'name'
 	],
 	#category : #Merlin
 }
+
+{ #category : #'instance creation' }
+WizardPane class >> named: aString [
+
+	^ super new  initialize ; name: aString ;yourself .
+]
 
 { #category : #'instance creation' }
 WizardPane class >> new [
@@ -194,6 +201,18 @@ WizardPane >> initialize [
 	cancelButton := self newCancelButton
 ]
 
+{ #category : #accessing }
+WizardPane >> name [
+
+	^ name 
+]
+
+{ #category : #accessing }
+WizardPane >> name: aString [
+
+	name := aString
+]
+
 { #category : #'contents setup tools' }
 WizardPane >> newButtonNamed: aString withAction: selector [
 	"use this method to create a new classic button that will execute the method designed by selector when clicked. The method selector must be defined and implemented."
@@ -318,6 +337,7 @@ WizardPane >> open [
 	self  buildDialogWindow.
 	self displayButtons.
 	self checkForEnablingNextButton .
+	name ifNotNil: [ wizardControl dialogWindowName: name].
 	self builder openModal: self dialogWindow.
 	
 ]

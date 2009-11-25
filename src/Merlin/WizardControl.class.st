@@ -104,6 +104,13 @@ WizardControl >> dialogWindow [
 	^ dialogWindow 
 ]
 
+{ #category : #accessing }
+WizardControl >> dialogWindowName: aString [
+	
+	"set the name of the dialogWindow"
+	dialogWindow title: aString
+]
+
 { #category : #'initialize-release' }
 WizardControl >> initialize [
 	
