@@ -337,7 +337,9 @@ WizardPane >> open [
 	self  buildDialogWindow.
 	self displayButtons.
 	self checkForEnablingNextButton .
-	name ifNotNil: [ wizardControl dialogWindowName: name].
+	name isNil 
+		ifTrue: [wizardControl dialogWindowName: '']
+		ifFalse: [ wizardControl dialogWindowName: name].
 	self builder openModal: self dialogWindow.
 	
 ]
