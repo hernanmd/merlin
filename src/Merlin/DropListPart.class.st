@@ -2,7 +2,9 @@ Class {
 	#name : #DropListPart,
 	#superclass : #WizardPart,
 	#instVars : [
-		'model'
+		'model',
+		'list',
+		'selectionIndex'
 	],
 	#category : #Merlin
 }
@@ -10,8 +12,7 @@ Class {
 { #category : #'instance creation' }
 DropListPart class >> on: aCollectionOfItems [ 
 	^ self new
-		initialize;
-		list: aCollectionOfItems ; yourself
+		initialize; listContents: aCollectionOfItems ; yourself
 ]
 
 { #category : #'instance creation' }
@@ -34,19 +35,34 @@ DropListPart class >> on: aCollectionOfItems inGroupboxNamed: aString defaultSel
 
 { #category : #'accessing - morph' }
 DropListPart >> defaultItemSelected: anIndex [
-	model selectionIndex: anIndex
+	self selectionIndex: anIndex
 ]
 
-{ #category : #'accessing - morph' }
-DropListPart >> list: aCollectionOfItems [
+{ #category : #'list control' }
+DropListPart >> list [
+	"Answer the value of list"
 
-	self contents: {self newGroupboxNamed: 'Choose an item' With: (self newDropListFor: aCollectionOfItems)} .
+	^ list
+]
+
+{ #category : #'list control' }
+DropListPart >> list: anObject [
+	"Set the value of list"
+
+	list := anObject.
+	self changed: #list
 ]
 
 { #category : #'accessing - morph' }
 DropListPart >> list: aCollectionOfItems inGroupboxNamed: aString [
 
-	self contents: {self newGroupboxNamed: aString With: (self newDropListFor: aCollectionOfItems)} .
+	self contents: {self newGroupboxNamed: aString With: (self newDropListSelfControllingFor: aCollectionOfItems)} .
+]
+
+{ #category : #'accessing - morph' }
+DropListPart >> listContents: aCollectionOfItems [
+
+	self contents: { (self newDropListSelfControllingFor: aCollectionOfItems)} .
 ]
 
 { #category : #'morph content setup tools' }
@@ -73,8 +89,58 @@ DropListPart >> newDropListFor: aCollectionOfItems [
 	
 ]
 
+{ #category : #'morph content setup tools' }
+DropListPart >> newDropListSelfControllingFor: aCollectionOfItems [
+			
+	| dropList |
+	self list: aCollectionOfItems .
+	self selectionIndex: 1.
+	dropList := (DropListMorph
+			on: (self)
+			list: #list
+			selected: #selectionIndex
+			changeSelected: #selectionIndex:
+			useIndex: true)
+		"selectionColor: self selectionColor;"
+		"getEnabledSelector: enabledSel;"
+		"font: self dropListFont;"
+		cornerStyle: #rounded;
+		hResizing: #spaceFill;
+		vResizing: #shrinkWrap;
+		"setBalloonText: helpText"
+		yourself.
+		
+	
+	^ dropList.
+	
+]
+
 { #category : #'accessing - wizard mangement' }
 DropListPart >> outputValue [
 	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
-	^ model list at: model selectionIndex
+	^ self list at: self selectionIndex
+]
+
+{ #category : #'list control' }
+DropListPart >> selectedItem [
+	"Answer the currently selected item or nil if none."
+
+	^self selectionIndex = 0
+		ifTrue: [nil]
+		ifFalse: [self list at: self selectionIndex]
+]
+
+{ #category : #'list control' }
+DropListPart >> selectionIndex [
+	"Answer the value of selectionIndex"
+
+	^ selectionIndex
+]
+
+{ #category : #'list control' }
+DropListPart >> selectionIndex: anObject [
+	"Set the value of selectionIndex"
+
+	selectionIndex := anObject.
+	self changed: #selectionIndex
 ]
