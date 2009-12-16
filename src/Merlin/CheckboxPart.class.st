@@ -3,7 +3,8 @@ Class {
 	#superclass : #WizardPart,
 	#instVars : [
 		'label',
-		'model'
+		'model',
+		'checkbox'
 	],
 	#category : #Merlin
 }
@@ -25,16 +26,24 @@ CheckboxPart class >> withLabel: aString inGroupboxNamed: anotherString [
 			inGroupboxNamed: anotherString ; yourself
 ]
 
+{ #category : #'instance creation' }
+CheckboxPart class >> withLabel: aString isSelected: trueOrFalse [
+	<lint: 'Methods implemented but not sent' rationale: 'method provided  to the user' author: 'cyrille.delaunay'>
+	^ self new
+		initialize;
+		label: aString ; selected: trueOrFalse ;yourself
+]
+
 { #category : #accessing }
 CheckboxPart >> label:  aLabel [
 	label := aLabel.
-	self contents: {self newCheckbox}
+	self contents: {checkbox := self newCheckbox}
 ]
 
 { #category : #accessing }
 CheckboxPart >> label:  aLabel inGroupboxNamed: aString [
 	label := aLabel.
-	self contents: {self newGroupboxNamed: aString With: self newCheckbox}
+	self contents: {checkbox := self newGroupboxNamed: aString With: self newCheckbox}
 ]
 
 { #category : #'morph content setup tools' }
@@ -53,5 +62,15 @@ CheckboxPart >> newCheckbox [
 { #category : #'accessing - wizard mangement' }
 CheckboxPart >> outputValue [
 	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
+	"return true or false according the checkbox is selected or not"
 	^ model contents
+]
+
+{ #category : #accessing }
+CheckboxPart >> selected: trueOrFalse [
+	"select or unselect the checkbox according the value of trueOrFalse "
+	
+	checkbox buttonMorph selected: trueOrFalse .
+	
+	
 ]
