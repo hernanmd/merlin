@@ -69,8 +69,7 @@ CheckboxPart >> outputValue [
 { #category : #accessing }
 CheckboxPart >> selected: trueOrFalse [
 	"select or unselect the checkbox according the value of trueOrFalse "
-	
-	checkbox buttonMorph selected: trueOrFalse .
-	
+	model contents: false.
+
 	
 ]

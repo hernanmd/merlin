@@ -35,12 +35,12 @@ MultiSelectionListSelectorWithSmalltalkExpression >> evaluateTextEntryContents [
 		(self selectionList includes: each) ifFalse: 
 			[ self updateSelectionListByAdding: each.
 			self updatePackagesListByRemoving: each ] ]. 
-		self  deleteStringMessageFromRowIndexedBy: 2.]
+		self modifyTitleWith: 'Select packages with a Smalltalk condition' ForRowIndexedBy: 2.]
 	 
 		on: Error
 		do: [  
-		
-			self addStringMessage: 'Invalid smalltalk expression' ForRowIndexedBy: 2.
+			self addTitleMessage: 'INVALID EXPRESSION' toGroupboxInRowIndexedBy:2 
+			"self addStringMessage: 'Invalid expression' ForRowIndexedBy: 2."
 			]
 ]
 
@@ -80,13 +80,13 @@ MultiSelectionListSelectorWithSmalltalkExpression >> newTextEntry [
 		"getEnabledSelector: enabledSel;"
 		font: Preferences standardDefaultTextFont;
 		cornerStyle:  #rounded;
-		hResizing: #spaceFill;
+		hResizing: #rigid"#spaceFill";
 		vResizing: #rigid;
 		borderStyle: (BorderStyle inset width: 1);
 		color: Color white;
 		"selectionColor: self selectionColor;"
 		hideScrollBarsIndefinitely;
-		extent: 24@(Preferences standardDefaultTextFont height + 8);
+		extent: 280@(Preferences standardDefaultTextFont height + 8);
 		"setBalloonText: helpText."
 		yourself.
 	pt textMorph
