@@ -217,6 +217,21 @@ WizardPart >> newMultiSelectionListFor: aModel list: listSelector primarySelecti
 ]
 
 { #category : #'morph content setup tools' }
+WizardPart >> newRadionButtonFor: aModel getSelected: getSel setSelected: setSel label: aString [
+
+
+	^(CheckboxMorph
+			on: aModel selected: getSel changeSelected: setSel)
+		"getEnabledSelector: enabledSel;"
+		"font: self labelFont;"
+		label: aString;
+		hResizing: #shrinkWrap;
+		vResizing: #shrinkWrap;
+		"setBalloonText: helpText;"
+		beRadioButton
+]
+
+{ #category : #'morph content setup tools' }
 WizardPart >> newRowWith: aCollectionOfMorphElements [
 	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
 	"use this method to create a new row in your block"
@@ -230,6 +245,27 @@ WizardPart >> newRowWith: aCollectionOfMorphElements [
 		cellInset: 8; yourself.
 	aCollectionOfMorphElements do: [:m | answer addMorphBack: m].
 	^answer
+]
+
+{ #category : #'morph content setup tools' }
+WizardPart >> newTextEditorFor: aModel getText: getSel setText: setSel [
+	"Answer a text editor for the given model."
+
+	^ (PluggableTextEditorMorph new)
+		on: aModel
+			text: getSel
+			accept: setSel
+			readSelection: nil
+			menu: nil;
+		"font: self textFont;"
+		cornerStyle: #rounded;
+		hResizing: #rigid;
+		vResizing: #spaceFill;
+		borderStyle: (BorderStyle inset width: 1);
+		"extent: 800@(Preferences standardDefaultTextFont height + 8);"
+		color: Color white.
+		"selectionColor: self selectionColor"	
+			"getEnabledSelector: enabledSel;" 
 ]
 
 { #category : #'accessing - wizard mangement' }

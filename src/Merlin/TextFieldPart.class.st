@@ -30,7 +30,7 @@ TextFieldPart >> inGroupboxNamed: aString [
 TextFieldPart >> initialize [ 
 
 	super initialize.
-	self enableNextButton: false.
+	"self enableNextButton: false."
 ]
 
 { #category : #'initialize-release' }
