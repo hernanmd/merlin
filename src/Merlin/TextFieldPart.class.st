@@ -3,7 +3,9 @@ Class {
 	#superclass : #WizardPart,
 	#instVars : [
 		'textField',
-		'textEntryContents'
+		'textEntryContents',
+		'useRequiredInputAsDefault',
+		'defaultBlock'
 	],
 	#category : #Merlin
 }
@@ -20,6 +22,24 @@ TextFieldPart class >> inGroupboxNamed: aString defaultText: anotherString [
 	^ (super new inGroupboxNamed: aString) initialize: anotherString ; yourself.
 ]
 
+{ #category : #'instance creation' }
+TextFieldPart class >> inGroupboxNamed: aString withComputedDefaultText: aBlock [
+
+	^ super new inGroupboxNamed: aString  ; defaultBlock: aBlock ; useRequiredInputAsDefault: true ; yourself.
+]
+
+{ #category : #'instance creation' }
+TextFieldPart class >> usingRequiredInputAsDefaultInGroupboxNamed: aString [ 
+
+	^ super new inGroupboxNamed: aString  ; useRequiredInputAsDefault: true ; yourself.
+]
+
+{ #category : #accessing }
+TextFieldPart >> defaultBlock: aBlock [
+"this method enable to compute the default text by computing the value of a block. Using a block is usefull, for example, to specify required value in its contents. Since this block will only be evaluated when this part will retrieve its required inputs, all will works well"
+	defaultBlock := aBlock.
+]
+
 { #category : #'initialize-release' }
 TextFieldPart >> inGroupboxNamed: aString [
 
@@ -30,6 +50,7 @@ TextFieldPart >> inGroupboxNamed: aString [
 TextFieldPart >> initialize [ 
 
 	super initialize.
+	useRequiredInputAsDefault := false.
 	"self enableNextButton: false."
 ]
 
@@ -79,8 +100,23 @@ TextFieldPart >> newTextEntry [
 TextFieldPart >> outputValue [ 
 
 		"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
-		textField  acceptTextInModel.
-		^ textEntryContents .
+		"textField  acceptTextInModel."
+		"^ textEntryContents ."
+		"^textField textMorph asText"
+		^ (ObjectStringConverter forClass: String) stringAsObject: textField textMorph asText asString
+]
+
+{ #category : #'accessing - wizard mangement' }
+TextFieldPart >> retrieveInputRequired [
+	"this method is an abstract method as only the subclass itself know what to do with the input that it needs to make its work "
+	"by default do nothing"
+	"make here all the thing required to build or make run this wizard part. This method will be clalled by wizardPane before opening the 'page'"
+		
+
+	useRequiredInputAsDefault ifTrue: [
+		self textEntryContents: (defaultBlock valueWithArguments: {self.}).
+		textField  acceptTextInModel .
+		]
 ]
 
 { #category : #'text entry control' }
@@ -93,6 +129,19 @@ TextFieldPart >> textEntryContents [
 TextFieldPart >> textEntryContents: newContents [ 
 	"set the content of the text entry "
 	textEntryContents := newContents.
+	wizardPane ifNotNil: 
+		[wizardPane hasChanged: self].
 	self changed: #textEntryContents.
 	
+]
+
+{ #category : #accessing }
+TextFieldPart >> textField [ 
+	^ textField 
+]
+
+{ #category : #accessing }
+TextFieldPart >> useRequiredInputAsDefault: trueOrFalse [
+
+	useRequiredInputAsDefault := trueOrFalse.
 ]

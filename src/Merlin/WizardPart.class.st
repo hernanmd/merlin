@@ -28,7 +28,8 @@ Class {
 	#instVars : [
 		'blockContents',
 		'wizardPane',
-		'enableNextButton'
+		'enableNextButton',
+		'requiredInputs'
 	],
 	#category : #Merlin
 }
@@ -81,6 +82,7 @@ WizardPart >> enableNextButtonValue [
 WizardPart >> initialize [
 	
 	super initialize.
+	requiredInputs := Dictionary new.
 	"by default, a wizard part doesn't require anything to enable the next button of the wizard pane"
 	self enableNextButton:  true.
 ]
@@ -272,6 +274,18 @@ WizardPart >> newTextEditorFor: aModel getText: getSel setText: setSel [
 WizardPart >> outputValue [
 	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
 	self subclassResponsibility
+]
+
+{ #category : #'accessing - wizard mangement' }
+WizardPart >> requiredInputs [
+
+	^ requiredInputs.
+]
+
+{ #category : #'accessing - wizard mangement' }
+WizardPart >> requiredInputsAt: aSymbol put: aValue [
+
+	requiredInputs at: aSymbol put: aValue.
 ]
 
 { #category : #'accessing - wizard mangement' }

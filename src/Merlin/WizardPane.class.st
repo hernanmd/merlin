@@ -177,6 +177,19 @@ WizardPane >> displayButtons [
 ]
 
 { #category : #actions }
+WizardPane >> distributeRequiredInputs [
+
+	wizardParts do: [:wizardPart |
+		(partsAndRequiredInformations at: wizardPart ifAbsent: []) ifNotNilDo: [ :collOfSymbols |
+			collOfSymbols do: [:symbol |
+				wizardPart requiredInputsAt: symbol put: (wizardControl wizardInformations at: symbol).
+				wizardPart retrieveInputRequired .
+				]
+			]
+		]
+]
+
+{ #category : #actions }
 WizardPane >> enableNextButton [
 
 	"by default (if no next button is define, do nothing)"
@@ -188,6 +201,26 @@ WizardPane >> getInputRequiredBy: aWizarPart [
 	| informationsRequired |
 	informationsRequired := partsAndRequiredInformations at: aWizarPart.
 	^ informationsRequired collect: [ :each | self wizardControl valueOfInformation: each ]
+]
+
+{ #category : #actions }
+WizardPane >> hasChanged: aWizardPart [
+"this method is used by the sub parts to inform this pane that their output value has changed. Here , we push this value to the part requiring this information"
+
+	| informationValue informationSymbol |
+	informationValue := aWizardPart outputValue.
+	informationSymbol := partsAndInformationsAssociated at: aWizardPart.	
+	
+	wizardControl setInformation: informationSymbol withValue: informationValue.
+	
+	partsAndRequiredInformations keysAndValuesDo: [:key :value |
+		(value includes: informationSymbol)
+			ifTrue: [
+				aWizardPart requiredInputsAt: informationSymbol put: informationValue.
+				
+				]
+		]
+	
 ]
 
 { #category : #'initialize-release' }
@@ -332,7 +365,10 @@ WizardPane >> nextButtonAction [
 { #category : #'window control' }
 WizardPane >> open [
 	"open this pane. To do that, we make sure that all the WizardParts retrieve the inputs they require and then, we display their morph contents"
+	
+	self distributeRequiredInputs .
 	wizardParts do: [ :each | each retrieveInputRequired ].
+	
 	"wizardParts  detect: [:each | each enableNextButton  = false  ]  ifNone: [self enableNextButton ]".
 	self  buildDialogWindow.
 	self displayButtons.
