@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'model',
 		'list',
-		'selectionIndex'
+		'selectionIndex',
+		'useRequiredInputAsDefault',
+		'defaultBlock'
 	],
 	#category : #Merlin
 }
@@ -33,9 +35,31 @@ DropListPart class >> on: aCollectionOfItems inGroupboxNamed: aString defaultSel
 			inGroupboxNamed: aString ; defaultItemSelected: anIndex ;  yourself
 ]
 
+{ #category : #'instance creation' }
+DropListPart class >> on: aCollectionOfItems inGroupboxNamed: aString defaultSelectedBlock: aBlock [
+	"the drop list will be put into a groupbox named aString. by default it is put into a groupbox named 'Choose an item'"
+	^ self new
+		initialize;
+		list: aCollectionOfItems
+			inGroupboxNamed: aString ; defaultBlock: aBlock ;useRequiredInputAsDefault: true ;   yourself
+]
+
+{ #category : #accessing }
+DropListPart >> defaultBlock: aBlock [
+"this method enable to compute the default text by computing the value of a block. Using a block is usefull, for example, to specify required value in its contents. Since this block will only be evaluated when this part will retrieve its required inputs, all will works well"
+	defaultBlock := aBlock.
+]
+
 { #category : #'accessing - morph' }
 DropListPart >> defaultItemSelected: anIndex [
 	self selectionIndex: anIndex
+]
+
+{ #category : #'initialize-release' }
+DropListPart >> initialize [ 
+
+	super initialize.
+	useRequiredInputAsDefault := false.
 ]
 
 { #category : #'list control' }
@@ -121,6 +145,18 @@ DropListPart >> outputValue [
 	^ self list at: self selectionIndex
 ]
 
+{ #category : #'accessing - wizard mangement' }
+DropListPart >> retrieveInputRequired [
+	"this method is an abstract method as only the subclass itself know what to do with the input that it needs to make its work "
+	"by default do nothing"
+	"make here all the thing required to build or make run this wizard part. This method will be clalled by wizardPane before opening the 'page'"
+		
+
+	useRequiredInputAsDefault ifTrue: [
+		self selectionIndex: (defaultBlock valueWithArguments: {self.}).
+		]
+]
+
 { #category : #'list control' }
 DropListPart >> selectedItem [
 	"Answer the currently selected item or nil if none."
@@ -143,4 +179,10 @@ DropListPart >> selectionIndex: anObject [
 
 	selectionIndex := anObject.
 	self changed: #selectionIndex
+]
+
+{ #category : #accessing }
+DropListPart >> useRequiredInputAsDefault: trueOrFalse [
+
+	useRequiredInputAsDefault := trueOrFalse.
 ]

@@ -183,8 +183,9 @@ WizardPane >> distributeRequiredInputs [
 		(partsAndRequiredInformations at: wizardPart ifAbsent: []) ifNotNilDo: [ :collOfSymbols |
 			collOfSymbols do: [:symbol |
 				wizardPart requiredInputsAt: symbol put: (wizardControl wizardInformations at: symbol).
-				wizardPart retrieveInputRequired .
-				]
+				
+				].
+			wizardPart retrieveInputRequired .
 			]
 		]
 ]
