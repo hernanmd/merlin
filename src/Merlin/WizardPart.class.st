@@ -1,5 +1,5 @@
 "
-A WizardPart represent a part of a WizardPane. It only provide one output (information), in other words, it deals with a maximum of one information to retrieve.However, a wizardPane can maybe deal with several output informations and should therefore be composed by several WizardPart.On the other hand, a WizardPart can require several input informations.
+A WizardPart is an abstract class which represents a part of a WizardPane. It only provides one output (information), in other words, it deals with a maximum of one information to retrieve.However, a wizardPane can maybe deal with several output informations and should therefore be composed by several WizardPart.On the other hand, a WizardPart can require several input informations.
 
 WizardPart is an abstract class that you should be subclassed to create your own component in the pane. It's up to you to build the morph contents of a WizardPart (even if some tools to create basic elements are provided by the abstract class). And it's up to you to specify what is the information you want to retrieve from this interface: to do that, you only have to implement the abstrat method 'outputValue' and put into the value you want to transmit (for example, if your wizardpart is composed by a simple drop list you may want to transmit the value of the item selected).
 You may also want to override the method 'retrieveRequiredInput' to retrieve some informations and make what you want with it(by default it does nothing). This method is called by the wizardPane before each pane opening.
@@ -34,41 +34,40 @@ Class {
 	#category : #Merlin
 }
 
-{ #category : #'accessing - morph' }
+{ #category : #accessing }
 WizardPart >> contents [
 	"return the morph contents of this WizardPart."
 
-	^   blockContents. 
+	^  blockContents. 
 	
 ]
 
-{ #category : #'accessing - morph' }
-WizardPart >> contents: aCollectionOfMorphElement [
-	"Set the morph contents Of this WizardPart. Create a panel morph containing all the elements in aCollectionOfMorphElements one under the other"
-	 	
-	blockContents := PanelMorph new
-		hResizing: #spaceFill;
-		vResizing: #spaceFill;
-		fillStyle: Color transparent; "non pane color tracking"
-		changeTableLayout;
-		cellInset: 8; yourself.
-		
-	aCollectionOfMorphElement do: [:each | blockContents addMorphBack: each ].
-	^blockContents
+{ #category : #buttons }
+WizardPart >> disableNextButton [
+	"enableNextButton and update the next button in the wizard pane (if the wizard pane is yet initialized)"
+	
+	self enableNextButton: false
 ]
 
-{ #category : #'accessing - wizard mangement' }
-WizardPart >> enableNextButton: trueOrFalse [
-	" set the value of enableNextButton and update the next button in the wizard pane (if the wizard pane is yet initialized)"
-	enableNextButton := trueOrFalse.
+{ #category : #buttons }
+WizardPart >> enableNextButton [
+	"enableNextButton and update the next button in the wizard pane (if the wizard pane is yet initialized)"
+	
+	self enableNextButton: true
+]
 
+{ #category : #protected }
+WizardPart >> enableNextButton: trueOrFalse [
+	"Set the value of enableNextButton and update the next button in the wizard pane (if the wizard pane is yet initialized)"
+	
+	enableNextButton := trueOrFalse.
 	self wizardPane ifNotNil: [self wizardPane checkForEnablingNextButton ]
 		
 
 
 ]
 
-{ #category : #'accessing - wizard mangement' }
+{ #category : #buttons }
 WizardPart >> enableNextButtonValue [
 	" return true if the next button in the wizard pane should be enable"
 	^ enableNextButton.
@@ -84,7 +83,7 @@ WizardPart >> initialize [
 	super initialize.
 	requiredInputs := Dictionary new.
 	"by default, a wizard part doesn't require anything to enable the next button of the wizard pane"
-	self enableNextButton:  true.
+	self enableNextButton.
 ]
 
 { #category : #'morph content setup tools' }
@@ -92,20 +91,19 @@ WizardPart >> newButtonNamed: aString withAction: selector [
 	"use this method to create a new classic button that will execute the method designed by selector when clicked. The method selector must be defined and implemented in the subclass"
 	
 	| button |
-	button := PluggableButtonMorphPlus
-			on: self getState: nil action: selector.
+	button := PluggableButtonMorphPlus on: self getState: nil action: selector.
 	button label: aString.
 	^button
 ]
 
 { #category : #'morph content setup tools' }
 WizardPart >> newButtonNamed: aString withAction: selector andArguments: aCollectionOfArguments [
-	<lint: 'Methods implemented but not sent' rationale: 'method provided  to the user of the library' author: 'cyrille.delaunay'>
 	"use this method to create a new classic button that will execute the method designed by selector when pressed with the arguments aCollectionOfArguments. The method selector must define and implemented in the subclass"
 	
+	<lint: 'Methods implemented but not sent' rationale: 'method provided  to the user of the library' author: 'cyrille.delaunay'>
+	
 	| button |
-	button := PluggableButtonMorphPlus
-			on: self getState: nil action: selector.
+	button := PluggableButtonMorphPlus on: self getState: nil action: selector.
 	button label: aString.
 	button arguments: aCollectionOfArguments .
 	^button
@@ -113,8 +111,9 @@ WizardPart >> newButtonNamed: aString withAction: selector andArguments: aCollec
 
 { #category : #'morph content setup tools' }
 WizardPart >> newCheckboxFor: aModel getSelected: getSel setSelected: setSel label: label [
-	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
 	"return a checkbox with the label label. the value of the checkbox will be accessed by the selector getSel (send to aModel) and set by the selector setSel (send to aModel)."
+	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
+	
 	^(CheckboxMorph
 			on: aModel selected: getSel changeSelected: setSel)
 		font: Preferences standardDefaultTextFont;
@@ -126,8 +125,9 @@ WizardPart >> newCheckboxFor: aModel getSelected: getSel setSelected: setSel lab
 
 { #category : #'morph content setup tools' }
 WizardPart >> newColumnWith: aCollectionOfMorphElements [
-	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
 	"use this method to create a new column in your block"
+	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
+	
 	|answer|
 	answer := PanelMorph new
 		hResizing: #spaceFill;
@@ -237,7 +237,8 @@ WizardPart >> newRadionButtonFor: aModel getSelected: getSel setSelected: setSel
 WizardPart >> newRowWith: aCollectionOfMorphElements [
 	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
 	"use this method to create a new row in your block"
-		|answer|
+	
+	|answer|
 	answer := PanelMorph new
 		hResizing: #spaceFill;
 		vResizing: #shrinkWrap;
@@ -270,25 +271,40 @@ WizardPart >> newTextEditorFor: aModel getText: getSel setText: setSel [
 			"getEnabledSelector: enabledSel;" 
 ]
 
-{ #category : #'accessing - wizard mangement' }
+{ #category : #actions }
 WizardPart >> outputValue [
 	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
 	self subclassResponsibility
 ]
 
-{ #category : #'accessing - wizard mangement' }
+{ #category : #actions }
+WizardPart >> populateContents: aCollectionOfMorphElement [
+	"Set the morph contents of this WizardPart. Create a panel morph containing all the elements in aCollectionOfMorphElements one under the other"
+	 	
+	blockContents := PanelMorph new
+		hResizing: #spaceFill;
+		vResizing: #spaceFill;
+		fillStyle: Color transparent; "non pane color tracking"
+		changeTableLayout;
+		cellInset: 8; yourself.
+		
+	aCollectionOfMorphElement do: [:each | blockContents addMorphBack: each ].
+	^blockContents
+]
+
+{ #category : #actions }
 WizardPart >> requiredInputs [
 
-	^ requiredInputs.
+	^ requiredInputs
 ]
 
-{ #category : #'accessing - wizard mangement' }
+{ #category : #actions }
 WizardPart >> requiredInputsAt: aSymbol put: aValue [
 
-	requiredInputs at: aSymbol put: aValue.
+	requiredInputs at: aSymbol put: aValue
 ]
 
-{ #category : #'accessing - wizard mangement' }
+{ #category : #actions }
 WizardPart >> retrieveInputRequired [
 	"this method is an abstract method as only the subclass itself know what to do with the input that it needs to make its work "
 	"by default do nothing"
@@ -296,13 +312,13 @@ WizardPart >> retrieveInputRequired [
 	
 ]
 
-{ #category : #'accessing - wizard mangement' }
+{ #category : #buttons }
 WizardPart >> wizardPane [ 
 	"return the wizard pane controling this wizard part"
 	^wizardPane 
 ]
 
-{ #category : #'accessing - wizard mangement' }
+{ #category : #buttons }
 WizardPart >> wizardPane: aWizardPane [ 
 	"set the wizard pane controling this wizard part"
 	^wizardPane := aWizardPane 

@@ -10,23 +10,24 @@ Class {
 { #category : #'private - accessing' }
 WizardLastPane >> displayButtons [
 
-	self buttons: {cancelButton. self newPreviousButton. terminateButton := self newTerminateButton  }.
+	terminateButton := self newTerminateButton.
+	self buttons: {cancelButton. self newPreviousButton. terminateButton}.
 ]
 
 { #category : #'morph creation' }
 WizardLastPane >> newTerminateButton [
 	
-
-	^ self newButtonNamed: 'Terminate' withAction:   #terminateButtonAction.
+	^ self newButtonNamed: 'Terminate' withAction: #terminateButtonAction.
 ]
 
 { #category : #actions }
 WizardLastPane >> terminateButtonAction [
-	"action executed when the terminate button is pressed "
+	"action executed when the terminate button is pressed"
+	
 	partsAndInformationsAssociated keysAndValuesDo: 
 		[ :key :value | 
 		self wizardControl 
-			setInformation: value
+			information: value
 			withValue: key outputValue ].
 	self wizardControl performTerminateButtonAction
 ]

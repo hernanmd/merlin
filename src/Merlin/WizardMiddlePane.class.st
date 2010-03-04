@@ -10,5 +10,6 @@ Class {
 { #category : #'private - accessing' }
 WizardMiddlePane >> displayButtons [
 
-	self buttons: {cancelButton.  self newPreviousButton. nextButton := self newNextButton . }.
+	nextButton := self newNextButton.
+	self buttons: {cancelButton . self newPreviousButton . nextButton}.
 ]

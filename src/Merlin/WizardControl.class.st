@@ -77,17 +77,13 @@ WizardControl class >> example [
 	wizardControl openFirstWizardPane
 ]
 
-{ #category : #'instance creation' }
-WizardControl class >> new [
-
-	^super new initialize.
-]
-
-{ #category : #accessing }
+{ #category : #'addition / removal' }
 WizardControl >> addPane: aWizardPane [  
-	"add the WizardPane aWizardPane at the end of the panes list of this wizard control. Therefore, this pane will be the last one to be displayed "
+	"add the WizardPane aWizardPane at the end of the panes list of this wizard control. Therefore, this pane will be the last one to be displayed"
+	
 	aWizardPane wizardControl: self.
-	wizardPanes add: aWizardPane .
+	wizardPanes add: aWizardPane.
+	^ aWizardPane 
 
 ]
 
@@ -99,16 +95,25 @@ WizardControl >> builder [
 
 { #category : #accessing }
 WizardControl >> dialogWindow [
-	
 	"return the dialog window of this WizardControl. This dialog window is common to all the panes composing the wizard so that each pane can be open at the same position"
+	
 	^ dialogWindow 
 ]
 
 { #category : #accessing }
 WizardControl >> dialogWindowName: aString [
-	
 	"set the name of the dialogWindow"
+	
 	dialogWindow title: aString
+]
+
+{ #category : #accessing }
+WizardControl >> information: aSymbol withValue: value [ 
+	"set the value of the information designed by aSymbol. It is used by a pane when a next button or a terminate button is clicked to spread its output information"
+	
+	wizardInformations 
+		at: aSymbol
+		put: value
 ]
 
 { #category : #'initialize-release' }
@@ -128,17 +133,26 @@ WizardControl >> initialize [
 
 ]
 
-{ #category : #start }
-WizardControl >> openFirstWizardPane [
+{ #category : #open }
+WizardControl >> open [
 	"launch the wizard system by opening the first wizard pane."
+	
 	wizardPanes isEmpty ifTrue: [ ^ self ].
 	currentPane := 1.
 	(wizardPanes at: currentPane) open
 ]
 
+{ #category : #obsolete }
+WizardControl >> openFirstWizardPane [
+	"launch the wizard system by opening the first wizard pane."
+	self deprecated: 'Use open instead'.
+	self open.
+]
+
 { #category : #'wizard panes transition' }
 WizardControl >> performNextButtonAction [
 	"this method is run when a next button is pressed"
+	
 	(wizardPanes at: currentPane) close.
 	currentPane := currentPane  + 1.
 	(wizardPanes at: currentPane ) open. 
@@ -147,6 +161,7 @@ WizardControl >> performNextButtonAction [
 { #category : #'wizard panes transition' }
 WizardControl >> performPreviousButtonAction [
 	"this method is run when a previous button is pressed"
+	
 	(wizardPanes at: currentPane) close.
 	currentPane := currentPane  - 1.
 	(wizardPanes at: currentPane ) open. 
@@ -154,23 +169,16 @@ WizardControl >> performPreviousButtonAction [
 
 { #category : #'wizard panes transition' }
 WizardControl >> performTerminateButtonAction [
-
 	"by default, just close the last current pane. Override this method if you want to create a subclass of WizardControl making a specific action"
-		(wizardPanes at: currentPane) close.
+	
+	(wizardPanes at: currentPane) close.
 		
-]
-
-{ #category : #accessing }
-WizardControl >> setInformation: aSymbol withValue: value [ 
-	"set the value of the information designed by aSymbol. It is used by a pane when a next button or a terminate button is clicked to spread its output information"
-	wizardInformations 
-		at: aSymbol
-		put: value
 ]
 
 { #category : #accessing }
 WizardControl >> valueOfInformation: aSymbol [
 	"return the value of the output information named aSymbol"
+	          
 	^ wizardInformations at: aSymbol.
 ]
 
@@ -178,6 +186,7 @@ WizardControl >> valueOfInformation: aSymbol [
 WizardControl >> wizardInformations [ 
 	<lint: 'Methods implemented but not sent' rationale: 'method provided  to the user of the library' author: 'cyrille.delaunay'>
 	"return a Dictionary containing the ids of the informations retrieved by the wizard and their values"
+	
 	^ wizardInformations 
 ]
 

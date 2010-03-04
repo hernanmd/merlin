@@ -121,16 +121,14 @@ ListSelector >> initialList: aCollectionOfString [
 
 { #category : #'initialize-release' }
 ListSelector >> initialize [
+
 	super initialize.
-	"initialization for the packages list control :"
-	"self setDefaultPackagesList."
 	initialListSelectionIndex := 0.
 
-	"initialization for the selection list control : "
 	selectionListSelectionIndex := 0.
 	selectionList := SortedCollection new.
 	
-	self enableNextButton: false.
+	self disableNextButton
 
 	
 ]
@@ -243,13 +241,13 @@ ListSelector >> selectionList [
 { #category : #'selection list control' }
 ListSelector >> selectionList: anObject [ 
 	"Set the value of selectionList"
+	
 	selectionList := anObject.
 	self changed: #selectionList.
 	
-		"we check the new size of the selection list. If nothing is selected, we can't go to the next 	'page'"
-	self selectionList isEmpty
-		ifTrue: [ self enableNextButton: false ]
-		ifFalse: [self enableNextButton: true ].
+	"we check the new size of the selection list. If nothing is selected, we can't go to the next 	'page'"
+	
+	self enableNextButton: (self selectionList isEmpty not).
 	
 	"Here we check that the selectionIndex is updated according the new list size  "
 	self selectionListSelectionIndex > self selectionList size

@@ -9,8 +9,6 @@ Class {
 
 { #category : #actions }
 WizardFirstPane >> disableNextButton [
-
-	""
 	nextButton disable.
 ]
 
@@ -18,14 +16,13 @@ WizardFirstPane >> disableNextButton [
 WizardFirstPane >> displayButtons [
 	"add buttons to the dialogWindow. each subclass now which buttons have to be added to their dialogWindow"
 	
-	self buttons: { cancelButton. nextButton:= self newNextButton  
-	}
+	nextButton := self newNextButton. 
+	self buttons: {cancelButton . nextButton}
 ]
 
 { #category : #actions }
 WizardFirstPane >> enableNextButton [
 
-	""
 	nextButton enable.
 	
 ]
@@ -33,8 +30,8 @@ WizardFirstPane >> enableNextButton [
 { #category : #'initialize-release' }
 WizardFirstPane >> initialize [
 
-	super initialize .
-	nextButton := self newNextButton .
+	super initialize.
+	nextButton := self newNextButton.
 	
 	
 ]
