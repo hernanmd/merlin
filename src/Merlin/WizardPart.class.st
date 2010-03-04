@@ -29,10 +29,17 @@ Class {
 		'blockContents',
 		'wizardPane',
 		'enableNextButton',
-		'requiredInputs'
+		'requiredInputs',
+		'callbackBlock'
 	],
 	#category : #Merlin
 }
+
+{ #category : #accessing }
+WizardPart >> callback: aBlock [
+
+	callbackBlock := aBlock.
+]
 
 { #category : #accessing }
 WizardPart >> contents [
@@ -40,6 +47,13 @@ WizardPart >> contents [
 
 	^  blockContents. 
 	
+]
+
+{ #category : #actions }
+WizardPart >> contents: aCollectionOfMorphElements [
+	 	
+	self deprecated: 'use populateContents: instead'.
+	self populateContents: aCollectionOfMorphElements .
 ]
 
 { #category : #buttons }
@@ -77,6 +91,14 @@ WizardPart >> enableNextButtonValue [
 
 ]
 
+{ #category : #actions }
+WizardPart >> hasChanged [
+	"when the output value of this wizardPart has changed, we first perform the callbak and then inform the wizardPane that a new value has been set"
+	
+	callbackBlock valueWithArguments: {self outputValue }.
+	wizardPane ifNotNil: [ wizardPane  hasChanged: self].
+]
+
 { #category : #'initialize-release' }
 WizardPart >> initialize [
 	
@@ -84,6 +106,7 @@ WizardPart >> initialize [
 	requiredInputs := Dictionary new.
 	"by default, a wizard part doesn't require anything to enable the next button of the wizard pane"
 	self enableNextButton.
+	callbackBlock := [:outputValue | ].
 ]
 
 { #category : #'morph content setup tools' }

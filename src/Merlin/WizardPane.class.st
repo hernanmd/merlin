@@ -97,7 +97,7 @@ WizardPane >> buildDialogWindow [
 	
 	| blocksContents |
 	blocksContents := wizardParts collect: [ :each | each contents].
-	self populateContents: blocksContents asOrderedCollection.
+	self contents: blocksContents asOrderedCollection.
 	self applyChanges
 ]
 
@@ -306,6 +306,16 @@ WizardPane >> previousButtonAction [
 	"action executed when the previous button is pressed"
 	
 	self wizardControl performPreviousButtonAction 
+]
+
+{ #category : #'addition-removal' }
+WizardPane >> removeAllParts [
+	
+
+	wizardParts removeAll.
+	partsAndInformationsAssociated := Dictionary new.
+	partsAndRequiredInformations := Dictionary new.
+	
 ]
 
 { #category : #accessing }

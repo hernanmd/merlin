@@ -60,6 +60,7 @@ DropListPart >> initialize [
 
 	super initialize.
 	useRequiredInputAsDefault := false.
+	
 ]
 
 { #category : #'list control' }
@@ -80,7 +81,7 @@ DropListPart >> list: anObject [
 { #category : #'accessing - morph' }
 DropListPart >> list: aCollectionOfItems inGroupboxNamed: aString [
 
-	self contents: {self newGroupboxNamed: aString With: (self newDropListSelfControllingFor: aCollectionOfItems)} .
+	self populateContents: {self newGroupboxNamed: aString With: (self newDropListSelfControllingFor: aCollectionOfItems)} .
 ]
 
 { #category : #'accessing - morph' }
@@ -178,6 +179,7 @@ DropListPart >> selectionIndex: anObject [
 	"Set the value of selectionIndex"
 
 	selectionIndex := anObject.
+	self hasChanged .
 	self changed: #selectionIndex
 ]
 

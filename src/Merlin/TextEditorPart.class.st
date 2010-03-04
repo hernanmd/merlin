@@ -17,17 +17,25 @@ TextEditorPart class >> inGroupboxNamed: aString [
 { #category : #'instance creation' }
 TextEditorPart class >> inGroupboxNamed: aString defaultText: anotherString [
 
-	^ super new initializeInGroupboxNamed: aString; yourself.
+	^ super new initializeInGroupboxNamed: aString withDefaultText: anotherString ; yourself.
 ]
 
 { #category : #'initialize-release' }
 TextEditorPart >> initializeInGroupboxNamed: aString [
 
 	super initialize.
-	self contents: {
+	self populateContents: {
 		self newGroupboxNamed: aString With:
 			self newTextEditor. 
 	}
+]
+
+{ #category : #'initialize-release' }
+TextEditorPart >> initializeInGroupboxNamed: aString withDefaultText: anotherString [
+
+	self initializeInGroupboxNamed: aString.
+	self textEditorContents: anotherString .
+	
 ]
 
 { #category : #'morph content setup tools' }

@@ -43,7 +43,7 @@ TextFieldPart >> defaultBlock: aBlock [
 { #category : #'initialize-release' }
 TextFieldPart >> inGroupboxNamed: aString [
 
-	self contents: {self newGroupboxNamed: aString With: self newTextEntry }.
+	self populateContents: {self newGroupboxNamed: aString With: self newTextEntry }.
 ]
 
 { #category : #'initialize-release' }
@@ -130,7 +130,7 @@ TextFieldPart >> textEntryContents: newContents [
 	"set the content of the text entry "
 	textEntryContents := newContents.
 	wizardPane ifNotNil: 
-		[wizardPane hasChanged: self].
+		[self hasChanged ].
 	self changed: #textEntryContents.
 	
 ]
