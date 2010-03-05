@@ -27,3 +27,9 @@ MorphDropListPart >> newDropListSelfControllingFor: aCollectionOfItems [
 	^ dropList.
 	
 ]
+
+{ #category : #'accessing - wizard mangement' }
+MorphDropListPart >> outputValue [
+
+	^self selectionIndex
+]

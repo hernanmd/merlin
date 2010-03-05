@@ -1,0 +1,29 @@
+Class {
+	#name : #TextFieldWithPrefixAnsSuffixLabelsPart,
+	#superclass : #TextFieldPart,
+	#category : #Merlin
+}
+
+{ #category : #'instance creation' }
+TextFieldWithPrefixAnsSuffixLabelsPart class >> inGroupboxNamed: aString defaultText: anotherString [
+
+	^ (super new inGroupboxNamed: aString) initialize: anotherString ; yourself.
+]
+
+{ #category : #'instance creation' }
+TextFieldWithPrefixAnsSuffixLabelsPart class >> inGroupboxNamed: aString defaultText: anotherString prefix: prefixString suffix: suffixString [
+
+	^ (super new inGroupboxNamed: aString prefix: prefixString suffix: suffixString) initialize: anotherString ; yourself.
+]
+
+{ #category : #'instance creation' }
+TextFieldWithPrefixAnsSuffixLabelsPart class >> inGroupboxNamed: aString prefix: prefixString suffix: suffixString [
+
+	^ super new inGroupboxNamed: aString prefix: prefixString suffix: suffixString.
+]
+
+{ #category : #'initialize-release' }
+TextFieldWithPrefixAnsSuffixLabelsPart >> inGroupboxNamed: aString prefix: prefixString suffix: suffixString [
+
+	self populateContents: {self newGroupboxNamed: aString With: (self newRowWith:{ self newLabel:prefixString. self newTextEntry. self newLabel:suffixString. })}.
+]
