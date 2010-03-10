@@ -6,7 +6,8 @@ Class {
 		'list',
 		'selectionIndex',
 		'useRequiredInputAsDefault',
-		'defaultBlock'
+		'defaultBlock',
+		'dropList'
 	],
 	#category : #Merlin
 }
@@ -27,12 +28,21 @@ DropListPart class >> on: aCollectionOfItems inGroupboxNamed: aString [
 ]
 
 { #category : #'instance creation' }
+DropListPart class >> on: aCollectionOfItems inGroupboxNamed: aString defaultItemSelected: anItem [
+	"the drop list will be put into a groupbox named aString. by default it is put into a groupbox named 'Choose an item'"
+	^ self new
+		initialize;
+		list: aCollectionOfItems
+			inGroupboxNamed: aString ; defaultItemSelected: anItem ;  yourself
+]
+
+{ #category : #'instance creation' }
 DropListPart class >> on: aCollectionOfItems inGroupboxNamed: aString defaultSelected: anIndex [
 	"the drop list will be put into a groupbox named aString. by default it is put into a groupbox named 'Choose an item'"
 	^ self new
 		initialize;
 		list: aCollectionOfItems
-			inGroupboxNamed: aString ; defaultItemSelected: anIndex ;  yourself
+			inGroupboxNamed: aString ; defaultIndexSelected: anIndex ;  yourself
 ]
 
 { #category : #'instance creation' }
@@ -51,8 +61,24 @@ DropListPart >> defaultBlock: aBlock [
 ]
 
 { #category : #'accessing - morph' }
-DropListPart >> defaultItemSelected: anIndex [
+DropListPart >> defaultIndexSelected: anIndex [
 	self selectionIndex: anIndex
+]
+
+{ #category : #'accessing - morph' }
+DropListPart >> defaultItemSelected: anItem [
+
+	self selectionIndex: (self list indexOf: anItem)
+]
+
+{ #category : #accessing }
+DropListPart >> horizontalSize: anInteger [
+
+	"if the default size (computed according your wizard global size) doesn't correspond to what you were expecting, you this method to fix yourself the width of the dropListMorph"
+	dropList 
+		hResizing: #rigid;
+		vResizing: #spaceFill;
+		width: anInteger.
 ]
 
 { #category : #'initialize-release' }
@@ -117,7 +143,6 @@ DropListPart >> newDropListFor: aCollectionOfItems [
 { #category : #'morph content setup tools' }
 DropListPart >> newDropListSelfControllingFor: aCollectionOfItems [
 			
-	| dropList |
 	self list: aCollectionOfItems .
 	self selectionIndex: 1.
 	dropList := (DropListMorph

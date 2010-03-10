@@ -42,7 +42,10 @@ TextEditorPart >> initializeInGroupboxNamed: aString withDefaultText: anotherStr
 TextEditorPart >> newTextEditor [
 
 	^ (self newTextEditorFor: self getText: #textEditorContents setText: #textEditorContents:)
-		width: 255;
+		hResizing: #rigid;
+		vResizing: #rigid;
+		extent: 380@ 500 ;
+		"width: 255;"
 		yourself.
 
 ]
@@ -50,7 +53,7 @@ TextEditorPart >> newTextEditor [
 { #category : #'accessing - wizard mangement' }
 TextEditorPart >> outputValue [
 
-	^ self contents.
+	^ self textEditorContents.
 ]
 
 { #category : #'text editor control' }

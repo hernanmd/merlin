@@ -274,6 +274,20 @@ WizardPart >> newRowWith: aCollectionOfMorphElements [
 ]
 
 { #category : #'morph content setup tools' }
+WizardPart >> newText: aStringOrText [
+	"Answer a new text."
+
+	^TextMorph new
+		wrapFlag: true;
+		contents: aStringOrText;
+		"font: self textFont;"
+		autoFit: true;
+		lock;
+		hResizing: #shrinkWrap;
+		vResizing: #shrinkWrap
+]
+
+{ #category : #'morph content setup tools' }
 WizardPart >> newTextEditorFor: aModel getText: getSel setText: setSel [
 	"Answer a text editor for the given model."
 

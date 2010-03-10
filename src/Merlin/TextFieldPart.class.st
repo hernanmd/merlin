@@ -5,7 +5,9 @@ Class {
 		'textField',
 		'textEntryContents',
 		'useRequiredInputAsDefault',
-		'defaultBlock'
+		'defaultBlock',
+		'horizontalSize',
+		'verticalSize'
 	],
 	#category : #Merlin
 }
@@ -79,13 +81,13 @@ TextFieldPart >> newTextEntry [
 		"getEnabledSelector: enabledSel;"
 		font: Preferences standardDefaultTextFont;
 		cornerStyle:  #rounded;
-		hResizing: #spaceFill;
+		hResizing: #spaceFill"#rigid";
 		vResizing: #rigid;
 		borderStyle: (BorderStyle inset width: 1);
 		color: Color white;
 		"selectionColor: self selectionColor;"
 		hideScrollBarsIndefinitely;
-		extent: 24@(Preferences standardDefaultTextFont height + 8);
+		extent: 24@ (Preferences standardDefaultTextFont height + 8);
 		"setBalloonText: helpText."
 		yourself.
 	pt textMorph
@@ -138,6 +140,15 @@ TextFieldPart >> textEntryContents: newContents [
 { #category : #accessing }
 TextFieldPart >> textField [ 
 	^ textField 
+]
+
+{ #category : #accessing }
+TextFieldPart >> textFieldHorizontalSize: anInteger [ 
+
+	textField 
+		hResizing: #rigid;
+		width: anInteger .
+	horizontalSize := anInteger.
 ]
 
 { #category : #accessing }

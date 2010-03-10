@@ -308,6 +308,11 @@ WizardPane >> previousButtonAction [
 	self wizardControl performPreviousButtonAction 
 ]
 
+{ #category : #updating }
+WizardPane >> refresh [
+	self open
+]
+
 { #category : #'addition-removal' }
 WizardPane >> removeAllParts [
 	
