@@ -37,13 +37,13 @@ CheckboxPart class >> withLabel: aString isSelected: trueOrFalse [
 { #category : #accessing }
 CheckboxPart >> label:  aLabel [
 	label := aLabel.
-	self contents: {checkbox := self newCheckbox}
+	self populateContents: {checkbox := self newCheckbox}
 ]
 
 { #category : #accessing }
 CheckboxPart >> label:  aLabel inGroupboxNamed: aString [
 	label := aLabel.
-	self contents: {checkbox := self newGroupboxNamed: aString With: self newCheckbox}
+	self populateContents: {checkbox := self newGroupboxNamed: aString With: self newCheckbox}
 ]
 
 { #category : #'morph content setup tools' }

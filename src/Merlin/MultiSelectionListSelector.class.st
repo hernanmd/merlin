@@ -34,7 +34,7 @@ MultiSelectionListSelector >> addRowWithAll: collectionOfMorphElements withTitle
 			(self newColumnWith: {   })
 		}).
 
-	self contents:(  
+	self populateContents:(  
 		tmpBuilderMainContent asArray
 	).
 
@@ -251,7 +251,7 @@ MultiSelectionListSelector >> initialize: aCollectionOfItems [
 	
 	(morphSelectionList := self newSelectionMultiSelectionList).
 	(morphPackagesList := self newInitialMultiSelectionList).
-	self contents:{ self newRowWith: { 
+	self populateContents:{ self newRowWith: { 
 			((self 
 					newGroupboxNamed: 'Packages' translated
 					With: morphPackagesList)).
