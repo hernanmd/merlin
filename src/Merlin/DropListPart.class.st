@@ -19,6 +19,12 @@ DropListPart class >> on: aCollectionOfItems [
 ]
 
 { #category : #'instance creation' }
+DropListPart class >> on: aCollectionOfItems defaultItemSelected: anItem [
+	^ self new
+		initialize; listContents: aCollectionOfItems ; defaultItemSelected: anItem; yourself
+]
+
+{ #category : #'instance creation' }
 DropListPart class >> on: aCollectionOfItems inGroupboxNamed: aString [ 
 	"the drop list will be put into a groupbox named aString. by default it is put into a groupbox named 'Choose an item'"
 	^ self new
@@ -113,7 +119,7 @@ DropListPart >> list: aCollectionOfItems inGroupboxNamed: aString [
 { #category : #'accessing - morph' }
 DropListPart >> listContents: aCollectionOfItems [
 
-	self contents: { (self newDropListSelfControllingFor: aCollectionOfItems)} .
+	self populateContents: { (self newDropListSelfControllingFor: aCollectionOfItems)} .
 ]
 
 { #category : #'morph content setup tools' }
