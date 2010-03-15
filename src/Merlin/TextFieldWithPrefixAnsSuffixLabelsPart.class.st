@@ -28,6 +28,12 @@ TextFieldWithPrefixAnsSuffixLabelsPart class >> prefix: prefixString suffix: suf
 	^ super new prefix: prefixString suffix: suffixString; yourself.
 ]
 
+{ #category : #'instance creation' }
+TextFieldWithPrefixAnsSuffixLabelsPart class >> prefix: prefixString suffix: suffixString defaultText: aString [
+
+	^ (super new prefix: prefixString suffix: suffixString) initialize: aString; yourself.
+]
+
 { #category : #'initialize-release' }
 TextFieldWithPrefixAnsSuffixLabelsPart >> inGroupboxNamed: aString prefix: prefixString suffix: suffixString [
 
