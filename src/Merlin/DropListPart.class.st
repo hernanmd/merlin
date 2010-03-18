@@ -177,7 +177,7 @@ DropListPart >> newDropListSelfControllingFor: aCollectionOfItems [
 { #category : #'accessing - wizard mangement' }
 DropListPart >> outputValue [
 	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
-	self list ifNotNilDo: [:list | list at: self selectionIndex]
+	self list ifNotNilDo: [:list | ^ list at: self selectionIndex]
 ]
 
 { #category : #'accessing - wizard mangement' }
