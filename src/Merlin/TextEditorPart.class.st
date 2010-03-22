@@ -3,7 +3,8 @@ Class {
 	#superclass : #WizardPart,
 	#instVars : [
 		'contents',
-		'textEditorContents'
+		'textEditorContents',
+		'textEditor'
 	],
 	#category : #Merlin
 }
@@ -41,7 +42,7 @@ TextEditorPart >> initializeInGroupboxNamed: aString withDefaultText: anotherStr
 { #category : #'morph content setup tools' }
 TextEditorPart >> newTextEditor [
 
-	^ (self newTextEditorFor: self getText: #textEditorContents setText: #textEditorContents:)
+	^ textEditor := (self newTextEditorFor: self getText: #textEditorContents setText: #textEditorContents:)
 		hResizing: #rigid;
 		vResizing: #rigid;
 		extent: 380@ 500 ;
@@ -53,7 +54,8 @@ TextEditorPart >> newTextEditor [
 { #category : #'accessing - wizard mangement' }
 TextEditorPart >> outputValue [
 
-	^ self textEditorContents.
+	"^ self textEditorContents."
+	^ (ObjectStringConverter forClass: String) stringAsObject: textEditor textMorph asText asString
 ]
 
 { #category : #'text editor control' }
