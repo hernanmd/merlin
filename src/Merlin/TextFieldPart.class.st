@@ -5,9 +5,7 @@ Class {
 		'textField',
 		'textEntryContents',
 		'useRequiredInputAsDefault',
-		'defaultBlock',
-		'horizontalSize',
-		'verticalSize'
+		'defaultBlock'
 	],
 	#category : #Merlin
 }
@@ -148,7 +146,6 @@ TextFieldPart >> textFieldHorizontalSize: anInteger [
 	textField 
 		hResizing: #rigid;
 		width: anInteger .
-	horizontalSize := anInteger.
 ]
 
 { #category : #accessing }

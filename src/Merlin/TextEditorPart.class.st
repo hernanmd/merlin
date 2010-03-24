@@ -43,11 +43,10 @@ TextEditorPart >> initializeInGroupboxNamed: aString withDefaultText: anotherStr
 TextEditorPart >> newTextEditor [
 
 	^ textEditor := (self newTextEditorFor: self getText: #textEditorContents setText: #textEditorContents:)
-		hResizing: #rigid;
-		vResizing: #rigid;
-		extent: 380@ 500 ;
-		"width: 255;"
-		yourself.
+		hResizing: #spaceFill;
+		vResizing: #spaceFill;
+		yourself
+		
 
 ]
 
@@ -67,4 +66,20 @@ TextEditorPart >> textEditorContents [
 TextEditorPart >> textEditorContents: newContents [
 	textEditorContents := newContents.
 	self changed: #textEditorContents
+]
+
+{ #category : #accessing }
+TextEditorPart >> textEditorHorizontalSize: anInteger [ 
+
+	textEditor 
+		hResizing: #rigid;
+		width: anInteger .
+]
+
+{ #category : #accessing }
+TextEditorPart >> textEditorVerticalSize: anInteger [ 
+
+	textEditor 
+		vResizing: #rigid;
+		height: anInteger .
 ]
