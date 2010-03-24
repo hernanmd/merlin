@@ -31,7 +31,8 @@ Class {
 		'partsAndInformationsAssociated',
 		'partsAndRequiredInformations',
 		'wizardParts',
-		'name'
+		'name',
+		'wizardRightParts'
 	],
 	#category : #Merlin
 }
@@ -75,6 +76,17 @@ WizardPane >> addPart: aWizardPart associatedTo: aSymbol requiring: aCollectionO
 	
 ]
 
+{ #category : #'addition-removal' }
+WizardPane >> addRightPart: aWizardPart associatedTo: aSymbol [ 
+	"when a wizard part is added to a WizardPane, an output is associated to it. Each part is associate to only one output"
+	
+	wizardRightParts add: aWizardPart.
+	aWizardPart wizardPane: self.
+	partsAndInformationsAssociated 
+		at: aWizardPart
+		put: aSymbol.
+]
+
 { #category : #updating }
 WizardPane >> applyChanges [
 	"make sure that all changes become visible in the frame"
@@ -95,10 +107,14 @@ WizardPane >> backSign [
 WizardPane >> buildDialogWindow [
 	"this method fill in the contents of the dialog window with all the WizardPart morph contents. Each wizardPart will be displayed one under the other."
 	
-	| blocksContents |
+	| blocksContents rightBlocksContents |
 	blocksContents := wizardParts collect: [ :each | each contents].
-	self contents: blocksContents asOrderedCollection.
-	self applyChanges
+	rightBlocksContents := wizardRightParts collect: [ :each | each contents].
+	rightBlocksContents 
+		ifEmpty: [self contents: blocksContents asOrderedCollection.]
+		ifNotEmpty: [self leftContents: blocksContents asOrderedCollection rightContents: rightBlocksContents asOrderedCollection.].
+	
+	self applyChanges.
 ]
 
 { #category : #accessing }
@@ -139,7 +155,7 @@ WizardPane >> close [
 ]
 
 { #category : #'private - accessing' }
-WizardPane >> contents: aCollectionOfMorphElements [
+WizardPane >> contents: aCollectionOfMorphElements [ 
 	"fill in the morph contents of the dialog window with morphs from aCollectionOfMorpElements. aCollectionOfMorpElements represent the morph contents of all wizard parts composing this wizardPane. Used in the method open. Each element will be diplayed one under the other"
 	
 	|contents|
@@ -221,6 +237,7 @@ WizardPane >> initialize [
 	partsAndInformationsAssociated := Dictionary new.
 	partsAndRequiredInformations := Dictionary new.	
 	wizardParts := OrderedCollection new.
+	wizardRightParts := OrderedCollection new.
 	cancelButton := self newCancelButton.
 	
 ]
@@ -232,6 +249,21 @@ WizardPane >> inputRequiredBy: aWizarPart [
 	| informationsRequired |
 	informationsRequired := partsAndRequiredInformations at: aWizarPart.
 	^ informationsRequired collect: [ :each | self wizardControl valueOfInformation: each ]
+]
+
+{ #category : #'private - accessing' }
+WizardPane >> leftContents: aCollectionOfMorphElements rightContents: anotherCollectionOfMorph [
+	"fill in the morph contents of the dialog window with morphs from aCollectionOfMorpElements. aCollectionOfMorpElements represent the morph contents of all wizard parts composing this wizardPane. Used in the method open. Each element will be diplayed one under the other"
+	
+	|globalContents leftContents rightContents|
+	leftContents := self newColumnWith: aCollectionOfMorphElements.
+	rightContents := self newColumnWith: anotherCollectionOfMorph .
+	
+	globalContents := self newRowWith: {leftContents. rightContents}.
+	self dialogWindow  contentMorph: globalContents.
+	^globalContents
+
+	
 ]
 
 { #category : #accessing }
@@ -265,6 +297,22 @@ WizardPane >> newCancelButton [
 ]
 
 { #category : #'morph creation' }
+WizardPane >> newColumnWith: aCollectionOfMorphElements [
+	"use this method to create a new column in your block"
+	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
+	
+	|answer|
+	answer := PanelMorph new
+		hResizing: #spaceFill;
+		vResizing: #spaceFill;
+		fillStyle: Color transparent; "non pane color tracking"
+		changeTableLayout;
+		cellInset: 8; yourself.
+	aCollectionOfMorphElements do: [:m | answer addMorphBack: m].
+	^answer
+]
+
+{ #category : #'morph creation' }
 WizardPane >> newNextButton [
 	^ self newButtonNamed: self forwardSign withAction: #nextButtonAction
 ]
@@ -272,6 +320,23 @@ WizardPane >> newNextButton [
 { #category : #'morph creation' }
 WizardPane >> newPreviousButton [
 	^ self newButtonNamed: self backSign withAction: #previousButtonAction
+]
+
+{ #category : #'morph creation' }
+WizardPane >> newRowWith: aCollectionOfMorphElements [
+	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
+	"use this method to create a new row in your block"
+	
+	|answer|
+	answer := PanelMorph new
+		hResizing: #spaceFill;
+		vResizing: #shrinkWrap;
+		fillStyle: Color transparent; "non pane color tracking"
+		changeTableLayout;
+		listDirection: #leftToRight;
+		cellInset: 8; yourself.
+	aCollectionOfMorphElements do: [:m | answer addMorphBack: m].
+	^answer
 ]
 
 { #category : #actions }
@@ -292,6 +357,7 @@ WizardPane >> open [
 	
 	self distributeRequiredInputs .
 	wizardParts do: [ :each | each retrieveInputRequired ].
+	wizardRightParts do: [ :each | each retrieveInputRequired ].
 	
 	self  buildDialogWindow.
 	self displayButtons.
