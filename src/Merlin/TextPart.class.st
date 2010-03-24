@@ -2,26 +2,54 @@ Class {
 	#name : #TextPart,
 	#superclass : #WizardPart,
 	#instVars : [
-		'text'
+		'text',
+		'groupBoxName',
+		'partValue'
 	],
 	#category : #Merlin
 }
 
 { #category : #'instance creation' }
-TextPart class >> on: stringText inGroupBoxNamed: groupBoxName [
+TextPart class >> on: blockOrStringText inGroupBoxNamed: groupBoxName [
 
-	^ super new initializeWith: stringText inGrouopboxNamed: groupBoxName;yourself. 
+	^ super new initializeWith: blockOrStringText inGrouopboxNamed: groupBoxName;yourself. 
+]
+
+{ #category : #'accessing - wizard mangement' }
+TextPart >> contents [
+
+	self latePopulateContents.
+	^ blockContents.  
 ]
 
 { #category : #'initialize-release' }
-TextPart >> initializeWith: stringText inGrouopboxNamed: groupBoxName [
+TextPart >> initializeWith: blockOrStringText inGrouopboxNamed: anotherString [
+	
+	groupBoxName := anotherString .
+	partValue := blockOrStringText .
+]
 
-	text := stringText.
-	self populateContents: { self newGroupboxNamed: groupBoxName  With: (self newText: stringText) }
+{ #category : #private }
+TextPart >> latePopulateContents [
+
+	partValue isBlock
+		ifTrue: [
+			self text: (partValue value: self requiredInputs). 
+			]
+		ifFalse: [
+			self text: partValue 
+			].
 ]
 
 { #category : #'accessing - wizard mangement' }
 TextPart >> outputValue [ 
 
 	^ text
+]
+
+{ #category : #accessing }
+TextPart >> text: aString [
+	
+	text := aString.
+	self populateContents: { self newGroupboxNamed: groupBoxName  With: (self newText: aString) }
 ]

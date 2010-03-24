@@ -87,6 +87,21 @@ WizardPane >> addRightPart: aWizardPart associatedTo: aSymbol [
 		put: aSymbol.
 ]
 
+{ #category : #'addition-removal' }
+WizardPane >> addRightPart: aWizardPart associatedTo: aSymbol requiring: aCollectionOfSymbols [ 
+	"when a wizard part is added to a WizardPane, an output is associated to it. Each part is associate to only one output but can require several inputs specified by aCollectionOfSymbols"
+
+	wizardRightParts add: aWizardPart.
+	aWizardPart wizardPane: self.
+	partsAndInformationsAssociated 
+		at: aWizardPart
+		put: aSymbol.
+	partsAndRequiredInformations 
+		at: aWizardPart
+		put: aCollectionOfSymbols.
+	
+]
+
 { #category : #updating }
 WizardPane >> applyChanges [
 	"make sure that all changes become visible in the frame"
@@ -196,6 +211,11 @@ WizardPane >> displayButtons [
 WizardPane >> distributeRequiredInputs [
 
 	wizardParts do: [:wizardPart |
+		(partsAndRequiredInformations at: wizardPart ifAbsent: [nil]) ifNotNilDo: [ :collOfSymbols |
+			collOfSymbols do: [:symbol |
+				wizardPart requiredInputsAt: symbol put: (wizardControl wizardInformations at: symbol)].
+			wizardPart retrieveInputRequired]].
+	wizardRightParts do: [:wizardPart |
 		(partsAndRequiredInformations at: wizardPart ifAbsent: [nil]) ifNotNilDo: [ :collOfSymbols |
 			collOfSymbols do: [:symbol |
 				wizardPart requiredInputsAt: symbol put: (wizardControl wizardInformations at: symbol)].
