@@ -7,7 +7,7 @@ Class {
 		'useRequiredInputAsDefault',
 		'defaultBlock'
 	],
-	#category : #Merlin
+	#category : #'Merlin-Parts'
 }
 
 { #category : #'instance creation' }

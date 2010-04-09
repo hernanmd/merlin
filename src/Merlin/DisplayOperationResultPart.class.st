@@ -1,7 +1,7 @@
 Class {
 	#name : #DisplayOperationResultPart,
 	#superclass : #TextDisplayPart,
-	#category : #Merlin
+	#category : #'Merlin-Examples'
 }
 
 { #category : #'accessing - wizard mangement' }

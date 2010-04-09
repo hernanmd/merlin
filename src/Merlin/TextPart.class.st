@@ -6,7 +6,7 @@ Class {
 		'groupBoxName',
 		'partValue'
 	],
-	#category : #Merlin
+	#category : #'Merlin-Parts'
 }
 
 { #category : #'instance creation' }

@@ -1,7 +1,7 @@
 Class {
 	#name : #MorphDropListPart,
 	#superclass : #DropListPart,
-	#category : #Merlin
+	#category : #'Merlin-Parts'
 }
 
 { #category : #'morph content setup tools' }

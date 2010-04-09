@@ -6,7 +6,7 @@ Class {
 		'textEditorContents',
 		'textEditor'
 	],
-	#category : #Merlin
+	#category : #'Merlin-Parts'
 }
 
 { #category : #'instance creation' }

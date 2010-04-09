@@ -11,7 +11,7 @@ Class {
 		'selectionListIndex',
 		'selectionListSelections'
 	],
-	#category : #Merlin
+	#category : #'Merlin-Parts'
 }
 
 { #category : #'instance creation' }

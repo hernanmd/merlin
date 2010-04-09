@@ -9,7 +9,7 @@ Class {
 		'initialList',
 		'initialListSelectionIndex'
 	],
-	#category : #Merlin
+	#category : #'Merlin-Parts'
 }
 
 { #category : #'instance creation' }

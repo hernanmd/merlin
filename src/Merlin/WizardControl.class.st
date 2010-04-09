@@ -37,7 +37,7 @@ Class {
 		'wizardInformations',
 		'dialogWindow'
 	],
-	#category : #Merlin
+	#category : #'Merlin-Core'
 }
 
 { #category : #example }

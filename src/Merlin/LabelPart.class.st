@@ -1,7 +1,7 @@
 Class {
 	#name : #LabelPart,
 	#superclass : #WizardPart,
-	#category : #Merlin
+	#category : #'Merlin-Parts'
 }
 
 { #category : #'instance creation' }

@@ -32,7 +32,7 @@ Class {
 		'requiredInputs',
 		'callbackBlock'
 	],
-	#category : #Merlin
+	#category : #'Merlin-Core'
 }
 
 { #category : #accessing }

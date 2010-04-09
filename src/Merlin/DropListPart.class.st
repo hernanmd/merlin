@@ -9,7 +9,7 @@ Class {
 		'defaultBlock',
 		'dropList'
 	],
-	#category : #Merlin
+	#category : #'Merlin-Parts'
 }
 
 { #category : #'instance creation' }

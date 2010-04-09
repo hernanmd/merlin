@@ -1,7 +1,7 @@
 Class {
 	#name : #TextDisplayPart,
 	#superclass : #WizardPart,
-	#category : #Merlin
+	#category : #'Merlin-Examples'
 }
 
 { #category : #'instance creation' }

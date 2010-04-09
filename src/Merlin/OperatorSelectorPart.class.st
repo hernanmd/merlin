@@ -1,7 +1,7 @@
 Class {
 	#name : #OperatorSelectorPart,
 	#superclass : #DropListPart,
-	#category : #Merlin
+	#category : #'Merlin-Examples'
 }
 
 { #category : #'initialize-release' }

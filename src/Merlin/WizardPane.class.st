@@ -34,7 +34,7 @@ Class {
 		'name',
 		'wizardRightParts'
 	],
-	#category : #Merlin
+	#category : #'Merlin-Core'
 }
 
 { #category : #'instance creation' }

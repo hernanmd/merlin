@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'terminateButton'
 	],
-	#category : #Merlin
+	#category : #'Merlin-Panes'
 }
 
 { #category : #'private - accessing' }

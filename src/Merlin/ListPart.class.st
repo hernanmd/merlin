@@ -6,7 +6,7 @@ Class {
 		'listMorph',
 		'selectionIndex'
 	],
-	#category : #Merlin
+	#category : #'Merlin-Parts'
 }
 
 { #category : #'initialize-release' }

@@ -5,7 +5,7 @@ Class {
 		'textEntry',
 		'textEntryContents'
 	],
-	#category : #Merlin
+	#category : #'Merlin-Parts'
 }
 
 { #category : #'initialize-release' }

@@ -6,7 +6,7 @@ Class {
 		'model',
 		'checkbox'
 	],
-	#category : #Merlin
+	#category : #'Merlin-Parts'
 }
 
 { #category : #'instance creation' }

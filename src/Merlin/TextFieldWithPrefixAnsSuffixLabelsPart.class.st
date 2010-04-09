@@ -1,7 +1,7 @@
 Class {
 	#name : #TextFieldWithPrefixAnsSuffixLabelsPart,
 	#superclass : #TextFieldPart,
-	#category : #Merlin
+	#category : #'Merlin-Parts'
 }
 
 { #category : #'instance creation' }
