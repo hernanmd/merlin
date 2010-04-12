@@ -32,7 +32,8 @@ Class {
 		'partsAndRequiredInformations',
 		'wizardParts',
 		'name',
-		'wizardRightParts'
+		'displayLayout',
+		'mainPaneLine'
 	],
 	#category : #'Merlin-Core'
 }
@@ -56,6 +57,8 @@ WizardPane >> addPart: aWizardPart associatedTo: aSymbol [
 	
 	wizardParts add: aWizardPart.
 	aWizardPart wizardPane: self.
+	(mainPaneLine ifNil: [mainPaneLine := PaneColumn fromPane: self])
+		row: aWizardPart.
 	partsAndInformationsAssociated 
 		at: aWizardPart
 		put: aSymbol.
@@ -67,32 +70,8 @@ WizardPane >> addPart: aWizardPart associatedTo: aSymbol requiring: aCollectionO
 
 	wizardParts add: aWizardPart.
 	aWizardPart wizardPane: self.
-	partsAndInformationsAssociated 
-		at: aWizardPart
-		put: aSymbol.
-	partsAndRequiredInformations 
-		at: aWizardPart
-		put: aCollectionOfSymbols.
-	
-]
-
-{ #category : #'addition-removal' }
-WizardPane >> addRightPart: aWizardPart associatedTo: aSymbol [ 
-	"when a wizard part is added to a WizardPane, an output is associated to it. Each part is associate to only one output"
-	
-	wizardRightParts add: aWizardPart.
-	aWizardPart wizardPane: self.
-	partsAndInformationsAssociated 
-		at: aWizardPart
-		put: aSymbol.
-]
-
-{ #category : #'addition-removal' }
-WizardPane >> addRightPart: aWizardPart associatedTo: aSymbol requiring: aCollectionOfSymbols [ 
-	"when a wizard part is added to a WizardPane, an output is associated to it. Each part is associate to only one output but can require several inputs specified by aCollectionOfSymbols"
-
-	wizardRightParts add: aWizardPart.
-	aWizardPart wizardPane: self.
+	(mainPaneLine ifNil: [mainPaneLine := PaneColumn fromPane: self])
+		row: aWizardPart.
 	partsAndInformationsAssociated 
 		at: aWizardPart
 		put: aSymbol.
@@ -122,14 +101,21 @@ WizardPane >> backSign [
 WizardPane >> buildDialogWindow [
 	"this method fill in the contents of the dialog window with all the WizardPart morph contents. Each wizardPart will be displayed one under the other."
 	
-	| blocksContents rightBlocksContents |
+	
+	"self contents:  (partsGroups collect: [:aPaneAbstractLine |  aPaneAbstractLine morphContents])."
+	self dialogWindow  contentMorph: mainPaneLine morphContents.
+	self applyChanges 
+	
+	
+	
+	"| blocksContents rightBlocksContents |
 	blocksContents := wizardParts collect: [ :each | each contents].
 	rightBlocksContents := wizardRightParts collect: [ :each | each contents].
 	rightBlocksContents 
 		ifEmpty: [self contents: blocksContents asOrderedCollection.]
 		ifNotEmpty: [self leftContents: blocksContents asOrderedCollection rightContents: rightBlocksContents asOrderedCollection.].
 	
-	self applyChanges.
+	self applyChanges."
 ]
 
 { #category : #accessing }
@@ -169,19 +155,82 @@ WizardPane >> close [
 	self dialogWindow close
 ]
 
+{ #category : #'addition-removal' }
+WizardPane >> column: aBlockOrAPart [
+
+	mainPaneLine 
+		ifNotNilDo: [:aPaneRow |
+			aPaneRow column: aBlockOrAPart 
+			]  
+		ifNil: [
+			mainPaneLine := PaneRow fromPane: self.
+			mainPaneLine column: aBlockOrAPart 
+			].
+
+]
+
+{ #category : #'addition-removal' }
+WizardPane >> column: aWizardPart associatedTo: aSymbol [
+
+	"use this method to add a part (using aBlockOrAPart as a WizardPart) or several parts (using aBlockOrAPart as a block ([:row | row column: aPart ; column: anotherPart]) ) to the pane, in a new row. You should always manage the layout of the pane in the same way: you decide to divide the pane in rows and for each row you can add several columns. In this case you will always use a method begining with 'way'. If you decide to divide you pane in columns, you will always use a method begining with: 'column:'. If you try another way to dispatch the parts, the order you might want will not be guaranteed "
+
+	mainPaneLine 
+		ifNotNilDo: [:aPaneRow |
+			aPaneRow column: aWizardPart 
+			]  
+		ifNil: [
+			mainPaneLine := PaneRow fromPane: self.
+			mainPaneLine column: aWizardPart 
+			].
+		
+	"we now focus on the information management (made by the is wizardPane itself): "
+	self setPart: aWizardPart associatedTo: aSymbol 
+		
+	
+]
+
+{ #category : #'addition-removal' }
+WizardPane >> column: aWizardPart associatedTo: aSymbol requiring: aCollectionOfSymbols [
+
+	"use this method to add a part (using aBlockOrAPart as a WizardPart) or several parts (using aBlockOrAPart as a block ([:row | row column: aPart ; column: anotherPart]) ) to the pane, in a new row. You should always manage the layout of the pane in the same way: you decide to divide the pane in rows and for each row you can add several columns. In this case you will always use a method begining with 'way'. If you decide to divide you pane in columns, you will always use a method begining with: 'column:'. If you try another way to dispatch the parts, the order you might want will not be guaranteed "
+
+	mainPaneLine 
+		ifNotNilDo: [:aPaneRow |
+			aPaneRow column: aWizardPart 
+			]  
+		ifNil: [
+			mainPaneLine := PaneRow fromPane: self.
+			mainPaneLine column: aWizardPart 
+			].
+		
+	"we now focus on the information management (made by the is wizardPane itself): "
+	self setPart: aWizardPart associatedTo: aSymbol  requiring: aCollectionOfSymbols
+		
+	
+]
+
 { #category : #'private - accessing' }
 WizardPane >> contents: aCollectionOfMorphElements [ 
 	"fill in the morph contents of the dialog window with morphs from aCollectionOfMorpElements. aCollectionOfMorpElements represent the morph contents of all wizard parts composing this wizardPane. Used in the method open. Each element will be diplayed one under the other"
 	
-	|contents|
+	"|contents|
 	contents := PanelMorph new
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
-		fillStyle: Color transparent; "non pane color tracking"
+		fillStyle: Color transparent; 
 		changeTableLayout;
 		cellInset: 8; yourself.
 
 	aCollectionOfMorphElements do: [:each | contents addMorphBack: each].
+	self dialogWindow  contentMorph: contents."
+	|contents|
+	(displayLayout = #column)
+		ifTrue: [
+			contents := self newRowWith: aCollectionOfMorphElements .
+			]
+		ifFalse: [
+			contents := self newColumnWith: aCollectionOfMorphElements .
+			]. 
 	self dialogWindow  contentMorph: contents.
 	^contents
 
@@ -215,11 +264,7 @@ WizardPane >> distributeRequiredInputs [
 			collOfSymbols do: [:symbol |
 				wizardPart requiredInputsAt: symbol put: (wizardControl wizardInformations at: symbol)].
 			wizardPart retrieveInputRequired]].
-	wizardRightParts do: [:wizardPart |
-		(partsAndRequiredInformations at: wizardPart ifAbsent: [nil]) ifNotNilDo: [ :collOfSymbols |
-			collOfSymbols do: [:symbol |
-				wizardPart requiredInputsAt: symbol put: (wizardControl wizardInformations at: symbol)].
-			wizardPart retrieveInputRequired]]
+	
 ]
 
 { #category : #actions }
@@ -234,7 +279,7 @@ WizardPane >> forwardSign [
 
 { #category : #actions }
 WizardPane >> hasChanged: aWizardPart [
-	"this method is used by the sub parts to inform this pane that their output value has changed. Here , we push this value to the part requiring this information"
+	"this method is used by the sub parts to inform this pane that their output value has changed. Here , we push this value to parts requiring this information"
 
 	| informationValue informationSymbol |
 	informationValue := aWizardPart outputValue.
@@ -257,7 +302,6 @@ WizardPane >> initialize [
 	partsAndInformationsAssociated := Dictionary new.
 	partsAndRequiredInformations := Dictionary new.	
 	wizardParts := OrderedCollection new.
-	wizardRightParts := OrderedCollection new.
 	cancelButton := self newCancelButton.
 	
 ]
@@ -377,7 +421,6 @@ WizardPane >> open [
 	
 	self distributeRequiredInputs .
 	wizardParts do: [ :each | each retrieveInputRequired ].
-	wizardRightParts do: [ :each | each retrieveInputRequired ].
 	
 	self  buildDialogWindow.
 	self displayButtons.
@@ -404,8 +447,99 @@ WizardPane >> removeAllParts [
 	
 
 	wizardParts removeAll.
+	mainPaneLine := nil.
 	partsAndInformationsAssociated := Dictionary new.
 	partsAndRequiredInformations := Dictionary new.
+	
+]
+
+{ #category : #'addition-removal' }
+WizardPane >> row: aBlockOrAPart [
+
+	"use this method to add a part (using aBlockOrAPart as a WizardPart) or several parts (using aBlockOrAPart as a block ([:row | row column: aPart ; column: anotherPart]) ) to the pane, in a new row. You should always manage the layout of the pane in the same way: you decide to divide the pane in rows and for each row you can add several columns. In this case you will always use methods begining with 'row'. If you decide to divide your pane in columns, you will always use methods begining with: 'column:'. If you try another way to dispatch the parts, the order you  want might not be guaranteed "
+	mainPaneLine 
+		ifNotNilDo: [:aPaneColumn |
+			aPaneColumn row: aBlockOrAPart 
+			]  
+		ifNil: [
+			mainPaneLine := PaneColumn fromPane: self.
+			mainPaneLine row: aBlockOrAPart 
+			].
+		
+	
+
+]
+
+{ #category : #'addition-removal' }
+WizardPane >> row: aWizardPart associatedTo: aSymbol [
+
+	"use this method to add a part (using aBlockOrAPart as a WizardPart) or several parts (using aBlockOrAPart as a block ([:row | row column: aPart ; column: anotherPart]) ) to the pane, in a new row. You should always manage the layout of the pane in the same way: you decide to divide the pane in rows and for each row you can add several columns. In this case you will always use a method begining with 'way'. If you decide to divide you pane in columns, you will always use a method begining with: 'column:'. If you try another way to dispatch the parts, the order you might want will not be guaranteed "
+
+	mainPaneLine 
+		ifNotNilDo: [:aPaneColumn |
+			aPaneColumn row: aWizardPart 
+			]  
+		ifNil: [
+			mainPaneLine := PaneColumn fromPane: self.
+			mainPaneLine row: aWizardPart 
+			].
+		
+	"we now focus on the information management (made by the is wizardPane itself): "
+	self setPart: aWizardPart associatedTo: aSymbol  
+		
+	
+]
+
+{ #category : #'addition-removal' }
+WizardPane >> row: aWizardPart associatedTo: aSymbol requiring: aCollectionOfSymbols [
+
+	"use this method to add a part (using aBlockOrAPart as a WizardPart) or several parts (using aBlockOrAPart as a block ([:row | row column: aPart ; column: anotherPart]) ) to the pane, in a new row. You should always manage the layout of the pane in the same way: you decide to divide the pane in rows and for each row you can add several columns. In this case you will always use a method begining with 'way'. If you decide to divide you pane in columns, you will always use a method begining with: 'column:'. If you try another way to dispatch the parts, the order you might want will not be guaranteed "
+
+	mainPaneLine 
+		ifNotNilDo: [:aPaneColumn |
+			aPaneColumn row: aWizardPart 
+			]  
+		ifNil: [
+			mainPaneLine := PaneColumn fromPane: self.
+			mainPaneLine row: aWizardPart 
+			].
+		
+	"we now focus on the information management (made by the is wizardPane itself): "
+	self setPart: aWizardPart associatedTo: aSymbol  requiring: aCollectionOfSymbols
+		
+	
+]
+
+{ #category : #'addition-removal' }
+WizardPane >> setPart: aWizardPart [ 
+
+	wizardParts add: aWizardPart.
+	aWizardPart wizardPane: self.	
+	
+		
+	
+]
+
+{ #category : #'addition-removal' }
+WizardPane >> setPart: aWizardPart associatedTo: aSymbol [ 
+
+	self setPart: aWizardPart.	
+	partsAndInformationsAssociated 
+		at: aWizardPart
+		put: aSymbol.
+	
+		
+	
+]
+
+{ #category : #'addition-removal' }
+WizardPane >> setPart: aWizardPart associatedTo: aSymbol requiring: aCollectionOfSymbols [
+
+	self setPart: aWizardPart  associatedTo: aSymbol.
+	partsAndRequiredInformations 
+		at: aWizardPart
+		put: aCollectionOfSymbols.
+		
 	
 ]
 

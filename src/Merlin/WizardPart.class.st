@@ -109,6 +109,14 @@ WizardPart >> initialize [
 	callbackBlock := [:outputValue | ].
 ]
 
+{ #category : #accessing }
+WizardPart >> morphContents [
+	"return the morph contents of this WizardPart."
+
+	^  blockContents. 
+	
+]
+
 { #category : #'morph content setup tools' }
 WizardPart >> newButtonNamed: aString withAction: selector [
 	"use this method to create a new classic button that will execute the method designed by selector when clicked. The method selector must be defined and implemented in the subclass"

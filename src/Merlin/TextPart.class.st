@@ -42,6 +42,13 @@ TextPart >> latePopulateContents [
 ]
 
 { #category : #'accessing - wizard mangement' }
+TextPart >> morphContents [
+
+	self latePopulateContents.
+	^ blockContents.  
+]
+
+{ #category : #'accessing - wizard mangement' }
 TextPart >> outputValue [ 
 
 	^ text
