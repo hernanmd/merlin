@@ -30,7 +30,12 @@ Class {
 		'wizardPane',
 		'enableNextButton',
 		'requiredInputs',
-		'callbackBlock'
+		'callbackBlock',
+		'defaultValue',
+		'groupBoxName',
+		'useLatePopulateContents',
+		'numberOfContentCalls',
+		'numberOfPopulateContents'
 	],
 	#category : #'Merlin-Core'
 }
@@ -45,6 +50,8 @@ WizardPart >> callback: aBlock [
 WizardPart >> contents [
 	"return the morph contents of this WizardPart."
 
+	"here, we create the morph representing this part. By doing this here, we enable the morph content to be parametrize by a value from another pane (for example, if we want the default value of a textField to depends on an output from the previous pane). "
+	
 	^  blockContents. 
 	
 ]
@@ -54,6 +61,18 @@ WizardPart >> contents: aCollectionOfMorphElements [
 	 	
 	self deprecated: 'use populateContents: instead'.
 	self populateContents: aCollectionOfMorphElements .
+]
+
+{ #category : #'initialize-release' }
+WizardPart >> defaultValue [ 
+
+	^ defaultValue. 
+]
+
+{ #category : #'initialize-release' }
+WizardPart >> defaultValue: aBlockOrObject [
+
+	defaultValue := aBlockOrObject. 
 ]
 
 { #category : #buttons }
@@ -91,12 +110,24 @@ WizardPart >> enableNextButtonValue [
 
 ]
 
+{ #category : #'initialize-release' }
+WizardPart >> groupBoxName [  
+
+	^ groupBoxName. 
+]
+
 { #category : #actions }
 WizardPart >> hasChanged [
 	"when the output value of this wizardPart has changed, we first perform the callbak and then inform the wizardPane that a new value has been set"
 	
 	callbackBlock valueWithArguments: {self outputValue }.
 	wizardPane ifNotNil: [ wizardPane  hasChanged: self].
+]
+
+{ #category : #'initialize-release' }
+WizardPart >> inGroupboxNamed: aString [
+
+	groupBoxName := aString. 
 ]
 
 { #category : #'initialize-release' }
@@ -107,12 +138,28 @@ WizardPart >> initialize [
 	"by default, a wizard part doesn't require anything to enable the next button of the wizard pane"
 	self enableNextButton.
 	callbackBlock := [:outputValue | ].
+	useLatePopulateContents := true.
+	numberOfPopulateContents := 0.
+]
+
+{ #category : #accessing }
+WizardPart >> latePopulateContents [
+
+	"here, you have to set the morph contents of this wizardPart. To do that, use 'populateContents:' with all the mrophs you want. This method will be called only when the pane will be opened. Therefore, this the good time to retrieve information from previous pane and use them (if necessary)"
+	
 ]
 
 { #category : #accessing }
 WizardPart >> morphContents [
 	"return the morph contents of this WizardPart."
 
+	"useLatePopulateContents 
+		ifTrue: [self latePopulateContents]
+		ifFalse: [
+			numberOfContentCalls < 1 ifTrue: [self latePopulateContents ]
+			].
+
+	numberOfContentCalls := numberOfContentCalls + 1."
 	^  blockContents. 
 	
 ]
@@ -252,13 +299,13 @@ WizardPart >> newMultiSelectionListFor: aModel list: listSelector primarySelecti
 { #category : #'morph content setup tools' }
 WizardPart >> newNormalListFor: aModel list: listSelector selected: getSelector changeSelected: setSelector [
 
-	^PluggableListMorph new
+	^(PluggableListMorph 
 		"selectionColor: self selectionColor;
 		font: self listFont;"
 		on: aModel
 		list: listSelector
 		selected: getSelector
-		changeSelected: setSelector;
+		changeSelected: setSelector)
 		"menu: nil
 		keystroke: nil;
 		autoDeselect: false;"
@@ -337,6 +384,18 @@ WizardPart >> newTextEditorFor: aModel getText: getSel setText: setSel [
 			"getEnabledSelector: enabledSel;" 
 ]
 
+{ #category : #accessing }
+WizardPart >> numberOfPopulateContents [
+
+	^ numberOfPopulateContents
+]
+
+{ #category : #accessing }
+WizardPart >> numberOfPopulateContents: anInteger [
+
+	numberOfPopulateContents := anInteger
+]
+
 { #category : #actions }
 WizardPart >> outputValue [
 	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
@@ -376,6 +435,20 @@ WizardPart >> retrieveInputRequired [
 	"by default do nothing"
 	"make here all the thing required to build or make run this wizard part. This method will be clalled by wizardPane before opening the 'page'"
 	
+]
+
+{ #category : #accessing }
+WizardPart >> useLatePopulateContents [
+
+	"by default, the morph contents of the part will always be re-computedt every time the pane call it, ie when the pane open. If you want to set this contents only once (and always memorize the state of your pane), use this method with 'false' "
+	^ useLatePopulateContents. 
+]
+
+{ #category : #accessing }
+WizardPart >> useLatePopulateContents: trueOrFalse [
+
+	"by default, the morph contents of the part will always be re-computedt every time the pane call it, ie when the pane open. If you want to set this contents only once (and always memorize the state of your pane), use this method with 'false' "
+	useLatePopulateContents := trueOrFalse. 
 ]
 
 { #category : #buttons }

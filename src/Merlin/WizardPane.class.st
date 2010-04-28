@@ -33,7 +33,8 @@ Class {
 		'wizardParts',
 		'name',
 		'displayLayout',
-		'mainPaneLine'
+		'mainPaneLine',
+		'isOpen'
 	],
 	#category : #'Merlin-Core'
 }
@@ -152,7 +153,8 @@ WizardPane >> checkForEnablingNextButton [
 { #category : #'window control' }
 WizardPane >> close [
 	
-	self dialogWindow close
+	isOpen := false.
+	self dialogWindow close.
 ]
 
 { #category : #'addition-removal' }
@@ -258,12 +260,26 @@ WizardPane >> displayButtons [
 
 { #category : #actions }
 WizardPane >> distributeRequiredInputs [
-
 	wizardParts do: [:wizardPart |
 		(partsAndRequiredInformations at: wizardPart ifAbsent: [nil]) ifNotNilDo: [ :collOfSymbols |
 			collOfSymbols do: [:symbol |
-				wizardPart requiredInputsAt: symbol put: (wizardControl wizardInformations at: symbol)].
+				self retrieveOutput: symbol.
+				wizardPart requiredInputsAt: symbol put: (wizardControl wizardInformations at: symbol ifAbsent: [nil])].
 			wizardPart retrieveInputRequired]].
+	
+]
+
+{ #category : #actions }
+WizardPane >> distributeRequiredInputsOf: aWizardPart [
+	
+	
+	(partsAndRequiredInformations at: aWizardPart ifAbsent: [ ^self ]) do: [:symbol |
+			"in a first time, we make sure that the part associated to the required input transmit its outputValue. Like that, we are sure that the information is present at the moment we want to acceed it. "
+		self retrieveOutput: symbol.
+			"then we can distribute this value. An error can occure if you have not set your  parts to the pane in  a right order"
+		aWizardPart requiredInputsAt: symbol put: (wizardControl wizardInformations at: symbol)
+		].
+	aWizardPart retrieveInputRequired .
 	
 ]
 
@@ -283,14 +299,14 @@ WizardPane >> hasChanged: aWizardPart [
 
 	| informationValue informationSymbol |
 	informationValue := aWizardPart outputValue.
-	informationSymbol := partsAndInformationsAssociated at: aWizardPart.	
+	informationSymbol := partsAndInformationsAssociated at: aWizardPart ifAbsent: [nil].	
 	
-	wizardControl information: informationSymbol withValue: informationValue.
-	
-	partsAndRequiredInformations keysAndValuesDo: [:key :value |
-		(value includes: informationSymbol)
-			ifTrue: [ aWizardPart requiredInputsAt: informationSymbol put: informationValue]]
-	
+	informationSymbol ifNotNil: [
+		wizardControl information: informationSymbol withValue: informationValue.
+		partsAndRequiredInformations keysAndValuesDo: [:key :value |
+			(value includes: informationSymbol)
+				ifTrue: [ aWizardPart requiredInputsAt: informationSymbol put: informationValue]]
+		]
 ]
 
 { #category : #'initialize-release' }
@@ -419,14 +435,74 @@ WizardPane >> nextButtonAction [
 WizardPane >> open [
 	"open this pane. To do that, we make sure that all the WizardParts retrieve the inputs they require and then, we display their morph contents"
 	
-	self distributeRequiredInputs .
-	wizardParts do: [ :each | each retrieveInputRequired ].
 	
+	self distributeRequiredInputs.
+	"now we populate the morph contents of each wizard part. To do that, we work on a copy of wizardPart. Indeed, populate the morph content pf a part can lauch a callback, which can add some parts to this pane. To avoid loosing informations (by iterating an a growing collection), we first iterate on a copy, and then do the job for the remaining parts "
+	wizardParts copy do: [ :each | 
+		self distributeRequiredInputsOf: each.
+		each retrieveInputRequired.
+		self populateContentsOf: each.
+		"self retrieveOutputOf: each"
+		 ].
+	self populatePartsRemaining. 
+	self  buildDialogWindow.
+	self displayButtons.
+	self checkForEnablingNextButton.
+	wizardControl dialogWindowName: name.
+	isOpen := true.
+	self builder openModal: self dialogWindow.
+	
+	
+
+	
+]
+
+{ #category : #'window control' }
+WizardPane >> openWithoutPopulatingNonEmptyPartContents [
+	"open this pane. To do that, we make sure that all the WizardParts retrieve the inputs they require and then, we display their morph contents"
+	
+	self distributeRequiredInputs .
+	wizardParts do: [ :each | 
+		each retrieveInputRequired.
+		each morphContents isNil ifTrue: [self populateContentsOf: each]
+		 ].
+	self populatePartsRemaining. 
 	self  buildDialogWindow.
 	self displayButtons.
 	self checkForEnablingNextButton.
 	wizardControl dialogWindowName: name.
 	self builder openModal: self dialogWindow.
+	
+]
+
+{ #category : #'window control' }
+WizardPane >> populateContentsOf: aWizardPart [
+
+	aWizardPart useLatePopulateContents 
+		ifTrue: [aWizardPart latePopulateContents]
+		ifFalse: [
+			aWizardPart numberOfPopulateContents > 1
+				ifFalse: [aWizardPart latePopulateContents]
+			].
+	aWizardPart numberOfPopulateContents: (aWizardPart numberOfPopulateContents +1).
+	
+	
+]
+
+{ #category : #'window control' }
+WizardPane >> populatePartsRemaining [
+
+	"Populating a first time all parts may launch some callbacks. Those callbacks can add several parts to the pane, and some of those parts can still have an empty contents. Here we populate all thos remaining empty parts "
+	self distributeRequiredInputs. 
+	wizardParts  do: [:aWizardPart |
+		aWizardPart morphContents isNil
+			ifTrue: [ 
+				self distributeRequiredInputsOf: aWizardPart .
+				aWizardPart latePopulateContents.
+				]
+			].
+	
+
 	
 ]
 
@@ -439,7 +515,8 @@ WizardPane >> previousButtonAction [
 
 { #category : #updating }
 WizardPane >> refresh [
-	self open
+
+	(isOpen = true) ifTrue: [self openWithoutPopulatingNonEmptyPartContents]
 ]
 
 { #category : #'addition-removal' }
@@ -451,6 +528,25 @@ WizardPane >> removeAllParts [
 	partsAndInformationsAssociated := Dictionary new.
 	partsAndRequiredInformations := Dictionary new.
 	
+]
+
+{ #category : #actions }
+WizardPane >> retrieveOutput: anInformationSymbol [
+
+	partsAndInformationsAssociated keysAndValuesDo: [:aPart :aSymbol |
+		aSymbol = anInformationSymbol ifTrue: [self retrieveOutputOf: aPart]
+		].
+
+]
+
+{ #category : #actions }
+WizardPane >> retrieveOutputOf: aWizardPart [
+	
+	| informationSymbol |
+	informationSymbol := partsAndInformationsAssociated at: aWizardPart ifAbsent: [nil].	
+	informationSymbol ifNotNil: [
+		wizardControl information: informationSymbol withValue: aWizardPart outputValue.
+	].
 ]
 
 { #category : #'addition-removal' }
@@ -465,6 +561,8 @@ WizardPane >> row: aBlockOrAPart [
 			mainPaneLine := PaneColumn fromPane: self.
 			mainPaneLine row: aBlockOrAPart 
 			].
+		
+	
 		
 	
 

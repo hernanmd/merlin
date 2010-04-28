@@ -19,30 +19,6 @@ DropListPart class >> on: aCollectionOfItems [
 ]
 
 { #category : #'instance creation' }
-DropListPart class >> on: aCollectionOfItems defaultItemSelected: anItem [
-	^ self new
-		initialize; listContents: aCollectionOfItems ; defaultItemSelected: anItem; yourself
-]
-
-{ #category : #'instance creation' }
-DropListPart class >> on: aCollectionOfItems inGroupboxNamed: aString [ 
-	"the drop list will be put into a groupbox named aString. by default it is put into a groupbox named 'Choose an item'"
-	^ self new
-		initialize;
-		list: aCollectionOfItems
-			inGroupboxNamed: aString ; yourself
-]
-
-{ #category : #'instance creation' }
-DropListPart class >> on: aCollectionOfItems inGroupboxNamed: aString defaultItemSelected: anItem [
-	"the drop list will be put into a groupbox named aString. by default it is put into a groupbox named 'Choose an item'"
-	^ self new
-		initialize;
-		list: aCollectionOfItems
-			inGroupboxNamed: aString ; defaultItemSelected: anItem ;  yourself
-]
-
-{ #category : #'instance creation' }
 DropListPart class >> on: aCollectionOfItems inGroupboxNamed: aString defaultSelected: anIndex [
 	"the drop list will be put into a groupbox named aString. by default it is put into a groupbox named 'Choose an item'"
 	^ self new
@@ -51,23 +27,9 @@ DropListPart class >> on: aCollectionOfItems inGroupboxNamed: aString defaultSel
 			inGroupboxNamed: aString ; defaultIndexSelected: anIndex ;  yourself
 ]
 
-{ #category : #'instance creation' }
-DropListPart class >> on: aCollectionOfItems inGroupboxNamed: aString defaultSelectedBlock: aBlock [
-	"the drop list will be put into a groupbox named aString. by default it is put into a groupbox named 'Choose an item'"
-	^ self new
-		initialize;
-		list: aCollectionOfItems
-			inGroupboxNamed: aString ; defaultBlock: aBlock ;useRequiredInputAsDefault: true ;   yourself
-]
-
-{ #category : #accessing }
-DropListPart >> defaultBlock: aBlock [
-"this method enable to compute the default text by computing the value of a block. Using a block is usefull, for example, to specify required value in its contents. Since this block will only be evaluated when this part will retrieve its required inputs, all will works well"
-	defaultBlock := aBlock.
-]
-
 { #category : #'accessing - morph' }
 DropListPart >> defaultIndexSelected: anIndex [
+
 	self selectionIndex: anIndex
 ]
 
@@ -75,6 +37,12 @@ DropListPart >> defaultIndexSelected: anIndex [
 DropListPart >> defaultItemSelected: anItem [
 
 	self selectionIndex: (self list indexOf: anItem)
+]
+
+{ #category : #accessing }
+DropListPart >> dropList [
+
+	^ dropList
 ]
 
 { #category : #accessing }
@@ -91,7 +59,32 @@ DropListPart >> horizontalSize: anInteger [
 DropListPart >> initialize [ 
 
 	super initialize.
-	useRequiredInputAsDefault := false.
+	self initializeDropList.
+	
+]
+
+{ #category : #'initialize-release' }
+DropListPart >> initializeDropList [
+
+	dropList := self newDropListSelfControllingFor: {''}.
+	
+]
+
+{ #category : #accessing }
+DropListPart >> latePopulateContents [
+	
+	|default|
+	default := defaultValue meValue: self requiredInputs.
+	groupBoxName 
+		ifNotNilDo: [:aStringOrABlock |self populateContents: {self newGroupboxNamed: (aStringOrABlock meValue: self requiredInputs)  With: self dropList}.]
+		ifNil: [self populateContents: {self dropList}].
+	
+	default ifNotNilDo: [:anIndexOrAnObject |
+		anIndexOrAnObject isNumber 
+			ifTrue: [self selectionIndex: anIndexOrAnObject ]
+			ifFalse: [self selectionIndex: (self list indexOf: anIndexOrAnObject)].	
+		]. 
+	
 	
 ]
 
@@ -123,38 +116,16 @@ DropListPart >> listContents: aCollectionOfItems [
 ]
 
 { #category : #'morph content setup tools' }
-DropListPart >> newDropListFor: aCollectionOfItems [
-			
-	| dropList |
-	dropList := (DropListMorph
-			on: (model := (ListModel new list: aCollectionOfItems ))
-			list: #list
-			selected: #selectionIndex
-			changeSelected: #selectionIndex:
-			useIndex: true)
-		"selectionColor: self selectionColor;"
-		"getEnabledSelector: enabledSel;"
-		"font: self dropListFont;"
-		cornerStyle: #rounded;
-		hResizing: #spaceFill;
-		vResizing: #shrinkWrap;
-		"setBalloonText: helpText"
-		yourself.
-		
-	model selectionIndex: 1.
-	^ dropList.
-	
-]
-
-{ #category : #'morph content setup tools' }
 DropListPart >> newDropListSelfControllingFor: aCollectionOfItems [
 			
-	self list: aCollectionOfItems .
+	|morph|
+	"self list: aCollectionOfItems .
 	aCollectionOfItems ifEmpty: [
 		self list: {''} .
-		].
+		]."
+	self list: aCollectionOfItems. 
 	self selectionIndex: 1.
-	dropList := (DropListMorph
+	morph := (DropListMorph
 			on: (self)
 			list: #list
 			selected: #selectionIndex
@@ -170,14 +141,15 @@ DropListPart >> newDropListSelfControllingFor: aCollectionOfItems [
 		yourself.
 		
 	
-	^ dropList.
+	^ morph.
 	
 ]
 
 { #category : #'accessing - wizard mangement' }
 DropListPart >> outputValue [
+
 	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
-	self list ifNotNilDo: [:list | ^ list at: self selectionIndex]
+	self list ifNotNilDo: [: Name  | ^ list at: self selectionIndex]
 ]
 
 { #category : #'accessing - wizard mangement' }
@@ -186,10 +158,6 @@ DropListPart >> retrieveInputRequired [
 	"by default do nothing"
 	"make here all the thing required to build or make run this wizard part. This method will be clalled by wizardPane before opening the 'page'"
 		
-
-	useRequiredInputAsDefault ifTrue: [
-		self selectionIndex: (defaultBlock valueWithArguments: {self.}).
-		]
 ]
 
 { #category : #'list control' }
@@ -215,10 +183,4 @@ DropListPart >> selectionIndex: anObject [
 	selectionIndex := anObject.
 	self hasChanged .
 	self changed: #selectionIndex
-]
-
-{ #category : #accessing }
-DropListPart >> useRequiredInputAsDefault: trueOrFalse [
-
-	useRequiredInputAsDefault := trueOrFalse.
 ]

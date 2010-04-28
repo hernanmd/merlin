@@ -4,72 +4,84 @@ Class {
 	#instVars : [
 		'label',
 		'model',
-		'checkbox'
+		'checkbox',
+		'contents'
 	],
 	#category : #'Merlin-Parts'
 }
 
-{ #category : #'instance creation' }
-CheckboxPart class >> withLabel: aString [ 
-	<lint: 'Methods implemented but not sent' rationale: 'method provided  to the user' author: 'cyrille.delaunay'>
-	^ self new
-		initialize;
-		label: aString ; yourself
+{ #category : #'checkbox control' }
+CheckboxPart >> contents [
+
+	^contents
 ]
 
-{ #category : #'instance creation' }
-CheckboxPart class >> withLabel: aString inGroupboxNamed: anotherString [ 
-	"the checkbox will be put into a groupbox named aString."
-	^ self new
-		initialize;
-		label: aString
-			inGroupboxNamed: anotherString ; yourself
+{ #category : #'checkbox control' }
+CheckboxPart >> contents: newContents [
+
+	contents := newContents.
+	self contentsChanged.
+	self hasChanged
 ]
 
-{ #category : #'instance creation' }
-CheckboxPart class >> withLabel: aString isSelected: trueOrFalse [
-	<lint: 'Methods implemented but not sent' rationale: 'method provided  to the user' author: 'cyrille.delaunay'>
-	^ self new
-		initialize;
-		label: aString ; selected: trueOrFalse ;yourself
+{ #category : #'initialize-release' }
+CheckboxPart >> initialize [ 
+
+	super initialize.
+	contents := true.	
+	checkbox := self newCheckbox. 
+	
 ]
 
 { #category : #accessing }
 CheckboxPart >> label:  aLabel [
-	label := aLabel.
-	self populateContents: {checkbox := self newCheckbox}
+
+	checkbox label: aLabel.
 ]
 
 { #category : #accessing }
-CheckboxPart >> label:  aLabel inGroupboxNamed: aString [
-	label := aLabel.
-	self populateContents: {checkbox := self newGroupboxNamed: aString With: self newCheckbox}
+CheckboxPart >> latePopulateContents [
+	
+	|default|
+	default := defaultValue meValue: self requiredInputs.
+	
+	default ifNotNilDo: [:aBoolean |
+		self selected: aBoolean.	
+		]. 
+	
+	groupBoxName 
+		ifNotNilDo: [:aStringOrABlock |self populateContents: {self newGroupboxNamed: (aStringOrABlock meValue: self requiredInputs)  With: checkbox}]
+		ifNil: [self populateContents: {checkbox }].
+	
 ]
 
 { #category : #'morph content setup tools' }
 CheckboxPart >> newCheckbox [
 	
-	| checkbox |
-	checkbox := self 
-				newCheckboxFor: (model := ValueHolder new contents: true)
+	| checkboxMorph |
+	
+	checkboxMorph := self 
+				newCheckboxFor: (self)
 				getSelected: #contents
 				setSelected: #contents:
-				label: label.
-	checkbox buttonMorph selected: true.
-	^checkbox
+				label: ('').
+	"checkboxMorph buttonMorph selected: true."
+	^checkboxMorph
 ]
 
 { #category : #'accessing - wizard mangement' }
 CheckboxPart >> outputValue [
 	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
 	"return true or false according the checkbox is selected or not"
-	^ model contents
+	^ self contents
 ]
 
 { #category : #accessing }
 CheckboxPart >> selected: trueOrFalse [
 	"select or unselect the checkbox according the value of trueOrFalse "
-	model contents: false.
+	
+	self contents: trueOrFalse.
+	checkbox updateSelection
 
 	
 ]

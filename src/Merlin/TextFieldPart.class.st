@@ -5,7 +5,9 @@ Class {
 		'textField',
 		'textEntryContents',
 		'useRequiredInputAsDefault',
-		'defaultBlock'
+		'defaultBlock',
+		'prefix',
+		'suffix'
 	],
 	#category : #'Merlin-Parts'
 }
@@ -16,36 +18,19 @@ TextFieldPart class >> inGroupboxNamed: aString [
 	^ super new inGroupboxNamed: aString.
 ]
 
-{ #category : #'instance creation' }
-TextFieldPart class >> inGroupboxNamed: aString defaultText: anotherString [
-
-	^ (super new inGroupboxNamed: aString) initialize: anotherString ; yourself.
-]
-
-{ #category : #'instance creation' }
-TextFieldPart class >> inGroupboxNamed: aString withComputedDefaultText: aBlock [
-
-	^ super new inGroupboxNamed: aString  ; defaultBlock: aBlock ; useRequiredInputAsDefault: true ; yourself.
-]
-
 { #category : #accessing }
 TextFieldPart >> defaultBlock: aBlock [
-"this method enable to compute the default text by computing the value of a block. Using a block is usefull, for example, to specify required value in its contents. Since this block will only be evaluated when this part will retrieve its required inputs, all will works well"
+	
+	"this method enable to compute the default text by computing the value of a block. Using a block is usefull, for example, to specify required value in its contents. Since this block will only be evaluated when this part will retrieve its required inputs, all will works well"
 	defaultBlock := aBlock.
-]
-
-{ #category : #'initialize-release' }
-TextFieldPart >> inGroupboxNamed: aString [
-
-	self populateContents: {self newGroupboxNamed: aString With: self newTextEntry }.
 ]
 
 { #category : #'initialize-release' }
 TextFieldPart >> initialize [ 
 
 	super initialize.
-	useRequiredInputAsDefault := false.
-	"self enableNextButton: false."
+	textField := self newTextEntry. 
+	
 ]
 
 { #category : #'initialize-release' }
@@ -54,6 +39,35 @@ TextFieldPart >> initialize: defaultText [
 	self initialize.
 	self textEntryContents: defaultText
 	
+]
+
+{ #category : #accessing }
+TextFieldPart >> latePopulateContents [
+	
+	|default morphContents|
+	defaultValue isSymbol 
+		ifTrue: [default := defaultValue ]
+		ifFalse: [default := defaultValue meValue: self requiredInputs.].
+	
+	prefix isNil
+		ifTrue: [
+			suffix isNil
+				ifTrue: [morphContents := self textField]
+				ifFalse: [morphContents := self newRowWith: {self textField . ((self newLabel:suffix) disable; yourself) }]
+			]
+		ifFalse: [
+			suffix isNil
+				ifTrue: [morphContents := self newRowWith: {(self newLabel: prefix) disable; yourself . self textField}]
+				ifFalse: [morphContents := self newRowWith: {(self newLabel: prefix) disable; yourself . self textField . (self newLabel:suffix) disable; yourself }]
+			].
+		
+	groupBoxName 
+		ifNotNilDo: [:aStringOrABlock |self populateContents: {self newGroupboxNamed: (aStringOrABlock meValue: self requiredInputs)  With: morphContents}.]
+		ifNil: [self populateContents: { morphContents }].
+				
+	default ifNotNilDo: [:aString |
+		self textEntryContents: aString 	
+		]. 
 ]
 
 { #category : #'morph content setup tools' }
@@ -87,7 +101,7 @@ TextFieldPart >> newTextEntry [
 		wrapFlag: false;
 		margins: (2@1 corner: 2@1).
 		
-	^ textField := pt.
+	^ pt.
 ]
 
 { #category : #'accessing - wizard mangement' }
@@ -100,6 +114,12 @@ TextFieldPart >> outputValue [
 		^ (ObjectStringConverter forClass: String) stringAsObject: textField textMorph asText asString
 ]
 
+{ #category : #accessing }
+TextFieldPart >> prefix: aString [
+
+	prefix := aString.
+]
+
 { #category : #'accessing - wizard mangement' }
 TextFieldPart >> retrieveInputRequired [
 	"this method is an abstract method as only the subclass itself know what to do with the input that it needs to make its work "
@@ -107,10 +127,13 @@ TextFieldPart >> retrieveInputRequired [
 	"make here all the thing required to build or make run this wizard part. This method will be clalled by wizardPane before opening the 'page'"
 		
 
-	useRequiredInputAsDefault ifTrue: [
-		self textEntryContents: (defaultBlock valueWithArguments: {self.}).
-		textField  acceptTextInModel .
-		]
+	
+]
+
+{ #category : #accessing }
+TextFieldPart >> suffix: aString [
+
+	suffix := aString.
 ]
 
 { #category : #'text entry control' }
@@ -131,6 +154,7 @@ TextFieldPart >> textEntryContents: newContents [
 
 { #category : #accessing }
 TextFieldPart >> textField [ 
+
 	^ textField 
 ]
 

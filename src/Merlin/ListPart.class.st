@@ -22,6 +22,28 @@ ListPart >> initinializeWith: aList inGroupBoxNamed: aString [
 	self populateContents: (self newGroupboxNamed: aString With: listMorph)
 ]
 
+{ #category : #'initialize-release' }
+ListPart >> latePopulateContents [
+
+	|default|
+	default := defaultValue meValue: self requiredInputs.
+	default ifNotNilDo: [:anIndexOrAnObject |
+		anIndexOrAnObject isNumber 
+			ifTrue: [self selectionIndex: anIndexOrAnObject ]
+			ifFalse: [self selectionIndex: (self list indexOf: anIndexOrAnObject)].	
+		]. 
+	
+	listMorph := self newNormalListFor: self list: #list selected: #selectionIndex changeSelected: #selectionIndex:.
+	
+	groupBoxName 
+		ifNotNilDo: [:aStringOrABlock |self populateContents: {self newGroupboxNamed: (aStringOrABlock meValue: self requiredInputs)  With: listMorph}.]
+		ifNil: [self populateContents: {listMorph }].
+	
+	
+	
+
+]
+
 { #category : #listControl }
 ListPart >> list [
 	"Answer the value of list"

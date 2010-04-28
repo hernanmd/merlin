@@ -4,6 +4,12 @@ Class {
 	#category : #'Merlin-Parts'
 }
 
+{ #category : #'initialize-release' }
+MorphDropListPart >> initializeDropList [
+
+	dropList := self newDropListSelfControllingFor: {Morph new}
+]
+
 { #category : #'morph content setup tools' }
 MorphDropListPart >> newDropListSelfControllingFor: aCollectionOfItems [
 			

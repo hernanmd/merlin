@@ -3,7 +3,6 @@ Class {
 	#superclass : #WizardPart,
 	#instVars : [
 		'text',
-		'groupBoxName',
 		'partValue'
 	],
 	#category : #'Merlin-Parts'
