@@ -13,10 +13,10 @@ MorphDropListPart >> initializeDropList [
 { #category : #'morph content setup tools' }
 MorphDropListPart >> newDropListSelfControllingFor: aCollectionOfItems [
 			
-	| dropList |
+	| tmpDropList |
 	self list: aCollectionOfItems .
 	self selectionIndex: 1.
-	dropList := (MorphDropListMorph
+	tmpDropList := (MorphDropListMorph
 			on: self
 			list: #list 
 			selected: #selectionIndex
@@ -30,7 +30,7 @@ MorphDropListPart >> newDropListSelfControllingFor: aCollectionOfItems [
 		"setBalloonText: helpText"
 		
 	
-	^ dropList.
+	^ tmpDropList.
 	
 ]
 
