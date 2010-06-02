@@ -42,7 +42,7 @@ CompositePart >> latePopulateContents [
 { #category : #'morph content setup tools' }
 CompositePart >> newTabGroupBoxFor: labelsAndControls [
 
-	^(LinkedTabGroupMorph  new
+	^(TabGroupMorph  new
 		"font: self labelFont;"
 		cornerStyle: #rounded;
 		hResizing: #spaceFill;
