@@ -7,7 +7,8 @@ Class {
 		'useRequiredInputAsDefault',
 		'defaultBlock',
 		'prefix',
-		'suffix'
+		'suffix',
+		'returnSuffixAndPrefix'
 	],
 	#category : #'Merlin-Parts'
 }
@@ -30,6 +31,7 @@ TextFieldPart >> initialize [
 
 	super initialize.
 	textField := self newTextEntry. 
+	returnSuffixAndPrefix := false.
 	
 ]
 
@@ -111,7 +113,14 @@ TextFieldPart >> outputValue [
 		"textField  acceptTextInModel."
 		"^ textEntryContents ."
 		"^textField textMorph asText"
-		^ (ObjectStringConverter forClass: String) stringAsObject: textField textMorph asText asString
+		returnSuffixAndPrefix 
+			ifTrue: [
+				^ prefix, (ObjectStringConverter forClass: String) stringAsObject: textField textMorph asText asString , suffix. 
+				]
+			ifFalse: [
+				^ (ObjectStringConverter forClass: String) stringAsObject: textField textMorph asText asString
+				]
+		
 ]
 
 { #category : #accessing }
@@ -128,6 +137,12 @@ TextFieldPart >> retrieveInputRequired [
 		
 
 	
+]
+
+{ #category : #accessing }
+TextFieldPart >> returnSuffixAndPrefix: trueOrFalse [
+
+	returnSuffixAndPrefix := trueOrFalse. 
 ]
 
 { #category : #accessing }
