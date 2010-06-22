@@ -14,7 +14,11 @@ PaneRow >> column: aBlockOrAPart [
 			].
 	(aBlockOrAPart isKindOf: BlockClosure)
 		ifTrue: [
-			partGroups add: (aBlockOrAPart value: (PaneColumn fromPane: self pane))
+			|column|
+			column := PaneColumn fromPane: self pane.
+			aBlockOrAPart value: column.
+			partGroups add: column. 
+			"partGroups add: (aBlockOrAPart value: (PaneColumn fromPane: self pane))"
 			]
 ]
 

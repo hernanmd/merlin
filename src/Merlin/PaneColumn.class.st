@@ -35,9 +35,14 @@ PaneColumn >> row: aBlockOrAPart [
 			].
 	(aBlockOrAPart isKindOf: BlockClosure)
 		ifTrue: [
-			partGroups add: (aBlockOrAPart value: (PaneRow fromPane: self pane))
+			|row|
+			row := (PaneRow fromPane: self pane).
+			"partGroups add: (aBlockOrAPart value: (PaneRow fromPane: self pane))"
+			aBlockOrAPart value: row.
+			partGroups add: row
+			
 			].
-	"parts add: aWizardPart" 
+
 ]
 
 { #category : #'accessing - parts' }
