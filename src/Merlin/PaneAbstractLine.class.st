@@ -76,7 +76,7 @@ PaneAbstractLine >> pane: aWizardPane [
 PaneAbstractLine >> removeSubComponentAt: anInteger [
 	"remove the subComponent of this this 'AbstractLine' located at the position an integer "
 	| componentToRemove |
-	componentToRemove := subComponents at: anInteger.
+	componentToRemove := subComponents at: anInteger ifAbsent: [^ nil].
 	subComponents remove: componentToRemove. 
 ]
 

@@ -11,6 +11,7 @@ PaneRow >> column: aBlockOrAPart [
 		ifTrue: [
 			subComponents add:  aBlockOrAPart.
 			self pane setPart: aBlockOrAPart. 
+			aBlockOrAPart paneLine: self.
 			].
 	(aBlockOrAPart isKindOf: BlockClosure)
 		ifTrue: [
@@ -27,6 +28,7 @@ PaneRow >> column: aWizardPart associatedTo: aSymbol [
 
 	subComponents add:  aWizardPart.
 	self pane setPart: aWizardPart associatedTo: aSymbol. 
+	aWizardPart paneLine: self.
 	
 ]
 
@@ -35,6 +37,7 @@ PaneRow >> column: aWizardPart associatedTo: aSymbol requiring: aCollectionOfSym
 
 	subComponents add:  aWizardPart.
 	self pane setPart: aWizardPart associatedTo: aSymbol requiring: aCollectionOfSymbols. 
+	aWizardPart paneLine: self.
 	
 ]
 

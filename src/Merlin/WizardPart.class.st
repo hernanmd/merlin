@@ -35,7 +35,8 @@ Class {
 		'groupBoxName',
 		'useLatePopulateContents',
 		'numberOfContentCalls',
-		'numberOfPopulateContents'
+		'numberOfPopulateContents',
+		'paneLine'
 	],
 	#category : #'Merlin-Core'
 }
@@ -120,7 +121,7 @@ WizardPart >> groupBoxName [
 WizardPart >> hasChanged [
 	"when the output value of this wizardPart has changed, we first perform the callbak and then inform the wizardPane that a new value has been set"
 	
-	callbackBlock valueWithArguments: {self outputValue }.
+	callbackBlock valueWithEnoughArguments: {self outputValue. self }.
 	wizardPane ifNotNil: [ wizardPane  hasChanged: self].
 ]
 
@@ -400,6 +401,18 @@ WizardPart >> numberOfPopulateContents: anInteger [
 WizardPart >> outputValue [
 	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
 	self subclassResponsibility
+]
+
+{ #category : #accessing }
+WizardPart >> paneLine [ 
+	"return the paneLine in which this part has been defines"
+	^ paneLine
+]
+
+{ #category : #accessing }
+WizardPart >> paneLine:  aPaneLine [ 
+	"set the paneLine in which this part has been defines"
+	paneLine := aPaneLine 
 ]
 
 { #category : #actions }
