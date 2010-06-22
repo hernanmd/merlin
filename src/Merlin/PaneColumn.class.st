@@ -4,12 +4,6 @@ Class {
 	#category : #'Merlin-PartsLayout'
 }
 
-{ #category : #'accessing - parts' }
-PaneColumn >> genericAdd: aBlockOrAPart [
-
-	^ self row: aBlockOrAPart 
-]
-
 { #category : #'accessing - morph contents' }
 PaneColumn >> morphContents [
 
@@ -21,7 +15,13 @@ PaneColumn >> morphContents [
 			^ self newColumnWith: (self parts collect: [:aWizardPart | self newRowWith: {aWizardPart contents} ])
 			]."
 		
-	^ self newColumnWith: (self partGroups collect: [:aPaneLine | self newRowWith: {aPaneLine morphContents}])
+	^ self newColumnWith: (self subComponents collect: [:aPaneLine | self newRowWith: {aPaneLine morphContents}])
+]
+
+{ #category : #accessing }
+PaneColumn >> removeRowAt: anInteger [
+
+	^ self removeSubComponentAt: anInteger
 ]
 
 { #category : #'accessing - parts' }
@@ -30,7 +30,7 @@ PaneColumn >> row: aBlockOrAPart [
 
 	(aBlockOrAPart isKindOf: WizardPart)
 		ifTrue: [
-			partGroups add: aBlockOrAPart.
+			subComponents add: aBlockOrAPart.
 			self pane setPart: aBlockOrAPart. 
 			].
 	(aBlockOrAPart isKindOf: BlockClosure)
@@ -39,7 +39,7 @@ PaneColumn >> row: aBlockOrAPart [
 			row := (PaneRow fromPane: self pane).
 			"partGroups add: (aBlockOrAPart value: (PaneRow fromPane: self pane))"
 			aBlockOrAPart value: row.
-			partGroups add: row
+			subComponents add: row
 			
 			].
 
@@ -48,7 +48,7 @@ PaneColumn >> row: aBlockOrAPart [
 { #category : #'accessing - parts' }
 PaneColumn >> row: aWizardPart associatedTo: aSymbol [
 
-	partGroups add: aWizardPart.
+	subComponents add: aWizardPart.
 	self pane setPart: aWizardPart associatedTo: aSymbol. 
 	
 ]
@@ -56,7 +56,13 @@ PaneColumn >> row: aWizardPart associatedTo: aSymbol [
 { #category : #'accessing - parts' }
 PaneColumn >> row: aWizardPart associatedTo: aSymbol requiring: aCollectionOfSymbol [
 
-	partGroups add: aWizardPart.
+	subComponents add: aWizardPart.
 	self pane setPart: aWizardPart associatedTo: aSymbol requiring: aCollectionOfSymbol. 
 	
+]
+
+{ #category : #accessing }
+PaneColumn >> rowAt: anInteger [
+
+	^ self subComponentAt: anInteger
 ]

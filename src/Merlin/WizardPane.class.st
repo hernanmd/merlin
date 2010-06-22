@@ -346,6 +346,12 @@ WizardPane >> leftContents: aCollectionOfMorphElements rightContents: anotherCol
 	
 ]
 
+{ #category : #'accessing - main pane line' }
+WizardPane >> mainPaneLine [ 
+
+	^ mainPaneLine 
+]
+
 { #category : #accessing }
 WizardPane >> name [
 
@@ -429,6 +435,12 @@ WizardPane >> nextButtonAction [
 			information: value
 			withValue: key outputValue ].
 	self wizardControl performNextButtonAction
+]
+
+{ #category : #'accessing - main pane line' }
+WizardPane >> numberOfSubComponents [ 
+
+	^ self mainPaneLine numberOfSubComponents 
 ]
 
 { #category : #'window control' }
@@ -528,6 +540,12 @@ WizardPane >> removeAllParts [
 	partsAndInformationsAssociated := Dictionary new.
 	partsAndRequiredInformations := Dictionary new.
 	
+]
+
+{ #category : #'accessing - main pane line' }
+WizardPane >> removeSubComponentAt: anInteger [
+
+	^ self mainPaneLine removeSubComponentAt: anInteger. 
 ]
 
 { #category : #actions }
@@ -639,6 +657,12 @@ WizardPane >> setPart: aWizardPart associatedTo: aSymbol requiring: aCollectionO
 		put: aCollectionOfSymbols.
 		
 	
+]
+
+{ #category : #'accessing - main pane line' }
+WizardPane >> subComponentAt: anInteger [
+
+	^ self mainPaneLine subComponentAt: anInteger. 
 ]
 
 { #category : #accessing }

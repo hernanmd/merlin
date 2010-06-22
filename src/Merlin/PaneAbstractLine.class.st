@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'parts',
 		'pane',
-		'partGroups'
+		'subComponents'
 	],
 	#category : #'Merlin-PartsLayout'
 }
@@ -15,17 +15,10 @@ PaneAbstractLine class >> fromPane: aWizardPane [
 	^ super new pane: aWizardPane
 ]
 
-{ #category : #'accessing - parts' }
-PaneAbstractLine >> genericAdd: aBlockOrAPart [
-
-	 ^ self subclassResponsibility 
-]
-
 { #category : #'initialize-release' }
 PaneAbstractLine >> initialize [
 
-	parts := OrderedCollection new.
-	partGroups := OrderedCollection new.
+	subComponents := OrderedCollection new.
 ]
 
 { #category : #'morph tools' }
@@ -62,6 +55,12 @@ PaneAbstractLine >> newRowWith: aCollectionOfMorphElements [
 ]
 
 { #category : #accessing }
+PaneAbstractLine >> numberOfSubComponents [
+
+	^ self subComponents size
+]
+
+{ #category : #accessing }
 PaneAbstractLine >> pane [
 
 	^ pane  
@@ -73,14 +72,22 @@ PaneAbstractLine >> pane: aWizardPane [
 	pane := aWizardPane 
 ]
 
-{ #category : #'accessing - parts' }
-PaneAbstractLine >> partGroups [
-	
-	^ partGroups
+{ #category : #accessing }
+PaneAbstractLine >> removeSubComponentAt: anInteger [
+	"remove the subComponent of this this 'AbstractLine' located at the position an integer "
+	| componentToRemove |
+	componentToRemove := subComponents at: anInteger.
+	subComponents remove: componentToRemove. 
 ]
 
-{ #category : #'accessing - parts' }
-PaneAbstractLine >> parts [ 
-	
-	^ parts
+{ #category : #accessing }
+PaneAbstractLine >> subComponentAt: anInteger [
+	"return the subComponent of this this 'AbstractLine' located at the position an integer "
+	^ subComponents at: anInteger 
+]
+
+{ #category : #accessing }
+PaneAbstractLine >> subComponents [
+	"return the subComponents of this this 'AbstractLine'. For a row, it will be a collection of PaneColumns composing this row. For a column. it will be a collection of PaneRows composing this row "
+	^ subComponents
 ]

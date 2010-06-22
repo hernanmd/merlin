@@ -9,7 +9,7 @@ PaneRow >> column: aBlockOrAPart [
 
 	(aBlockOrAPart isKindOf: WizardPart)
 		ifTrue: [
-			partGroups add:  aBlockOrAPart.
+			subComponents add:  aBlockOrAPart.
 			self pane setPart: aBlockOrAPart. 
 			].
 	(aBlockOrAPart isKindOf: BlockClosure)
@@ -17,7 +17,7 @@ PaneRow >> column: aBlockOrAPart [
 			|column|
 			column := PaneColumn fromPane: self pane.
 			aBlockOrAPart value: column.
-			partGroups add: column. 
+			subComponents add: column. 
 			"partGroups add: (aBlockOrAPart value: (PaneColumn fromPane: self pane))"
 			]
 ]
@@ -25,7 +25,7 @@ PaneRow >> column: aBlockOrAPart [
 { #category : #'accessing - parts' }
 PaneRow >> column: aWizardPart associatedTo: aSymbol [
 
-	partGroups add:  aWizardPart.
+	subComponents add:  aWizardPart.
 	self pane setPart: aWizardPart associatedTo: aSymbol. 
 	
 ]
@@ -33,15 +33,15 @@ PaneRow >> column: aWizardPart associatedTo: aSymbol [
 { #category : #'accessing - parts' }
 PaneRow >> column: aWizardPart associatedTo: aSymbol requiring: aCollectionOfSymbols [
 
-	partGroups add:  aWizardPart.
+	subComponents add:  aWizardPart.
 	self pane setPart: aWizardPart associatedTo: aSymbol requiring: aCollectionOfSymbols. 
 	
 ]
 
-{ #category : #'accessing - parts' }
-PaneRow >> genericAdd: aBlockOrAPart [
+{ #category : #accessing }
+PaneRow >> columnAt: anInteger [
 
-	^ self column: aBlockOrAPart.
+	^ self subComponentAt: anInteger
 ]
 
 { #category : #'accessing - morph contents' }
@@ -55,5 +55,11 @@ PaneRow >> morphContents [
 			^ self newRowWith: (self parts collect: [:aWizardPart | self newColumnWith: {aWizardPart contents} ])
 			]."
 		
-	^ self newRowWith: (self partGroups collect: [:aPaneLine | self newColumnWith: {aPaneLine morphContents}])
+	^ self newRowWith: (self subComponents collect: [:aPaneLine | self newColumnWith: {aPaneLine morphContents}])
+]
+
+{ #category : #accessing }
+PaneRow >> removeColumnAt: anInteger [
+
+	^ self removeSubComponentAt: anInteger
 ]
