@@ -115,7 +115,7 @@ TextFieldPart >> outputValue [
 		"^textField textMorph asText"
 		returnSuffixAndPrefix 
 			ifTrue: [
-				^ prefix, (ObjectStringConverter forClass: String) stringAsObject: textField textMorph asText asString , suffix. 
+				^ prefix, ((ObjectStringConverter forClass: String) stringAsObject: textField textMorph asText asString) , suffix. 
 				]
 			ifFalse: [
 				^ (ObjectStringConverter forClass: String) stringAsObject: textField textMorph asText asString
