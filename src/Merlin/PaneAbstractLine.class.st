@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'parts',
 		'pane',
-		'subComponents'
+		'subComponents',
+		'groupBoxName'
 	],
 	#category : #'Merlin-PartsLayout'
 }
@@ -15,10 +16,35 @@ PaneAbstractLine class >> fromPane: aWizardPane [
 	^ super new pane: aWizardPane
 ]
 
+{ #category : #customizing }
+PaneAbstractLine >> groupBoxName [ 
+
+	^ groupBoxName 
+]
+
+{ #category : #customizing }
+PaneAbstractLine >> inGroupboxNamed: aString [
+
+	"to display all elements of this PaneLine in a same groubBox named aString"
+	groupBoxName := aString.
+]
+
 { #category : #'initialize-release' }
 PaneAbstractLine >> initialize [
 
 	subComponents := OrderedCollection new.
+]
+
+{ #category : #'accessing - morph contents' }
+PaneAbstractLine >> morphContents [ 
+
+	self groupBoxName isNil
+		ifTrue: [
+			^ self specificMorphContents
+			]
+		ifFalse: [
+			^ self newGroupboxNamed:  self groupBoxName  With: self specificMorphContents 
+			].
 ]
 
 { #category : #'morph tools' }
@@ -35,6 +61,28 @@ PaneAbstractLine >> newColumnWith: aCollectionOfMorphElements [
 		cellInset: 8; yourself.
 	aCollectionOfMorphElements do: [:m | answer addMorphBack: m].
 	^answer
+]
+
+{ #category : #'morph tools' }
+PaneAbstractLine >> newGroupboxNamed: aString [ 
+	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
+	"Answer a groupbox with the given label."
+	^ GroupboxMorph new
+		cornerStyle: #rounded;
+		hResizing: #spaceFill;
+		vResizing: #spaceFill;
+		label: aString;
+		yourself
+		
+
+]
+
+{ #category : #'morph tools' }
+PaneAbstractLine >> newGroupboxNamed: aString With: aMorph [ 
+	"Answer a groupbox with the given label and control."
+	^ (self newGroupboxNamed: aString)
+		addContentMorph: aMorph;
+		yourself
 ]
 
 { #category : #'morph tools' }
@@ -78,6 +126,14 @@ PaneAbstractLine >> removeSubComponentAt: anInteger [
 	| componentToRemove |
 	componentToRemove := subComponents at: anInteger ifAbsent: [^ nil].
 	subComponents remove: componentToRemove. 
+]
+
+{ #category : #'accessing - morph contents' }
+PaneAbstractLine >> specificMorphContents [
+
+	"Each subclass has to return here a specific morphContents to return. (A row will have to dispatch its subComponents one beside the other, a Column: one under the other) "
+	
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }

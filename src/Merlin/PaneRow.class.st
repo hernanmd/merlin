@@ -49,14 +49,6 @@ PaneRow >> columnAt: anInteger [
 
 { #category : #'accessing - morph contents' }
 PaneRow >> morphContents [
-
-	"self parts size > 1
-		ifFalse: [
-			^ self newRowWith: {self parts first contents}
-			]
-		ifTrue: [
-			^ self newRowWith: (self parts collect: [:aWizardPart | self newColumnWith: {aWizardPart contents} ])
-			]."
 		
 	^ self newRowWith: (self subComponents collect: [:aPaneLine | self newColumnWith: {aPaneLine morphContents}])
 ]
@@ -65,4 +57,10 @@ PaneRow >> morphContents [
 PaneRow >> removeColumnAt: anInteger [
 
 	^ self removeSubComponentAt: anInteger
+]
+
+{ #category : #'accessing - morph contents' }
+PaneRow >> specificMorphContents [
+		
+	^ self newRowWith: (self subComponents collect: [:aPaneLine | self newColumnWith: {aPaneLine morphContents}])
 ]

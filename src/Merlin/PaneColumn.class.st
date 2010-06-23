@@ -4,20 +4,6 @@ Class {
 	#category : #'Merlin-PartsLayout'
 }
 
-{ #category : #'accessing - morph contents' }
-PaneColumn >> morphContents [
-
-	"self parts size > 1
-		ifFalse: [
-			^ self newColumnWith: {self parts first contents}
-			]
-		ifTrue: [
-			^ self newColumnWith: (self parts collect: [:aWizardPart | self newRowWith: {aWizardPart contents} ])
-			]."
-		
-	^ self newColumnWith: (self subComponents collect: [:aPaneLine | self newRowWith: {aPaneLine morphContents}])
-]
-
 { #category : #accessing }
 PaneColumn >> removeRowAt: anInteger [
 
@@ -68,4 +54,11 @@ PaneColumn >> row: aWizardPart associatedTo: aSymbol requiring: aCollectionOfSym
 PaneColumn >> rowAt: anInteger [
 
 	^ self subComponentAt: anInteger
+]
+
+{ #category : #'accessing - morph contents' }
+PaneColumn >> specificMorphContents [
+
+	^ self newColumnWith: (self subComponents collect: [:aPaneLine | self newRowWith: {aPaneLine morphContents}])
+		
 ]
