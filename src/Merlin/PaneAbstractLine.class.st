@@ -123,8 +123,10 @@ PaneAbstractLine >> pane: aWizardPane [
 { #category : #accessing }
 PaneAbstractLine >> removeSubComponentAt: anInteger [
 	"remove the subComponent of this this 'AbstractLine' located at the position an integer "
+	"when we want to remove a complete row or column, we have to also un-associat the removed wizardParts with their information"
 	| componentToRemove |
 	componentToRemove := subComponents at: anInteger ifAbsent: [^ nil].
+	componentToRemove unassociatePartsFromTheirPanes. 
 	subComponents remove: componentToRemove. 
 ]
 
@@ -146,4 +148,13 @@ PaneAbstractLine >> subComponentAt: anInteger [
 PaneAbstractLine >> subComponents [
 	"return the subComponents of this this 'AbstractLine'. For a row, it will be a collection of PaneColumns composing this row. For a column. it will be a collection of PaneRows composing this row "
 	^ subComponents
+]
+
+{ #category : #accessing }
+PaneAbstractLine >> unassociatePartsFromTheirPanes [
+
+	"when we want to remove a complete row or column, we have to also un-associat the removed wizardParts with their information"
+	self subComponents do: [:aPartOrAPaneLine |
+		aPartOrAPaneLine unassociatePartsFromTheirPanes. 
+		]
 ]

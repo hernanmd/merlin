@@ -545,6 +545,7 @@ WizardPane >> removeAllParts [
 { #category : #'accessing - main pane line' }
 WizardPane >> removeSubComponentAt: anInteger [
 
+	"when we want to remove a complete row or column, we have to also un-associat the removed wizardParts with their information"
 	^ self mainPaneLine removeSubComponentAt: anInteger. 
 ]
 
@@ -663,6 +664,16 @@ WizardPane >> setPart: aWizardPart associatedTo: aSymbol requiring: aCollectionO
 WizardPane >> subComponentAt: anInteger [
 
 	^ self mainPaneLine subComponentAt: anInteger. 
+]
+
+{ #category : #'accessing - main pane line' }
+WizardPane >> unassociatePart: aWizardPart [
+
+	|associatedInformation requiredInformation|
+	associatedInformation := partsAndInformationsAssociated at: aWizardPart.
+ 	partsAndRequiredInformations removeKey: aWizardPart.
+	partsAndInformationsAssociated removeKey: aWizardPart.
+	self wizardControl wizardInformations removeKey: associatedInformation. 
 ]
 
 { #category : #accessing }
