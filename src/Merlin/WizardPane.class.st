@@ -671,7 +671,7 @@ WizardPane >> unassociatePart: aWizardPart [
 
 	|associatedInformation requiredInformation|
 	associatedInformation := partsAndInformationsAssociated at: aWizardPart.
- 	partsAndRequiredInformations removeKey: aWizardPart.
+ 	partsAndRequiredInformations removeKey: aWizardPart ifAbsent: [].
 	partsAndInformationsAssociated removeKey: aWizardPart.
 	self wizardControl wizardInformations removeKey: associatedInformation. 
 ]
