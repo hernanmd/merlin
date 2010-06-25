@@ -47,12 +47,6 @@ PaneRow >> columnAt: anInteger [
 	^ self subComponentAt: anInteger
 ]
 
-{ #category : #'accessing - morph contents' }
-PaneRow >> morphContents [
-		
-	^ self newRowWith: (self subComponents collect: [:aPaneLine | self newColumnWith: {aPaneLine morphContents}])
-]
-
 { #category : #accessing }
 PaneRow >> removeColumnAt: anInteger [
 
