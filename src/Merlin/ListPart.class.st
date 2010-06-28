@@ -10,16 +10,12 @@ Class {
 }
 
 { #category : #'initialize-release' }
-ListPart >> initinializeWith: aList inGroupBoxNamed: aString [
+ListPart >> initialize [
 
-	self list: aList .
-	aList ifEmpty: [
-		self list: {''} .
-		].
-	self selectionIndex: 1.
-	listMorph := self newNormalListFor: self list: list selected: #selectionIndex changeSelected: #selectionIndex.
-	
-	self populateContents: (self newGroupboxNamed: aString With: listMorph)
+	super initialize.
+	self list: #().
+	listMorph := self newNormalListFor: self list: #list selected: #selectionIndex changeSelected: #selectionIndex:.
+
 ]
 
 { #category : #'initialize-release' }
@@ -33,7 +29,7 @@ ListPart >> latePopulateContents [
 			ifFalse: [self selectionIndex: (self list indexOf: anIndexOrAnObject)].	
 		]. 
 	
-	listMorph := self newNormalListFor: self list: #list selected: #selectionIndex changeSelected: #selectionIndex:.
+	"listMorph := self newNormalListFor: self list: #list selected: #selectionIndex changeSelected: #selectionIndex:."
 	
 	groupBoxName 
 		ifNotNilDo: [:aStringOrABlock |self populateContents: {self newGroupboxNamed: (aStringOrABlock meValue: self requiredInputs)  With: listMorph}.]
@@ -59,10 +55,30 @@ ListPart >> list: anObject [
 	self changed: #list
 ]
 
+{ #category : #accessing }
+ListPart >> listHeight: anInteger [
+
+	self listMorph minHeight: anInteger 
+]
+
+{ #category : #accessing }
+ListPart >> listMorph [ 
+
+	^ listMorph
+]
+
+{ #category : #accessing }
+ListPart >> listWidth: anInteger [
+
+	self listMorph minWidth: anInteger 
+]
+
 { #category : #'accessing - Wizard Management' }
 ListPart >> outputValue [
 	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
-	self list ifNotNilDo: [:tmpList | ^ tmpList at: self selectionIndex]
+	self list ifNotNilDo: [:tmpList | 
+		
+		^ "tmpList at:" self selectionIndex]
 ]
 
 { #category : #listControl }
@@ -86,6 +102,6 @@ ListPart >> selectionIndex: anObject [
 	"Set the value of selectionIndex"
 
 	selectionIndex := anObject.
+	self changed: #selectionIndex.
 	self hasChanged .
-	self changed: #selectionIndex
 ]

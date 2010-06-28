@@ -2,22 +2,40 @@ Class {
 	#name : #ButtonPart,
 	#superclass : #WizardPart,
 	#instVars : [
-		'button'
+		'buttonMorph'
 	],
 	#category : #'Merlin-Parts'
 }
+
+{ #category : #accessing }
+ButtonPart >> buttonMorph [ 
+
+	^ buttonMorph
+]
+
+{ #category : #accessing }
+ButtonPart >> disable [
+
+	self buttonMorph disable.
+]
+
+{ #category : #accessing }
+ButtonPart >> enable [
+
+	self buttonMorph enable.
+]
 
 { #category : #'initialize-release' }
 ButtonPart >> initialize [
 
 	super initialize.
-	button := self newButtonNamed: 'Default name' withAction: #hasChanged.
+	buttonMorph := self newButtonNamed: 'Default name' withAction: #hasChanged.
 ]
 
 { #category : #accessing }
 ButtonPart >> label: aString [
 
-	button label: aString
+	buttonMorph label: aString
 ]
 
 { #category : #accessing }
@@ -31,8 +49,8 @@ ButtonPart >> latePopulateContents [
 		]. 
 	
 	groupBoxName 
-		ifNotNilDo: [:aStringOrABlock |self populateContents: {self newGroupboxNamed: (aStringOrABlock meValue: self requiredInputs)  With: button}]
-		ifNil: [self populateContents: {button }].
+		ifNotNilDo: [:aStringOrABlock |self populateContents: {self newGroupboxNamed: (aStringOrABlock meValue: self requiredInputs)  With: buttonMorph}]
+		ifNil: [self populateContents: {buttonMorph }].
 	
 ]
 
