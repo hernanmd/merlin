@@ -50,7 +50,9 @@ TextFieldPart >> latePopulateContents [
 	defaultValue isSymbol 
 		ifTrue: [default := defaultValue ]
 		ifFalse: [default := defaultValue meValue: self requiredInputs.].
-	
+	"we make sure that the default value has been accepted"
+	"self textField acceptTextInModel. 	"
+
 	prefix isNil
 		ifTrue: [
 			suffix isNil
@@ -113,6 +115,7 @@ TextFieldPart >> outputValue [
 		"textField  acceptTextInModel."
 		"^ textEntryContents ."
 		"^textField textMorph asText"
+		
 		returnSuffixAndPrefix 
 			ifTrue: [
 				^ prefix, ((ObjectStringConverter forClass: String) stringAsObject: textField textMorph asText asString) , suffix. 

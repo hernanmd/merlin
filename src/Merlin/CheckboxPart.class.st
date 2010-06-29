@@ -77,6 +77,15 @@ CheckboxPart >> outputValue [
 ]
 
 { #category : #accessing }
+CheckboxPart >> selected [
+	"return true if the checkBox button morph is selected "
+	
+	^ self contents
+
+	
+]
+
+{ #category : #accessing }
 CheckboxPart >> selected: trueOrFalse [
 	"select or unselect the checkbox according the value of trueOrFalse "
 	

@@ -35,7 +35,8 @@ Class {
 		'wizardPanes',
 		'builder',
 		'wizardInformations',
-		'dialogWindow'
+		'dialogWindow',
+		'branches'
 	],
 	#category : #'Merlin-Core'
 }
@@ -78,6 +79,12 @@ WizardControl class >> example [
 ]
 
 { #category : #'addition / removal' }
+WizardControl >> addBranch [
+
+	self branches add: OrderedCollection new
+]
+
+{ #category : #'addition / removal' }
 WizardControl >> addPane: aWizardPane [  
 	"add the WizardPane aWizardPane at the end of the panes list of this wizard control. Therefore, this pane will be the last one to be displayed"
 	
@@ -85,6 +92,12 @@ WizardControl >> addPane: aWizardPane [
 	wizardPanes add: aWizardPane.
 	^ aWizardPane 
 
+]
+
+{ #category : #accessing }
+WizardControl >> branches [ 
+
+	^ branches 
 ]
 
 { #category : #accessing }
@@ -126,8 +139,8 @@ WizardControl >> initialize [
 	dialogWindow contentMorph: (dialogWindow newColumn: {   }).
 	
 	wizardInformations := Dictionary new.
-
-	wizardPanes := OrderedCollection new.
+	branches := OrderedCollection new add: OrderedCollection new; yourself.
+	wizardPanes := branches at: 1.
 
 
 
@@ -175,6 +188,18 @@ WizardControl >> performTerminateButtonAction [
 		
 ]
 
+{ #category : #'addition / removal' }
+WizardControl >> selectBranch: anInteger [
+
+	self wizardPanes: (self branches at: anInteger )
+]
+
+{ #category : #accessing }
+WizardControl >> selectedBranch [
+
+	^ self branches indexOf: self wizardPanes.
+]
+
 { #category : #accessing }
 WizardControl >> valueOfInformation: aSymbol [
 	"return the value of the output information named aSymbol"
@@ -188,6 +213,12 @@ WizardControl >> wizardInformations [
 	"return a Dictionary containing the ids of the informations retrieved by the wizard and their values"
 	
 	^ wizardInformations 
+]
+
+{ #category : #accessing }
+WizardControl >> wizardPanes [
+
+	^ wizardPanes
 ]
 
 { #category : #accessing }
