@@ -429,11 +429,7 @@ WizardPane >> newRowWith: aCollectionOfMorphElements [
 WizardPane >> nextButtonAction [
 	"action executed when the next button is pressed"
 	
-	partsAndInformationsAssociated keysAndValuesDo: 
-		[ :key :value | 
-		self wizardControl 
-			information: value
-			withValue: key outputValue ].
+	self retrievePartsOutputs. 
 	self wizardControl performNextButtonAction
 ]
 
@@ -573,6 +569,18 @@ WizardPane >> retrieveOutputOf: aWizardPart [
 	informationSymbol ifNotNil: [
 		wizardControl information: informationSymbol withValue: aWizardPart outputValue.
 	].
+]
+
+{ #category : #actions }
+WizardPane >> retrievePartsOutputs [
+	"action executed when the next button is pressed"
+	
+	partsAndInformationsAssociated keysAndValuesDo: 
+		[ :key :value | 
+		self wizardControl 
+			information: value
+			withValue: key outputValue ].
+	
 ]
 
 { #category : #'addition-removal' }

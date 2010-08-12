@@ -24,10 +24,6 @@ WizardLastPane >> newTerminateButton [
 WizardLastPane >> terminateButtonAction [
 	"action executed when the terminate button is pressed"
 	
-	partsAndInformationsAssociated keysAndValuesDo: 
-		[ :key :value | 
-		self wizardControl 
-			information: value
-			withValue: key outputValue ].
+	self retrievePartsOutputs. 
 	self wizardControl performTerminateButtonAction
 ]

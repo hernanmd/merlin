@@ -48,10 +48,10 @@ DropListPart >> dropList [
 { #category : #accessing }
 DropListPart >> horizontalSize: anInteger [
 
-	"if the default size (computed according your wizard global size) doesn't correspond to what you were expecting, you this method to fix yourself the width of the dropListMorph"
+	"if the default size (computed according your wizard global size) doesn't correspond to what you were expecting, you this method to fix yourself the length of the dropListMorph"
 	dropList 
 		hResizing: #rigid;
-		vResizing: #spaceFill;
+		vResizing: #shrinkWrap;
 		width: anInteger.
 ]
 

@@ -107,6 +107,12 @@ WizardControl >> builder [
 ]
 
 { #category : #accessing }
+WizardControl >> currentPane [ 
+
+	^ self wizardPanes at: currentPane.
+]
+
+{ #category : #accessing }
 WizardControl >> dialogWindow [
 	"return the dialog window of this WizardControl. This dialog window is common to all the panes composing the wizard so that each pane can be open at the same position"
 	
