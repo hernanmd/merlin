@@ -89,7 +89,7 @@ TextFieldPart >> newTextEntry [
 		menu: nil;
 		acceptOnCR: true;
 		"getEnabledSelector: enabledSel;"
-		font: Preferences standardDefaultTextFont;
+		font: StandardFonts defaultFont;
 		cornerStyle:  #rounded;
 		hResizing: #spaceFill"#rigid";
 		vResizing: #rigid;
@@ -97,7 +97,7 @@ TextFieldPart >> newTextEntry [
 		color: Color white;
 		"selectionColor: self selectionColor;"
 		hideScrollBarsIndefinitely;
-		extent: 24@ (Preferences standardDefaultTextFont height + 8);
+		extent: 24@ (StandardFonts defaultFont height + 8);
 		"setBalloonText: helpText."
 		yourself.
 	pt textMorph

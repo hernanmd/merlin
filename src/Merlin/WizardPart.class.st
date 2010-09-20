@@ -195,7 +195,7 @@ WizardPart >> newCheckboxFor: aModel getSelected: getSel setSelected: setSel lab
 	
 	^(CheckboxMorph
 			on: aModel selected: getSel changeSelected: setSel)
-		font: Preferences standardDefaultTextFont;
+		font: StandardFonts defaultFont;
 		label: label;
 		hResizing: #shrinkWrap;
 		vResizing: #shrinkWrap;
@@ -288,7 +288,7 @@ WizardPart >> newMultiSelectionListFor: aModel list: listSelector primarySelecti
 		listSelection: listSelectionSelector 
 		changeListSelection: changeListSelectionSelector
 		menu: nil )
-		font: Preferences standardDefaultTextFont;
+		font: StandardFonts defaultFont;
 		autoDeselect: false;
 		cornerStyle: #rounded;
 		color: Color white;

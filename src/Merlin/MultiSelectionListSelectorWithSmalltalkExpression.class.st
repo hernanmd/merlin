@@ -54,7 +54,7 @@ MultiSelectionListSelectorWithSmalltalkExpression >> initialize: aCollectionOfIt
 { #category : #'morph content setup tools' }
 MultiSelectionListSelectorWithSmalltalkExpression >> newLabel: aString [
 	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
-	^LabelMorph contents: aString font: Preferences standardDefaultTextFont
+	^LabelMorph contents: aString font: StandardFonts defaultFont
 ]
 
 { #category : #'morph content setup tools' }
@@ -78,7 +78,7 @@ MultiSelectionListSelectorWithSmalltalkExpression >> newTextEntry [
 		menu: nil;
 		acceptOnCR: true;
 		"getEnabledSelector: enabledSel;"
-		font: Preferences standardDefaultTextFont;
+		font: StandardFonts defaultFont;
 		cornerStyle:  #rounded;
 		hResizing: #rigid"#spaceFill";
 		vResizing: #rigid;
@@ -86,7 +86,7 @@ MultiSelectionListSelectorWithSmalltalkExpression >> newTextEntry [
 		color: Color white;
 		"selectionColor: self selectionColor;"
 		hideScrollBarsIndefinitely;
-		extent: 280@(Preferences standardDefaultTextFont height + 8);
+		extent: 280@(StandardFonts defaultFont height + 8);
 		"setBalloonText: helpText."
 		yourself.
 	pt textMorph
