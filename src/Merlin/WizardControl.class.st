@@ -36,47 +36,11 @@ Class {
 		'builder',
 		'wizardInformations',
 		'dialogWindow',
-		'branches'
+		'branches',
+		'finalActionBlock'
 	],
 	#category : #'Merlin-Core'
 }
-
-{ #category : #example }
-WizardControl class >> example [
-	"self example"
-	| wizardControl firstPane lastPane part1 part2 part3 part4 middlePane1 middlePane2 |
-	<lint: 'Long methods' rationale: 'Just an example of how to use the library ' author: 'cyrille.delaunay'>
-	wizardControl := self new.
-	firstPane := WizardFirstPane new.
-	middlePane1 := WizardMiddlePane new.
-	middlePane2 := WizardMiddlePane new.
-	lastPane := WizardLastPane new.
-	
-	wizardControl addPane: firstPane.
-	wizardControl addPane: middlePane1.
-	wizardControl addPane: middlePane2.
-	wizardControl addPane: lastPane.
-	
-	part1 := NumberSelectorPart new.
-	part2 := OperatorSelectorPart new.
-	part3 := NumberSelectorPart new.
-	part4 := DisplayOperationResultPart new.
-	
-	firstPane 
-		addPart: part1
-		associatedTo: #firstNumber.
-	middlePane1 
-		addPart: part2
-		associatedTo: #operator.
-	middlePane2 
-		addPart: part3
-		associatedTo: #secondNumber.
-	lastPane 
-		addPart: part4
-		associatedTo: nil
-		requiring: {  #firstNumber. #operator. #secondNumber  }.
-	wizardControl openFirstWizardPane
-]
 
 { #category : #'addition / removal' }
 WizardControl >> addBranch [
@@ -92,6 +56,13 @@ WizardControl >> addPane: aWizardPane [
 	wizardPanes add: aWizardPane.
 	^ aWizardPane 
 
+]
+
+{ #category : #accessing }
+WizardControl >> atEndDo: aBlock [
+
+	"this is the way to programatically set an action to execute at the end of the wizard panes transitions. aBlock has to be a 'one-argument' block, refering to the wizardInformations dictionary (linking each output of the wizard to its key)."
+	finalActionBlock := aBlock.
 ]
 
 { #category : #accessing }
@@ -124,6 +95,12 @@ WizardControl >> dialogWindowName: aString [
 	"set the name of the dialogWindow"
 	
 	dialogWindow title: aString
+]
+
+{ #category : #accessing }
+WizardControl >> finalActionBlock [ 
+
+	^ finalActionBlock
 ]
 
 { #category : #accessing }
@@ -191,6 +168,9 @@ WizardControl >> performTerminateButtonAction [
 	"by default, just close the last current pane. Override this method if you want to create a subclass of WizardControl making a specific action"
 	
 	(wizardPanes at: currentPane) close.
+	self finalActionBlock ifNotNil: [
+		self finalActionBlock value: self wizardInformations
+		].
 		
 ]
 

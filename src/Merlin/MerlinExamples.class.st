@@ -10,7 +10,7 @@ MerlinExamples class >> compositePart [
 
 	| wizardControl  wizardPane1  dropListPart checkboxPart textFieldPart compositePart |
 	wizardControl := WizardControl new.
-	wizardPane1 := WizardLastPane new.
+	wizardPane1 := WizardSinglePane new.
 	
 	checkboxPart := CheckboxPart  new
 									label: 'select / unselect';
@@ -48,7 +48,7 @@ MerlinExamples class >> compositePartWithoutSpecifyingTabTitles [
 
 	| wizardControl  wizardPane1  dropListPart checkboxPart textFieldPart compositePart |
 	wizardControl := WizardControl new.
-	wizardPane1 := WizardLastPane new.
+	wizardPane1 := WizardSinglePane new.
 	
 	checkboxPart := CheckboxPart  new
 									label: 'select / unselect';
@@ -87,7 +87,7 @@ MerlinExamples class >> compositeWithParametrizedParts [
 	| wizardControl  wizardPane1  dropListPart checkboxPart textFieldPart compositePart mainPart |
 				
 	wizardControl := WizardControl new.
-	wizardPane1 := WizardLastPane new.
+	wizardPane1 := WizardSinglePane new.
 	mainPart := DropListPart new
 					list: #(true false);
 					inGroupboxNamed: 'the selection will be propagated to all parts';
@@ -127,6 +127,50 @@ MerlinExamples class >> compositeWithParametrizedParts [
 	wizardControl open. 
 	
 	
+]
+
+{ #category : #'complete examples' }
+MerlinExamples class >> numericalOperationsExample [
+	"self numericalOperationsExample"
+	| wizardControl firstPane middlePane lastPane firstNumberDropList operatorDropList secondNumberDropList |
+	<lint: 'Long methods' rationale: 'Just an example of how to use the library ' author: 'cyrille.delaunay'>
+	wizardControl := WizardControl new.
+	firstPane := WizardFirstPane new.
+	middlePane := WizardMiddlePane new.
+	lastPane := WizardLastPane new.
+	
+	wizardControl addPane: firstPane.
+	wizardControl addPane: middlePane.
+	wizardControl addPane: lastPane.
+	
+	firstNumberDropList := NumberSelectorPart new
+								list: #(1 2 3 4 5 6 7 8 9);
+								useLatePopulateContents: false.
+	operatorDropList := OperatorSelectorPart new
+								list: #(+ - * / );
+								useLatePopulateContents: false.
+	secondNumberDropList := NumberSelectorPart new
+								list: #(1 2 3 4 5 6 7 8 9);
+								useLatePopulateContents: false.
+								
+	firstPane 
+		row: firstNumberDropList
+		associatedTo: #firstNumber.
+	middlePane
+		row: operatorDropList
+		associatedTo: #operator.
+	lastPane 
+		row: secondNumberDropList
+		associatedTo: #secondNumber.
+	wizardControl atEndDo: [:aDictionaryOfOutputs |
+		|result|
+		result := Compiler evaluate: 
+			(aDictionaryOfOutputs at: #firstNumber) asString,
+			(aDictionaryOfOutputs at: #operator) asString,
+			(aDictionaryOfOutputs at: #secondNumber) asString.
+		UIManager inform: 'The result is: ', result asString.
+		].
+	wizardControl open
 ]
 
 { #category : #'basic examples' }
@@ -383,7 +427,7 @@ MerlinExamples class >> usingCallbackAndRefresh [
 
 	| wizardControl  wizardPane1  firstDropListPartPart secondDropListPart |
 	wizardControl := WizardControl new.
-	wizardPane1 := WizardLastPane new.
+	wizardPane1 := WizardSinglePane new.
 	
 	firstDropListPartPart := DropListPart  new
 									inGroupboxNamed: 'Select number of dropLists you want';
@@ -415,7 +459,7 @@ MerlinExamples class >> usingCallbackAndRefreshAndBlockAsDefaultValue [
 
 	| wizardControl  wizardPane1  firstDropListPartPart secondDropListPart |
 	wizardControl := WizardControl new.
-	wizardPane1 := WizardLastPane new.
+	wizardPane1 := WizardSinglePane new.
 	
 	firstDropListPartPart := DropListPart  new
 									inGroupboxNamed: 'Select number of dropLists you want';
@@ -447,7 +491,7 @@ MerlinExamples class >> usingCallbackOnCheckBox [
 
 	| wizardControl  wizardPane1  firstDropCheckboxPart secondCheckboxPart |
 	wizardControl := WizardControl new.
-	wizardPane1 := WizardLastPane new.
+	wizardPane1 := WizardSinglePane new.
 	
 	secondCheckboxPart := CheckboxPart  new
 									inGroupboxNamed: 'Same selection than checkbox on top';
@@ -481,7 +525,7 @@ MerlinExamples class >> usingCallbackOnDropList [
 
 	| wizardControl  wizardPane1  firstDropListPartPart secondDropListPart |
 	wizardControl := WizardControl new.
-	wizardPane1 := WizardLastPane new.
+	wizardPane1 := WizardSinglePane new.
 	
 	firstDropListPartPart := DropListPart  new
 									inGroupboxNamed: 'Select an item';
