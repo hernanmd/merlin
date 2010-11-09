@@ -38,6 +38,7 @@ ChooseFilePart >> newFileDialogNamed: title [
 		"previewType: preview;"
 		initialize;
 		title: title;
+		selectPathName: FileDirectory default pathName;
 		answerOpenFile.
 	"exts ifNotNil: [fd validExtensions: exts].
 	path ifNotNil: [fd selectPathName: path]."
