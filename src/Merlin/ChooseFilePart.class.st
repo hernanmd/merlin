@@ -26,7 +26,8 @@ ChooseFilePart >> defaultDirectoryPath: aPathString [
 ChooseFilePart >> initialize [
 
 	super initialize.
-	self populateContents: {(self newFileDialogNamed: '') newContentMorph}
+	self populateContents: {(self newFileDialogNamed: '') newContentMorph}.
+	fileDialog selectPathName: FileDirectory default pathName.
 ]
 
 { #category : #'morph content setup tools' }
@@ -35,7 +36,6 @@ ChooseFilePart >> newFileDialogNamed: title [
 "Answer a morph representing a file open dialog with the given title"
 
 	fileDialog := FileDialogWindow basicNew
-		"previewType: preview;"
 		initialize;
 		title: title;
 		selectPathName: FileDirectory default pathName;
@@ -84,5 +84,4 @@ ChooseFilePart >> selectDirectory: aDirectory [
 ChooseFilePart >> selectPathName: aPathString [
 	""
 	fileDialog selectPathName: aPathString.
-	self populateContents: { fileDialog newContentMorph }
 ]

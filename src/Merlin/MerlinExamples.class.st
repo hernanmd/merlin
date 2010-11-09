@@ -5,6 +5,26 @@ Class {
 }
 
 { #category : #'basic examples' }
+MerlinExamples class >> chooseFilePart [
+	"self chooseFilePart"
+
+	| wizardControl  wizardPane1  dropListPart checkboxPart textFieldPart compositePart |
+	wizardControl := WizardControl new.
+	wizardPane1 := WizardSinglePane new.
+	
+	checkboxPart := ChooseFilePart  new.
+		
+	wizardPane1 row: checkboxPart.	
+		
+	wizardControl 
+		addPane: wizardPane1. 
+		
+	wizardControl open. 
+	
+	
+]
+
+{ #category : #'basic examples' }
 MerlinExamples class >> compositePart [
 	"self compositePart"
 
