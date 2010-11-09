@@ -85,3 +85,9 @@ ChooseFilePart >> selectPathName: aPathString [
 	""
 	fileDialog selectPathName: aPathString.
 ]
+
+{ #category : #accessing }
+ChooseFilePart >> validExtensions: aCollectionOfStrings [
+
+	fileDialog validExtensions: aCollectionOfStrings
+]
