@@ -97,6 +97,12 @@ WizardControl >> dialogWindowName: aString [
 	dialogWindow title: aString
 ]
 
+{ #category : #'initialize-release' }
+WizardControl >> example [
+
+
+]
+
 { #category : #accessing }
 WizardControl >> finalActionBlock [ 
 
@@ -124,6 +130,7 @@ WizardControl >> initialize [
 	wizardInformations := Dictionary new.
 	branches := OrderedCollection new add: OrderedCollection new; yourself.
 	wizardPanes := branches at: 1.
+	currentPane :=1.
 
 
 

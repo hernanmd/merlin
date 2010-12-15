@@ -19,7 +19,8 @@ LabelPart class >> on: stringText inGroupBoxNamed: groupBoxName [
 { #category : #'initialize-release' }
 LabelPart >> initializeWith: stringText [
 
-	self contents: {self newLabel: stringText }
+	"self contents: {self newLabel: stringText }"
+	self populateContents: {self newLabel: stringText }
 ]
 
 { #category : #'initialize-release' }
