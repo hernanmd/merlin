@@ -182,6 +182,19 @@ WizardControl >> performTerminateButtonAction [
 ]
 
 { #category : #'addition / removal' }
+WizardControl >> removePaneAt: anIndex [
+
+	|tmpPane|
+	self wizardPanes size < anIndex ifTrue: [
+		^ Error signal: 'Trying to remove a non-existant pane'
+		].
+	tmpPane := self wizardPanes at: anIndex.
+	^ self wizardPanes remove: tmpPane.
+	
+	
+]
+
+{ #category : #'addition / removal' }
 WizardControl >> selectBranch: anInteger [
 
 	self wizardPanes: (self branches at: anInteger )
