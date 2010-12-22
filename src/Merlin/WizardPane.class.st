@@ -433,6 +433,15 @@ WizardPane >> nextButtonAction [
 	self wizardControl performNextButtonAction
 ]
 
+{ #category : #actions }
+WizardPane >> notifyPartsMightHaveChanged [
+
+	"this method will iterate over all the parts in the pane and notify them that their contents might have been changed"
+	wizardParts do: [:each |
+		each mightHasChanged
+		]
+]
+
 { #category : #'accessing - main pane line' }
 WizardPane >> numberOfSubComponents [ 
 
@@ -574,6 +583,9 @@ WizardPane >> retrieveOutputOf: aWizardPart [
 { #category : #actions }
 WizardPane >> retrievePartsOutputs [
 	"action executed when the next button is pressed"
+	
+	"The contents of a part might have been changed without the part itself know it (This is the case for a textField). So we first notify each of them that their contents mihgt have changed"
+	self notifyPartsMightHaveChanged.
 	
 	partsAndInformationsAssociated keysAndValuesDo: 
 		[ :key :value | 

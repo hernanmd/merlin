@@ -120,7 +120,6 @@ WizardPart >> groupBoxName [
 { #category : #actions }
 WizardPart >> hasChanged [
 	"when the output value of this wizardPart has changed, we first perform the callbak and then inform the wizardPane that a new value has been set"
-	
 	callbackBlock valueWithEnoughArguments: {self outputValue. self }.
 	wizardPane ifNotNil: [ wizardPane  hasChanged: self].
 ]
@@ -148,6 +147,11 @@ WizardPart >> latePopulateContents [
 
 	"here, you have to set the morph contents of this wizardPart. To do that, use 'populateContents:' with all the mrophs you want. This method will be called only when the pane will be opened. Therefore, this the good time to retrieve information from previous pane and use them (if necessary)"
 	
+]
+
+{ #category : #actions }
+WizardPart >> mightHasChanged [
+	"The contents of a part might has changed without the part itself know it (This is the case for a textField). This method will be called by the parent wizard pane to be sure all has been corretly done before opening the next pane. By default does nothing. If you have to make something special before opening the next pane, it 's the good place to do it'"
 ]
 
 { #category : #accessing }

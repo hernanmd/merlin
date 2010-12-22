@@ -2,7 +2,8 @@ Class {
 	#name : #ChooseFilePart,
 	#superclass : #WizardPart,
 	#instVars : [
-		'fileDialog'
+		'fileDialog',
+		'fileDialogMorph'
 	],
 	#category : #'Merlin-Parts'
 }
@@ -22,12 +23,57 @@ ChooseFilePart >> defaultDirectoryPath: aPathString [
 	self populateContents: {fileDialog newContentMorph  }
 ]
 
+{ #category : #accessing }
+ChooseFilePart >> fileDialog [ 
+
+	^ fileDialog ifNil: [fileDialog := self newFileDialogNamed: '']
+]
+
+{ #category : #accessing }
+ChooseFilePart >> fileDialog: aFileDialog [
+
+	fileDialog := aFileDialog
+]
+
+{ #category : #accessing }
+ChooseFilePart >> fileDialogMorph [
+
+	^ fileDialogMorph ifNil: [fileDialogMorph := self fileDialog newContentMorph ]
+
+]
+
+{ #category : #accessing }
+ChooseFilePart >> fileDialogMorph: aFileDialogMorph [
+
+	fileDialogMorph := aFileDialogMorph
+
+]
+
 { #category : #'initialize-release' }
 ChooseFilePart >> initialize [
 
 	super initialize.
-	self populateContents: {(self newFileDialogNamed: '') newContentMorph}.
-	fileDialog selectPathName: FileDirectory default pathName.
+	"self populateContents: {(self newFileDialogNamed: '') newContentMorph}."
+	self fileDialog selectPathName: FileDirectory default pathName.
+]
+
+{ #category : #accessing }
+ChooseFilePart >> latePopulateContents [
+	
+	|default|
+	groupBoxName 
+		ifNotNilDo: [:aStringOrABlock |self populateContents: {self newGroupboxNamed: (aStringOrABlock meValue: self requiredInputs)  With: self fileDialogMorph}.]
+		ifNil: [self populateContents: {self fileDialogMorph}].
+
+	
+	
+]
+
+{ #category : #accessing }
+ChooseFilePart >> mightHasChanged [
+	"The contents of a part might has changed without the part itself know it (This is the case for a textField). This method will be called by the parent wizard pane to be sure all has been corretly done before opening the next pane. By default does nothing. If you have to make something special before opening the next pane, it 's the good place to do it'"
+	
+	self hasChanged
 ]
 
 { #category : #'morph content setup tools' }
@@ -35,15 +81,16 @@ ChooseFilePart >> newFileDialogNamed: title [
 
 "Answer a morph representing a file open dialog with the given title"
 
-	fileDialog := FileDialogWindow basicNew
+	|tmpFileDialog|
+	tmpFileDialog := FileDialogWindow basicNew
 		initialize;
 		title: title;
 		selectPathName: FileDirectory default pathName;
 		answerOpenFile.
 	"exts ifNotNil: [fd validExtensions: exts].
 	path ifNotNil: [fd selectPathName: path]."
-	fileDialog answerOpenFile .
-	^ fileDialog
+	tmpFileDialog answerOpenFile .
+	^ tmpFileDialog
 	
 ]
 

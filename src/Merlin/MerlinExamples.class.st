@@ -178,6 +178,31 @@ MerlinExamples class >> modifyingWizardStructureInCallbacks [
 	wizard open.
 ]
 
+{ #category : #'basic examples' }
+MerlinExamples class >> modifyingWizardStructureInChooseFilePartCallbacks [
+
+	"self modifyingWizardStructureInChooseFilePartCallbacks"
+	|wizard|
+	wizard := WizardControl new.
+	wizard addPane: (
+		WizardFirstPane new
+			row: (
+				ChooseFilePart new
+					callback: [:filepath |
+						|secondPane|
+						wizard wizardPanes size > 1 ifTrue: [
+							wizard removePaneAt: 2
+							].
+						secondPane := WizardLastPane new.
+						secondPane row: (TextPart new text: filepath asString; yourself).	
+						wizard addPane: secondPane.
+						];
+					yourself
+			)
+	).
+	wizard open.
+]
+
 { #category : #'complete examples' }
 MerlinExamples class >> numericalOperationsExample [
 	"self numericalOperationsExample"

@@ -31,13 +31,26 @@ TextPart >> initializeWith: blockOrStringText inGrouopboxNamed: anotherString [
 { #category : #private }
 TextPart >> latePopulateContents [
 
-	partValue isBlock
-		ifTrue: [
-			self text: (partValue value: self requiredInputs). 
-			]
+
+	partValue isNil 
 		ifFalse: [
-			self text: partValue 
-			].
+			partValue isBlock
+			ifTrue: [
+				self text: (partValue value: self requiredInputs). 
+				]
+			ifFalse: [
+				self text: partValue 
+				].
+			]
+		ifTrue: [
+			|default|
+			default := defaultValue meValue: self requiredInputs.
+			groupBoxName 
+				ifNotNilDo: [:aStringOrABlock |self populateContents: {self newGroupboxNamed: (aStringOrABlock meValue: self requiredInputs)  With: (self newText: self text)}.]
+				ifNil: [self populateContents: {self newText: self text}].
+	
+			]
+	
 ]
 
 { #category : #'accessing - wizard mangement' }
@@ -50,7 +63,13 @@ TextPart >> morphContents [
 { #category : #'accessing - wizard mangement' }
 TextPart >> outputValue [ 
 
-	^ text
+	^ self text
+]
+
+{ #category : #accessing }
+TextPart >> text [ 
+
+	^ text ifNil: ['']
 ]
 
 { #category : #accessing }
