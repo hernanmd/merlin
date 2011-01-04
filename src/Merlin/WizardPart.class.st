@@ -255,7 +255,7 @@ WizardPart >> newGroupboxNamed: aString WithAll: aCollectionOfMorph [
 { #category : #'morph content setup tools' }
 WizardPart >> newLabel: aString [
 	"return a simple label displaying the text aString"
-	^LabelMorph contents: aString font: Preferences standardDefaultTextFont
+	^LabelMorph contents: aString font: TextStyle defaultFont
 ]
 
 { #category : #'morph content setup tools' }
@@ -264,7 +264,7 @@ WizardPart >> newListFor: aModel list: listSelector selected: getSelector change
 	"return a PluggableListMorph. the value of the list will be accessed by the selector listSelector (send to aModel). the index of the current item selected will be accessed by getSelector (send to aModel) and set by the selector setSelector (send to aModel)."
 	^PluggableListMorph new
 		"selectionColor: self selectionColor;"
-		font: Preferences standardDefaultTextFont;
+		font: TextStyle defaultFont;
 		on: aModel
 		list: listSelector
 		selected: getSelector

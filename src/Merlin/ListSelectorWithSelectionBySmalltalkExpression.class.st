@@ -53,7 +53,7 @@ ListSelectorWithSelectionBySmalltalkExpression >> evaluateTextEntryContents [
 { #category : #'morph content setup tools' }
 ListSelectorWithSelectionBySmalltalkExpression >> newLabel: aString [
 	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
-	^LabelMorph contents: aString font: Preferences standardDefaultTextFont
+	^LabelMorph contents: aString font: TextStyle defaultFont
 ]
 
 { #category : #'morph content setup tools' }
@@ -77,7 +77,7 @@ ListSelectorWithSelectionBySmalltalkExpression >> newTextEntry [
 		menu: nil;
 		acceptOnCR: true;
 		"getEnabledSelector: enabledSel;"
-		font: Preferences standardDefaultTextFont;
+		font: TextStyle defaultFont;
 		cornerStyle:  #rounded;
 		hResizing: #spaceFill;
 		vResizing: #rigid;
@@ -85,7 +85,7 @@ ListSelectorWithSelectionBySmalltalkExpression >> newTextEntry [
 		color: Color white;
 		"selectionColor: self selectionColor;"
 		hideScrollBarsIndefinitely;
-		extent: 24@(Preferences standardDefaultTextFont height + 8);
+		extent: 24@(TextStyle defaultFont height + 8);
 		"setBalloonText: helpText."
 		yourself.
 	pt textMorph
