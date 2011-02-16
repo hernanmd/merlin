@@ -425,6 +425,24 @@ MultiSelectionListSelector >> selectionListSelectionAt: anIndex put: value [
 		^ selectionListSelections at: anIndex put: value
 ]
 
+{ #category : #'private - customization' }
+MultiSelectionListSelector >> setTitleMessage: aString toGroupboxInRowIndexedBy: anIndex [
+
+	| initialBuilderMainContent tmpBuilderMainContent groupBox |
+	
+	initialBuilderMainContent := self contents submorphs asOrderedCollection .
+	"tmpBuilderMainContent represent the new content of main window (in wich we will add the message)"
+	tmpBuilderMainContent := initialBuilderMainContent copy.
+
+	"We add the message to the row number anIndex"
+	groupBox := (tmpBuilderMainContent at: anIndex) submorphs first.
+	groupBox label: aString.
+	
+	self wizardPane buildDialogWindow  .
+	self wizardPane adaptSize.
+	
+]
+
 { #category : #actions }
 MultiSelectionListSelector >> updateWhenAddingItem [
 	|    selectedItemsInInitialList tmpList initialListOfItems |

@@ -39,7 +39,7 @@ MultiSelectionListSelectorWithSmalltalkExpression >> evaluateTextEntryContents [
 	 
 		on: Error
 		do: [  
-			self addTitleMessage: 'INVALID EXPRESSION' toGroupboxInRowIndexedBy:2 
+			self setTitleMessage: 'Select packages with a Smalltalk condition - INVALID EXPRESSION' toGroupboxInRowIndexedBy:2 
 			"self addStringMessage: 'Invalid expression' ForRowIndexedBy: 2."
 			]
 ]

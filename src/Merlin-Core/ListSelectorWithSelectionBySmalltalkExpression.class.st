@@ -45,8 +45,7 @@ ListSelectorWithSelectionBySmalltalkExpression >> evaluateTextEntryContents [
 	 
 		on: Error
 		do: [  
-		
-			self addStringMessage: 'Invalid smalltalk expression' ForRowIndexedBy: 2.
+			self setTitleMessage: 'Select packages with a Smalltalk condition - INVALID EXPRESSION' toGroupboxInRowIndexedBy:2 
 			]
 ]
 
