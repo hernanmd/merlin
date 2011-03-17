@@ -68,7 +68,7 @@ WizardPaneFlowTest >> testWizardPanesFlow [
 									callback: [:outputValue | 
 										dropListSelectedValue := outputValue.
 										wizardPane2 removeAllParts.
-										wizardLabel := LabelPart new initializeWith: 'You selected ',(outputValue asString).
+										wizardLabel := TextPart new text: 'You selected ',(outputValue asString); yourself.
 										wizardPane2 row: wizardLabel. 
 										wizardPane2 refresh];
 									yourself.
@@ -103,7 +103,7 @@ WizardPaneFlowTest >> testWizardPanesSecondValueFlow [
 									callback: [:outputValue | 
 										dropListSelectedValue := outputValue.
 										wizardPane2 removeAllParts.
-										wizardLabel := LabelPart new initializeWith: 'In the second DropList you selected ',(outputValue asString).
+										wizardLabel := TextPart new text: 'In the second DropList you selected ',(outputValue asString); yourself.
 										wizardPane2 row: wizardLabel. 
 										wizardPane2 refresh];
 									yourself.

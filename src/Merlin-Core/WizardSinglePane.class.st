@@ -14,6 +14,12 @@ WizardSinglePane >> displayButtons [
 	self buttons: {cancelButton. terminateButton}.
 ]
 
+{ #category : #'*merlin-rendering' }
+WizardSinglePane >> merlinSpecificRenderer [
+
+	^ MerlinMorphicSinglePaneRenderer new.
+]
+
 { #category : #'morph creation' }
 WizardSinglePane >> newTerminateButton [
 	

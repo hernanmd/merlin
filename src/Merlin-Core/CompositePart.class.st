@@ -2,8 +2,8 @@ Class {
 	#name : #CompositePart,
 	#superclass : #WizardPart,
 	#instVars : [
-		'tabGroup',
-		'titlesAndParts'
+		'titlesAndParts',
+		'selectedPageIndex'
 	],
 	#category : #'Merlin-Parts'
 }
@@ -20,35 +20,19 @@ CompositePart >> addTitleAndPart: anAssociation [
 	titlesAndParts add: anAssociation. 
 ]
 
-{ #category : #'initialize-release' }
-CompositePart >> initializeTabGroup [
-
- 	
-	tabGroup := (self
-		newTabGroupBoxFor: (self titlesAndParts collect: [:anAssoc | anAssoc key -> anAssoc value morphContents ])).
-]
-
 { #category : #accessing }
 CompositePart >> latePopulateContents [
 
-	self titlesAndParts do: [:anAssoc | anAssoc value latePopulateContents].
-	self initializeTabGroup. 
-	
-	groupBoxName 
-		ifNotNilDo: [:aStringOrABlock |self populateContents: {self newGroupboxNamed: (aStringOrABlock meValue: self requiredInputs)  With: tabGroup}]
-		ifNil: [self populateContents: {tabGroup }].
+
+	self titlesAndParts do: [:anAssoc | 
+		anAssoc value wizardPane: self wizardPane.
+		anAssoc value latePopulateContents].
 ]
 
-{ #category : #'morph content setup tools' }
-CompositePart >> newTabGroupBoxFor: labelsAndControls [
+{ #category : #'*Merlin-Rendering' }
+CompositePart >> merlinRendering [
 
-	^(TabGroupMorph  new
-		"font: self labelFont;"
-		cornerStyle: #rounded;
-		hResizing: #spaceFill;
-		vResizing: #spaceFill;
-		labelsAndPages: labelsAndControls)
-		selectedPageIndex: (labelsAndControls isEmpty ifTrue: [0] ifFalse: [1])
+	^ self renderer merlinMultiPartsRenderingFor: self
 ]
 
 { #category : #'accessing - wizard management' }
@@ -60,13 +44,13 @@ CompositePart >> outputValue [
 { #category : #'accessing - page selection' }
 CompositePart >> selectedPageIndex [
 
-	^ tabGroup selectedPageIndex
+	^ selectedPageIndex ifNil: [selectedPageIndex := 1]
 ]
 
 { #category : #'accessing - page selection' }
 CompositePart >> selectedPageIndex: anIndex [
 
-	^ tabGroup selectedPageIndex: anIndex 
+	selectedPageIndex := anIndex.
 ]
 
 { #category : #'accessing - page selection' }

@@ -3,48 +3,47 @@ Class {
 	#superclass : #WizardPart,
 	#instVars : [
 		'list',
-		'listMorph',
-		'selectionIndex'
+		'selectionIndex',
+		'listHeight',
+		'listWidth'
 	],
 	#category : #'Merlin-Parts'
 }
+
+{ #category : #accessing }
+ListPart >> horizontalSize [
+
+	^ listHeight 
+]
+
+{ #category : #listControl }
+ListPart >> initialList: anObject [
+	"Set the value of list"
+
+	list := anObject.
+]
 
 { #category : #'initialize-release' }
 ListPart >> initialize [
 
 	super initialize.
 	self list: #().
-	listMorph := self newNormalListFor: self list: #list selected: #selectionIndex changeSelected: #selectionIndex:.
 
 ]
 
-{ #category : #'initialize-release' }
-ListPart >> latePopulateContents [
+{ #category : #accessing }
+ListPart >> latePopulateContents [ 
 
-	|default|
-	default := defaultValue meValue: self requiredInputs.
-	default ifNotNilDo: [:anIndexOrAnObject |
-		anIndexOrAnObject isNumber 
-			ifTrue: [self selectionIndex: anIndexOrAnObject ]
-			ifFalse: [self selectionIndex: (self list indexOf: anIndexOrAnObject)].	
-		]. 
-	
-	"listMorph := self newNormalListFor: self list: #list selected: #selectionIndex changeSelected: #selectionIndex:."
-	
-	groupBoxName 
-		ifNotNilDo: [:aStringOrABlock |self populateContents: {self newGroupboxNamed: (aStringOrABlock meValue: self requiredInputs)  With: listMorph}.]
-		ifNil: [self populateContents: {listMorph }].
-	
-	
-	
-
+	(self valueOf: self defaultValue) ifNotNilDo: [:anIndex |
+		self selectionIndex: anIndex
+		]    
 ]
 
 { #category : #listControl }
 ListPart >> list [
 	"Answer the value of list"
 
-	^ list
+	^ self valueOf: list
 ]
 
 { #category : #listControl }
@@ -56,21 +55,33 @@ ListPart >> list: anObject [
 ]
 
 { #category : #accessing }
-ListPart >> listHeight: anInteger [
+ListPart >> listHeight [
 
-	self listMorph minHeight: anInteger 
+	^ listHeight 
 ]
 
 { #category : #accessing }
-ListPart >> listMorph [ 
+ListPart >> listHeight: anInteger [
 
-	^ listMorph
+	listHeight := anInteger.
+]
+
+{ #category : #accessing }
+ListPart >> listWidth [
+
+	^ listWidth 
 ]
 
 { #category : #accessing }
 ListPart >> listWidth: anInteger [
 
-	self listMorph minWidth: anInteger 
+	listWidth := anInteger.
+]
+
+{ #category : #'*Merlin-Rendering' }
+ListPart >> merlinRendering [
+
+	^ self renderer merlinListRenderingFor: self
 ]
 
 { #category : #'accessing - Wizard Management' }
@@ -79,6 +90,13 @@ ListPart >> outputValue [
 	self list ifNotNilDo: [:tmpList | 
 		
 		^ "tmpList at:" self selectionIndex]
+]
+
+{ #category : #listControl }
+ListPart >> safeSelectionIndex: anObject [
+	"Set the value of selectionIndex"
+
+	selectionIndex := anObject.
 ]
 
 { #category : #listControl }
@@ -104,4 +122,10 @@ ListPart >> selectionIndex: anObject [
 	selectionIndex := anObject.
 	self changed: #selectionIndex.
 	self hasChanged .
+]
+
+{ #category : #accessing }
+ListPart >> verticalSize [
+
+	^ listWidth 
 ]

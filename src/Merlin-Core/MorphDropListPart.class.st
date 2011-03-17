@@ -4,34 +4,10 @@ Class {
 	#category : #'Merlin-Parts'
 }
 
-{ #category : #'initialize-release' }
-MorphDropListPart >> initializeDropList [
+{ #category : #'*merlin-rendering' }
+MorphDropListPart >> merlinRendering [
 
-	dropList := self newDropListSelfControllingFor: {Morph new}
-]
-
-{ #category : #'morph content setup tools' }
-MorphDropListPart >> newDropListSelfControllingFor: aCollectionOfItems [
-			
-	| tmpDropList |
-	self list: aCollectionOfItems .
-	self selectionIndex: 1.
-	tmpDropList := (MorphDropListMorph
-			on: self
-			list: #list 
-			selected: #selectionIndex
-			changeSelected: #selectionIndex:
-			useIndex: true)
-		"selectionColor: self selectionColor;
-		getEnabledSelector: enabledSel;"
-		cornerStyle: #rounded;
-		hResizing: #spaceFill;
-		vResizing: #shrinkWrap.
-		"setBalloonText: helpText"
-		
-	
-	^ tmpDropList.
-	
+	^ self renderer merlinMorphDropListRenderingFor: self
 ]
 
 { #category : #'accessing - wizard mangement' }

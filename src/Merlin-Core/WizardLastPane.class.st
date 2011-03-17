@@ -14,6 +14,11 @@ WizardLastPane >> displayButtons [
 	self buttons: {cancelButton. self newPreviousButton. terminateButton}.
 ]
 
+{ #category : #'*merlin-rendering' }
+WizardLastPane >> merlinSpecificRenderer [ 
+	^ MerlinMorphicLastPaneRenderer new 
+]
+
 { #category : #'morph creation' }
 WizardLastPane >> newTerminateButton [
 	

@@ -139,6 +139,12 @@ PaneAbstractLine >> removeWithouUnassociateSubComponentAt: anInteger [
 	subComponents remove: componentToRemove. 
 ]
 
+{ #category : #accessing }
+PaneAbstractLine >> renderer [
+
+	^ self pane renderer
+]
+
 { #category : #'accessing - morph contents' }
 PaneAbstractLine >> specificMorphContents [
 

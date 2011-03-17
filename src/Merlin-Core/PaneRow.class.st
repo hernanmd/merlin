@@ -47,10 +47,22 @@ PaneRow >> columnAt: anInteger [
 	^ self subComponentAt: anInteger
 ]
 
+{ #category : #'*Merlin-Rendering' }
+PaneRow >> merlinRendering [
+
+	^ self renderer merlinRowRenderingFor: self
+]
+
 { #category : #accessing }
 PaneRow >> removeColumnAt: anInteger [
 
 	^ self removeSubComponentAt: anInteger
+]
+
+{ #category : #'*Merlin-Rendering' }
+PaneRow >> renderOnMerlinRenderer: aMerlinRenderer [
+
+	^ aMerlinRenderer renderRow: self
 ]
 
 { #category : #'accessing - morph contents' }

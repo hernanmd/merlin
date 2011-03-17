@@ -4,10 +4,28 @@ Class {
 	#category : #'Merlin-PartsLayout'
 }
 
+{ #category : #'*Merlin-Rendering' }
+PaneColumn >> merlinMorphWidget [
+
+	^ nil
+]
+
+{ #category : #'*Merlin-Rendering' }
+PaneColumn >> merlinRendering [
+
+	^ self renderer merlinColumnRenderingFor: self
+]
+
 { #category : #accessing }
 PaneColumn >> removeRowAt: anInteger [
 
 	^ self removeSubComponentAt: anInteger
+]
+
+{ #category : #'*Merlin-Rendering' }
+PaneColumn >> renderOnMerlinRenderer: aMerlinRenderer [
+
+	^ aMerlinRenderer renderColumn: self
 ]
 
 { #category : #'accessing - parts' }

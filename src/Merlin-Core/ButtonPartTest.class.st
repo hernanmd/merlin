@@ -10,9 +10,9 @@ ButtonPartTest >> testEnableAndDisable [
 	| buttonPart |
 	buttonPart := ButtonPart new.
 	buttonPart enable.
-	self assert: buttonPart buttonMorph enabled.
+	self assert: buttonPart buttonEnabled.
 	buttonPart disable.
-	self deny: buttonPart buttonMorph enabled.
+	self deny: buttonPart buttonEnabled.
 ]
 
 { #category : #'as yet unclassified' }
@@ -21,5 +21,5 @@ ButtonPartTest >> testLabel [
 	| buttonPart |
 	buttonPart := ButtonPart new.
 	buttonPart label: 'something'.
-	self assert: buttonPart buttonMorph label = 'something'.
+	self assert: buttonPart label = 'something'.
 ]

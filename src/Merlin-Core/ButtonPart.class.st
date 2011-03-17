@@ -2,40 +2,48 @@ Class {
 	#name : #ButtonPart,
 	#superclass : #WizardPart,
 	#instVars : [
-		'buttonMorph'
+		'buttonLabel',
+		'buttonEnabled'
 	],
 	#category : #'Merlin-Parts'
 }
 
 { #category : #accessing }
-ButtonPart >> buttonMorph [ 
+ButtonPart >> buttonEnabled [
 
-	^ buttonMorph
+	^ buttonEnabled 
 ]
 
 { #category : #accessing }
 ButtonPart >> disable [
 
-	self buttonMorph disable.
+	buttonEnabled := false.
 ]
 
 { #category : #accessing }
 ButtonPart >> enable [
 
-	self buttonMorph enable.
+	buttonEnabled := true.
 ]
 
 { #category : #'initialize-release' }
 ButtonPart >> initialize [
 
 	super initialize.
-	buttonMorph := self newButtonNamed: 'Default name' withAction: #hasChanged.
+	buttonLabel := 'Default name'.
+	buttonEnabled := true.
+]
+
+{ #category : #accessing }
+ButtonPart >> label [
+
+	^ buttonLabel 
 ]
 
 { #category : #accessing }
 ButtonPart >> label: aString [
 
-	buttonMorph label: aString
+	buttonLabel := aString.
 ]
 
 { #category : #accessing }
@@ -43,15 +51,16 @@ ButtonPart >> latePopulateContents [
 	
 	|default|
 	default := defaultValue meValue: self requiredInputs.
-	
 	default ifNotNilDo: [:aString |
 		self label: aString
 		]. 
 	
-	groupBoxName 
-		ifNotNilDo: [:aStringOrABlock |self populateContents: {self newGroupboxNamed: (aStringOrABlock meValue: self requiredInputs)  With: buttonMorph}]
-		ifNil: [self populateContents: {buttonMorph }].
-	
+]
+
+{ #category : #'*Merlin-Rendering' }
+ButtonPart >> merlinRendering [ 
+
+	^ self renderer merlinButtonRenderingFor: self  
 ]
 
 { #category : #'accessing - wizard management' }

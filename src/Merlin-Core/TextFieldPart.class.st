@@ -2,13 +2,13 @@ Class {
 	#name : #TextFieldPart,
 	#superclass : #WizardPart,
 	#instVars : [
-		'textField',
 		'textEntryContents',
 		'useRequiredInputAsDefault',
 		'defaultBlock',
 		'prefix',
 		'suffix',
-		'returnSuffixAndPrefix'
+		'returnSuffixAndPrefix',
+		'horizontalSize'
 	],
 	#category : #'Merlin-Parts'
 }
@@ -26,11 +26,24 @@ TextFieldPart >> defaultBlock: aBlock [
 	defaultBlock := aBlock.
 ]
 
+{ #category : #accessing }
+TextFieldPart >> horizontalSize [
+
+	^ horizontalSize 
+]
+
+{ #category : #accessing }
+TextFieldPart >> horizontalSize: anInteger [ 
+
+	horizontalSize := anInteger
+]
+
 { #category : #'initialize-release' }
 TextFieldPart >> initialize [ 
 
 	super initialize.
-	textField := self newTextEntry. 
+	prefix := ''.
+	suffix := ''.
 	returnSuffixAndPrefix := false.
 	
 ]
@@ -44,68 +57,27 @@ TextFieldPart >> initialize: defaultText [
 ]
 
 { #category : #accessing }
-TextFieldPart >> latePopulateContents [
+TextFieldPart >> initializeDefault [
 	
 	|default morphContents|
-	defaultValue isSymbol 
-		ifTrue: [default := defaultValue ]
-		ifFalse: [default := defaultValue meValue: self requiredInputs.].
-	"we make sure that the default value has been accepted"
-	"self textField acceptTextInModel. 	"
-
-	prefix isNil
-		ifTrue: [
-			suffix isNil
-				ifTrue: [morphContents := self textField]
-				ifFalse: [morphContents := self newRowWith: {self textField . ((self newLabel:suffix) disable; yourself) }]
-			]
-		ifFalse: [
-			suffix isNil
-				ifTrue: [morphContents := self newRowWith: {(self newLabel: prefix) disable; yourself . self textField}]
-				ifFalse: [morphContents := self newRowWith: {(self newLabel: prefix) disable; yourself . self textField . (self newLabel:suffix) disable; yourself }]
-			].
-		
-	groupBoxName 
-		ifNotNilDo: [:aStringOrABlock |self populateContents: {self newGroupboxNamed: (aStringOrABlock meValue: self requiredInputs)  With: morphContents}.]
-		ifNil: [self populateContents: { morphContents }].
-				
+	default := self valueOf: self defaultValue.
 	default ifNotNilDo: [:aString |
 		self textEntryContents: aString 	
 		]. 
 ]
 
-{ #category : #'morph content setup tools' }
-TextFieldPart >> newTextEntry [
+{ #category : #accessing }
+TextFieldPart >> latePopulateContents [
 
-		
-	| pt |
-	pt := PluggableTextFieldMorph new
-		convertTo: String;
-		alwaysAccept: true;
-		on: self
-		text: #textEntryContents
-		accept: #textEntryContents:
-		readSelection: nil
-		menu: nil;
-		acceptOnCR: true;
-		"getEnabledSelector: enabledSel;"
-		font: StandardFonts defaultFont;
-		cornerStyle:  #rounded;
-		hResizing: #spaceFill"#rigid";
-		vResizing: #rigid;
-		borderStyle: (BorderStyle inset width: 1);
-		color: Color white;
-		"selectionColor: self selectionColor;"
-		hideScrollBarsIndefinitely;
-		extent: 24@ (StandardFonts defaultFont height + 8);
-		"setBalloonText: helpText."
-		yourself.
-	pt textMorph
-		autoFit: true;
-		wrapFlag: false;
-		margins: (2@1 corner: 2@1).
-		
-	^ pt.
+	self initializeDefault
+	
+
+]
+
+{ #category : #'*Merlin-Rendering' }
+TextFieldPart >> merlinRendering [
+
+	^ self renderer merlinTextFieldRenderingFor: self
 ]
 
 { #category : #'accessing - wizard mangement' }
@@ -118,12 +90,18 @@ TextFieldPart >> outputValue [
 		
 		returnSuffixAndPrefix 
 			ifTrue: [
-				^ prefix, ((ObjectStringConverter forClass: String) stringAsObject: textField textMorph asText asString) , suffix. 
+				^ prefix, self textEntryContents , suffix. 
 				]
 			ifFalse: [
-				^ (ObjectStringConverter forClass: String) stringAsObject: textField textMorph asText asString
+				^ self textEntryContents  
 				]
 		
+]
+
+{ #category : #accessing }
+TextFieldPart >> prefix [
+
+	^ prefix 
 ]
 
 { #category : #accessing }
@@ -149,6 +127,12 @@ TextFieldPart >> returnSuffixAndPrefix: trueOrFalse [
 ]
 
 { #category : #accessing }
+TextFieldPart >> suffix [
+
+	^ suffix
+]
+
+{ #category : #accessing }
 TextFieldPart >> suffix: aString [
 
 	suffix := aString.
@@ -171,17 +155,9 @@ TextFieldPart >> textEntryContents: newContents [
 ]
 
 { #category : #accessing }
-TextFieldPart >> textField [ 
-
-	^ textField 
-]
-
-{ #category : #accessing }
 TextFieldPart >> textFieldHorizontalSize: anInteger [ 
 
-	textField 
-		hResizing: #rigid;
-		width: anInteger .
+	self horizontalSize: anInteger. .
 ]
 
 { #category : #accessing }

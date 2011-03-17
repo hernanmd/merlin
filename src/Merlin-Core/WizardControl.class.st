@@ -33,11 +33,10 @@ Class {
 	#instVars : [
 		'currentPane',
 		'wizardPanes',
-		'builder',
 		'wizardInformations',
-		'dialogWindow',
 		'branches',
-		'finalActionBlock'
+		'finalActionBlock',
+		'renderer'
 	],
 	#category : #'Merlin-Core'
 }
@@ -72,22 +71,9 @@ WizardControl >> branches [
 ]
 
 { #category : #accessing }
-WizardControl >> builder [ 
-
-	^ builder
-]
-
-{ #category : #accessing }
 WizardControl >> currentPane [ 
 
 	^ self wizardPanes at: currentPane.
-]
-
-{ #category : #accessing }
-WizardControl >> dialogWindow [
-	"return the dialog window of this WizardControl. This dialog window is common to all the panes composing the wizard so that each pane can be open at the same position"
-	
-	^ dialogWindow 
 ]
 
 { #category : #accessing }
@@ -122,11 +108,6 @@ WizardControl >> information: aSymbol withValue: value [
 WizardControl >> initialize [
 	
 	super initialize.
-	builder := StandardWindow new.
-	
-	dialogWindow :=  PluggableDialogWindow new.
-	dialogWindow contentMorph: (dialogWindow newColumn: {   }).
-	
 	wizardInformations := Dictionary new.
 	branches := OrderedCollection new add: OrderedCollection new; yourself.
 	wizardPanes := branches at: 1.
@@ -142,7 +123,8 @@ WizardControl >> open [
 	
 	wizardPanes isEmpty ifTrue: [ ^ self ].
 	currentPane := 1.
-	(wizardPanes at: currentPane) open
+	(wizardPanes at: currentPane) doOpen.
+	self renderer open: self.
 ]
 
 { #category : #obsolete }
@@ -156,25 +138,25 @@ WizardControl >> openFirstWizardPane [
 WizardControl >> performNextButtonAction [
 	"this method is run when a next button is pressed"
 	
-	(wizardPanes at: currentPane) close.
+	(wizardPanes at: currentPane) doClose.
 	currentPane := currentPane  + 1.
-	(wizardPanes at: currentPane ) open. 
+	(wizardPanes at: currentPane ) doOpen. 
 ]
 
 { #category : #'wizard panes transition' }
 WizardControl >> performPreviousButtonAction [
 	"this method is run when a previous button is pressed"
 	
-	(wizardPanes at: currentPane) close.
+	(wizardPanes at: currentPane) doClose.
 	currentPane := currentPane  - 1.
-	(wizardPanes at: currentPane ) open. 
+	(wizardPanes at: currentPane ) doOpen. 
 ]
 
 { #category : #'wizard panes transition' }
 WizardControl >> performTerminateButtonAction [
 	"by default, just close the last current pane. Override this method if you want to create a subclass of WizardControl making a specific action"
 	
-	(wizardPanes at: currentPane) close.
+	(wizardPanes at: currentPane) doClose.
 	self finalActionBlock ifNotNil: [
 		self finalActionBlock value: self wizardInformations
 		].
@@ -192,6 +174,18 @@ WizardControl >> removePaneAt: anIndex [
 	^ self wizardPanes remove: tmpPane.
 	
 	
+]
+
+{ #category : #accessing }
+WizardControl >> renderer [
+
+	^ renderer ifNil: [^ renderer := MerlinMorphicWizardRenderer new].
+]
+
+{ #category : #accessing }
+WizardControl >> renderer: aMerlinRenderer [
+
+	renderer := aMerlinRenderer new
 ]
 
 { #category : #'addition / removal' }

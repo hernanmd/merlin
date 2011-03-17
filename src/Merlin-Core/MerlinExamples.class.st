@@ -150,6 +150,37 @@ MerlinExamples class >> compositeWithParametrizedParts [
 ]
 
 { #category : #'basic examples' }
+MerlinExamples class >> itemsSelectorPart [
+	"self itemsSelectorPart"
+
+	| wizardControl  wizardPane1 wizardPane2  itemsSelectorsPart listPart  |
+	wizardControl := WizardControl new.
+	wizardPane1 := WizardFirstPane new.
+	wizardPane2 := WizardLastPane new.
+	
+	itemsSelectorsPart := ItemSelectorPart  new
+							initialList: #(item1 item2 item3 item4);
+							yourself.
+							
+	listPart := ListPart new
+					initialList: [:requiredInputs | 
+						(requiredInputs at: #selectedItems)
+						];
+					yourself.
+		
+	wizardPane1 row: itemsSelectorsPart associatedTo: #selectedItems.	
+	wizardPane2 row: listPart requiring: {#selectedItems}.
+		
+	wizardControl 
+		addPane: wizardPane1;
+		addPane: wizardPane2. 
+		
+	wizardControl open. 
+	
+	
+]
+
+{ #category : #'basic examples' }
 MerlinExamples class >> modifyingWizardStructureInCallbacks [
 
 	"self modifyingWizardStructureInCallbacks"
@@ -203,6 +234,128 @@ MerlinExamples class >> modifyingWizardStructureInChooseFilePartCallbacks [
 	wizard open.
 ]
 
+{ #category : #'basic examples' }
+MerlinExamples class >> multiCheckBoxesPart [
+	"self multiCheckBoxesPart"
+
+	| wizardControl  wizardPane1 wizardPane2  checkboxesPart textFieldPart textPart |
+	wizardControl := WizardControl new.
+	wizardPane1 := WizardFirstPane new.
+	wizardPane2 := WizardLastPane new.
+	
+	checkboxesPart := MultiCheckboxesPart  new
+							labels: {'first checkbox'. 'second checkbox'. 'third checkbox'. 'fourth checkbox'};
+							yourself.
+							
+	textPart := TextPart new
+					defaultValue: [:requiredInputs | 
+						|string|
+						string := ''.
+						(requiredInputs at: #selectedLabels) do: [:anAssoc |
+							anAssoc value ifTrue: [
+								string := string, ' ',anAssoc key
+								].
+							].
+						string
+						].
+		
+	wizardPane1 column: checkboxesPart associatedTo: #selectedLabels.	
+	wizardPane2 column: textPart requiring: {#selectedLabels}.
+		
+	wizardControl 
+		addPane: wizardPane1;
+		addPane: wizardPane2. 
+		
+	wizardControl open. 
+	
+	
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> multiCheckBoxesPartWithCallback [
+	"self multiCheckBoxesPartWithCallback"
+
+	"| wizardControl  wizardPane1 wizardPane2  checkboxesPart textFieldPart textPart |
+	wizardControl := WizardControl new.
+	wizardPane1 := WizardSinglePane new.
+	
+	checkboxesPart := MultiCheckboxesPartBisBis  new
+							labels: {'select/deselect all other checkboxes'. 'normal checkbox'. 'normal checkbox'. 'normal checkbox'};
+							callback: [:output :wizardPart | 
+							];
+							yourself.
+						
+		
+	wizardPane1 row: checkboxesPart associatedTo: #selectedLabels.	
+		
+	wizardControl 
+		addPane: wizardPane1.
+		
+	wizardControl open. "
+	
+	
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> multiDependentCheckboxesPart [
+	"self multiDependentCheckboxesPart"
+
+	| wizardControl  wizardPane1 wizardPane2  checkboxesPart textFieldPart textPart |
+	wizardControl := WizardControl new.
+	wizardPane1 := WizardSinglePane new.
+	
+	checkboxesPart := MultiDependentCheckboxesPart  new
+							labelsAndDependencies: (Dictionary new
+								at: #label1 put: {#label3. #label2};
+								at: #label2 put: {#label3};
+								at: #label3 put: #();
+								yourself
+							);
+							yourself.
+							
+
+		
+	wizardPane1 row: checkboxesPart associatedTo: #selectedLabels.	
+		
+	wizardControl 
+		addPane: wizardPane1.
+		
+	wizardControl open. 
+	
+	
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> multiSelectionItemsSelectorPart [
+	"self multiSelectionItemsSelectorPart"
+
+	| wizardControl  wizardPane1 wizardPane2  itemsSelectorsPart listPart  |
+	wizardControl := WizardControl new.
+	wizardPane1 := WizardFirstPane new.
+	wizardPane2 := WizardLastPane new.
+	
+	itemsSelectorsPart := MultiSelectionItemSelectorPart new
+							initialList: #(item1 item2 item3 item4);
+							yourself.
+							
+	listPart := ListPart new
+					initialList: [:requiredInputs | 
+						(requiredInputs at: #selectedItems)
+						];
+					yourself.
+		
+	wizardPane1 row: itemsSelectorsPart associatedTo: #selectedItems.	
+	wizardPane2 row: listPart requiring: {#selectedItems}.
+		
+	wizardControl 
+		addPane: wizardPane1;
+		addPane: wizardPane2. 
+		
+	wizardControl open. 
+	
+	
+]
+
 { #category : #'complete examples' }
 MerlinExamples class >> numericalOperationsExample [
 	"self numericalOperationsExample"
@@ -217,13 +370,13 @@ MerlinExamples class >> numericalOperationsExample [
 	wizardControl addPane: middlePane.
 	wizardControl addPane: lastPane.
 	
-	firstNumberDropList := NumberSelectorPart new
+	firstNumberDropList := DropListPart new
 								list: #(1 2 3 4 5 6 7 8 9);
 								useLatePopulateContents: false.
-	operatorDropList := OperatorSelectorPart new
+	operatorDropList := DropListPart new
 								list: #(+ - * / );
 								useLatePopulateContents: false.
-	secondNumberDropList := NumberSelectorPart new
+	secondNumberDropList := DropListPart new
 								list: #(1 2 3 4 5 6 7 8 9);
 								useLatePopulateContents: false.
 								
@@ -436,10 +589,9 @@ MerlinExamples class >> parametrizedPrefixedSuffixedTextFields [
 	
 	firstTextFieldPart := TextFieldPart  new
 									inGroupboxNamed: 'yop';
-									defaultValue: 'default';
+									textEntryContents: 'default';
 									prefix: 'Enter text here : ';
 									textFieldHorizontalSize: 100;
-									useLatePopulateContents: false;
 									yourself.
 									
 	secondTextFieldPart := TextFieldPart  new
@@ -488,6 +640,37 @@ MerlinExamples class >> parametrizedTextFields [
 		
 	wizardControl 
 		addPane: wizardPane1 ; 
+		addPane: wizardPane2.
+		
+	wizardControl open. 
+	
+	
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> radioButtonsPart [
+	"self radioButtonsPart"
+
+	| wizardControl  wizardPane1 wizardPane2  radioButtonsPart textPart  |
+	wizardControl := WizardControl new.
+	wizardPane1 := WizardFirstPane new.
+	wizardPane2 := WizardLastPane new.
+	
+	radioButtonsPart := RadioButtonsPart  new
+							options: {#a. #b. #c};
+							yourself.
+						
+	textPart := TextPart new
+					defaultValue: [:requiredInputs |
+						requiredInputs at: #optionSelected
+						];
+					yourself.
+		
+	wizardPane1 row: radioButtonsPart associatedTo: #optionSelected.
+	wizardPane2 row: textPart requiring: {#optionSelected}.	
+		
+	wizardControl 
+		addPane: wizardPane1;
 		addPane: wizardPane2.
 		
 	wizardControl open. 
@@ -639,10 +822,16 @@ MerlinExamples class >> usingRowsAndColumns [
 		row: [:r | 
 			r column: (TextFieldPart inGroupboxNamed: 'On my right: a DropList') ; column: (DropListPart new list: #(1 2 3 4 5); inGroupboxNamed: 'on my left: a textField')			
 			];
-		row: (TextPart on: 'I should be alone in the second row' inGroupBoxNamed: 'yep').
+		row: (TextPart new
+				text:  'I should be alone in the second row';
+				inGroupboxNamed: 'yep';
+				yourself
+				).
 		
 	wizardPane2 
-		column: (TextPart on: 'I should be alone in the first column' inGroupBoxNamed: 'yep');
+		column: (TextPart new text: 'I should be alone in the first column';
+					 inGroupboxNamed: 'yep';
+					yourself);
 		column: [:r | 
 			r row: (TextFieldPart inGroupboxNamed: 'Below me: a DropList') ; row: (DropListPart new list: #(1 2 3 4 5); inGroupboxNamed: 'On top of me: a textField')			
 			].

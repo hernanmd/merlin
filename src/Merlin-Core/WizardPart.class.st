@@ -1,7 +1,7 @@
 "
 A WizardPart is an abstract class which represents a part of a WizardPane. It only provides one output (information), in other words, it deals with a maximum of one information to retrieve.However, a wizardPane can maybe deal with several output informations and should therefore be composed by several WizardPart.On the other hand, a WizardPart can require several input informations.
 
-WizardPart is an abstract class that you should be subclassed to create your own component in the pane. It's up to you to build the morph contents of a WizardPart (even if some tools to create basic elements are provided by the abstract class). And it's up to you to specify what is the information you want to retrieve from this interface: to do that, you only have to implement the abstrat method 'outputValue' and put into the value you want to transmit (for example, if your wizardpart is composed by a simple drop list you may want to transmit the value of the item selected).
+WizardPart is an abstract class that you should subclass to create your own component in the pane. It's up to you to build the morph contents of a WizardPart (even if some tools to create basic elements are provided by the abstract class). And it's up to you to specify what is the information you want to retrieve from this interface: to do that, you only have to implement the abstrat method 'outputValue' and put into the value you want to transmit (for example, if your wizardpart is composed by a simple drop list you may want to transmit the value of the item selected).
 You may also want to override the method 'retrieveRequiredInput' to retrieve some informations and make what you want with it(by default it does nothing). This method is called by the wizardPane before each pane opening.
 
 Instance Variables
@@ -36,7 +36,10 @@ Class {
 		'useLatePopulateContents',
 		'numberOfContentCalls',
 		'numberOfPopulateContents',
-		'paneLine'
+		'paneLine',
+		'output',
+		'isOpen',
+		'hasBeenOpen'
 	],
 	#category : #'Merlin-Core'
 }
@@ -111,10 +114,24 @@ WizardPart >> enableNextButtonValue [
 
 ]
 
-{ #category : #'initialize-release' }
-WizardPart >> groupBoxName [  
+{ #category : #accessing }
+WizardPart >> groupBoxName [ 
+		
+	groupBoxName 
+		ifNotNilDo: [:aStringOrABlock | ^ aStringOrABlock meValue: self requiredInputs ].
+	^ groupBoxName 
+]
 
-	^ groupBoxName. 
+{ #category : #accessing }
+WizardPart >> hasBeenOpen [
+
+	^ hasBeenOpen
+]
+
+{ #category : #accessing }
+WizardPart >> hasBeenOpen: trueOrFalse [
+
+	hasBeenOpen := trueOrFalse
 ]
 
 { #category : #actions }
@@ -137,9 +154,29 @@ WizardPart >> initialize [
 	requiredInputs := Dictionary new.
 	"by default, a wizard part doesn't require anything to enable the next button of the wizard pane"
 	self enableNextButton.
+	self isOpen: false.
+	self hasBeenOpen: false.
 	callbackBlock := [:outputValue | ].
 	useLatePopulateContents := true.
 	numberOfPopulateContents := 0.
+]
+
+{ #category : #'initialize-release' }
+WizardPart >> initializeDefault [
+
+	"implement this method to initialize you part according the default value specified by 'defaultValue:'. This method will be executed only one time when opening the wizard. After that, your defaultValue will not be taken into account anyMore"
+]
+
+{ #category : #accessing }
+WizardPart >> isOpen [
+
+	^ isOpen
+]
+
+{ #category : #accessing }
+WizardPart >> isOpen: trueOrFalse [
+
+	isOpen := trueOrFalse
 ]
 
 { #category : #accessing }
@@ -407,6 +444,13 @@ WizardPart >> outputValue [
 	self subclassResponsibility
 ]
 
+{ #category : #'*Merlin-Rendering' }
+WizardPart >> outputValue: anObject [
+
+	"populate the output value of a wizardPart with aObject. Will be used by the rendering package"
+	output := anObject
+]
+
 { #category : #accessing }
 WizardPart >> paneLine [ 
 	"return the paneLine in which this part has been defines"
@@ -432,6 +476,12 @@ WizardPart >> populateContents: aCollectionOfMorphElement [
 		
 	aCollectionOfMorphElement do: [:each | blockContents addMorphBack: each ].
 	^blockContents
+]
+
+{ #category : #accessing }
+WizardPart >> renderer [
+
+	^ self wizardPane renderer
 ]
 
 { #category : #actions }
@@ -475,13 +525,19 @@ WizardPart >> useLatePopulateContents: trueOrFalse [
 	useLatePopulateContents := trueOrFalse. 
 ]
 
-{ #category : #buttons }
+{ #category : #accessing }
+WizardPart >> valueOf: anObject [
+
+	^ anObject meValue: self requiredInputs
+]
+
+{ #category : #accessing }
 WizardPart >> wizardPane [ 
 	"return the wizard pane controling this wizard part"
 	^wizardPane 
 ]
 
-{ #category : #buttons }
+{ #category : #accessing }
 WizardPart >> wizardPane: aWizardPane [ 
 	"set the wizard pane controling this wizard part"
 	^wizardPane := aWizardPane 

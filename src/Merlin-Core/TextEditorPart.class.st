@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'contents',
 		'textEditorContents',
-		'textEditor'
+		'horizontalSize',
+		'verticalSize'
 	],
 	#category : #'Merlin-Parts'
 }
@@ -21,40 +22,29 @@ TextEditorPart class >> inGroupboxNamed: aString defaultText: anotherString [
 	^ super new initializeInGroupboxNamed: aString withDefaultText: anotherString ; yourself.
 ]
 
-{ #category : #'initialize-release' }
-TextEditorPart >> initializeInGroupboxNamed: aString [
+{ #category : #accessing }
+TextEditorPart >> horizontalSize [
 
-	super initialize.
-	self populateContents: {
-		self newGroupboxNamed: aString With:
-			self newTextEditor. 
-	}
+	^ horizontalSize
 ]
 
-{ #category : #'initialize-release' }
-TextEditorPart >> initializeInGroupboxNamed: aString withDefaultText: anotherString [
+{ #category : #accessing }
+TextEditorPart >> horizontalSize: anInteger [
 
-	self initializeInGroupboxNamed: aString.
-	self textEditorContents: anotherString .
-	
+	horizontalSize := anInteger
 ]
 
-{ #category : #'morph content setup tools' }
-TextEditorPart >> newTextEditor [
+{ #category : #'*Merlin-Rendering' }
+TextEditorPart >> merlinRendering [
 
-	^ textEditor := (self newTextEditorFor: self getText: #textEditorContents setText: #textEditorContents:)
-		hResizing: #spaceFill;
-		vResizing: #spaceFill;
-		yourself
-		
-
+	^ self renderer merlinTextEditorRenderingFor: self
 ]
 
 { #category : #'accessing - wizard mangement' }
 TextEditorPart >> outputValue [
 
 	"^ self textEditorContents."
-	^ (ObjectStringConverter forClass: String) stringAsObject: textEditor textMorph asText asString
+	^ textEditorContents 
 ]
 
 { #category : #'text editor control' }
@@ -71,15 +61,23 @@ TextEditorPart >> textEditorContents: newContents [
 { #category : #accessing }
 TextEditorPart >> textEditorHorizontalSize: anInteger [ 
 
-	textEditor 
-		hResizing: #rigid;
-		width: anInteger .
+	self horizontalSize: anInteger.
 ]
 
 { #category : #accessing }
 TextEditorPart >> textEditorVerticalSize: anInteger [ 
 
-	textEditor 
-		vResizing: #rigid;
-		height: anInteger .
+	self verticalSize: anInteger.  
+]
+
+{ #category : #accessing }
+TextEditorPart >> verticalSize [
+
+	^ verticalSize
+]
+
+{ #category : #accessing }
+TextEditorPart >> verticalSize: anInteger [
+
+	verticalSize := anInteger
 ]

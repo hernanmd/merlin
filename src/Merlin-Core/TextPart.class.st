@@ -14,20 +14,6 @@ TextPart class >> on: blockOrStringText inGroupBoxNamed: groupBoxName [
 	^ super new initializeWith: blockOrStringText inGrouopboxNamed: groupBoxName;yourself. 
 ]
 
-{ #category : #'accessing - wizard mangement' }
-TextPart >> contents [
-
-	self latePopulateContents.
-	^ blockContents.  
-]
-
-{ #category : #'initialize-release' }
-TextPart >> initializeWith: blockOrStringText inGrouopboxNamed: anotherString [
-	
-	groupBoxName := anotherString .
-	partValue := blockOrStringText .
-]
-
 { #category : #private }
 TextPart >> latePopulateContents [
 
@@ -45,19 +31,15 @@ TextPart >> latePopulateContents [
 		ifTrue: [
 			|default|
 			default := defaultValue meValue: self requiredInputs.
-			groupBoxName 
-				ifNotNilDo: [:aStringOrABlock |self populateContents: {self newGroupboxNamed: (aStringOrABlock meValue: self requiredInputs)  With: (self newText: self text)}.]
-				ifNil: [self populateContents: {self newText: self text}].
-	
+			default ifNotNil: [self text: default.]
 			]
 	
 ]
 
-{ #category : #'accessing - wizard mangement' }
-TextPart >> morphContents [
+{ #category : #'*Merlin-Rendering' }
+TextPart >> merlinRendering [
 
-	self latePopulateContents.
-	^ blockContents.  
+	^ self renderer merlinTextRenderingFor: self.
 ]
 
 { #category : #'accessing - wizard mangement' }
@@ -76,5 +58,4 @@ TextPart >> text [
 TextPart >> text: aString [
 	
 	text := aString.
-	self populateContents: { self newGroupboxNamed: groupBoxName  With: (self newText: aString) }
 ]

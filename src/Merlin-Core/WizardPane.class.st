@@ -1,5 +1,5 @@
 "
-A WizardPane is an abstract which represents a 'page' that will be displayed in a Wizard. A wizardPane doesn't contain any morph imformation itself: It is composed by several WizardParts, each one containing a specific morph contents. A wizardpane only provide the common set of buttons to naviguate between the panes ('next', 'previous' , 'cancel' , 'terminate' ). It also make the transmission between the wizardParts input and outputs and the WizardControl in which the values are stored.
+A WizardPane is an abstract class which represents a 'page' that will be displayed in a Wizard. A wizardPane doesn't contain any morph imformation itself: It is composed by several WizardParts, each one containing a specific morph contents. A wizardpane only provide the common set of buttons to naviguate between the panes ('next', 'previous' , 'cancel' , 'terminate' ). It also make the transmission between the wizardParts input and outputs and the WizardControl in which the values are stored.
 
 Instance Variables
 	partsAndInformationsAssociated:		<Dictionary>
@@ -34,7 +34,8 @@ Class {
 		'name',
 		'displayLayout',
 		'mainPaneLine',
-		'isOpen'
+		'isOpen',
+		'renderer'
 	],
 	#category : #'Merlin-Core'
 }
@@ -49,7 +50,7 @@ WizardPane class >> named: aString [
 WizardPane >> adaptSize [
 	"Adapt the size of the window to its contents. Usefull when you dynamically add elements to your window. (In fact simply re-open the window)"
 	
-	self builder openModal: self dialogWindow.
+	"self builder openModal: self dialogWindow."
 ]
 
 { #category : #'addition-removal' }
@@ -82,64 +83,11 @@ WizardPane >> addPart: aWizardPart associatedTo: aSymbol requiring: aCollectionO
 	
 ]
 
-{ #category : #updating }
-WizardPane >> applyChanges [
-	"make sure that all changes become visible in the frame"
-	
-	| contentMorph |
-	contentMorph := self dialogWindow contentMorph.
-	contentMorph notNil
-		ifTrue: [self dialogWindow contentMorph: contentMorph; model: nil].
-	
-]
-
-{ #category : #'morph creation' }
-WizardPane >> backSign [
-	^ '<< Back'
-]
-
-{ #category : #'private - actions' }
-WizardPane >> buildDialogWindow [
-	"this method fill in the contents of the dialog window with all the WizardPart morph contents. Each wizardPart will be displayed one under the other."
-	
-	
-	"self contents:  (partsGroups collect: [:aPaneAbstractLine |  aPaneAbstractLine morphContents])."
-	self dialogWindow  contentMorph: mainPaneLine morphContents.
-	self applyChanges 
-	
-	
-	
-	"| blocksContents rightBlocksContents |
-	blocksContents := wizardParts collect: [ :each | each contents].
-	rightBlocksContents := wizardRightParts collect: [ :each | each contents].
-	rightBlocksContents 
-		ifEmpty: [self contents: blocksContents asOrderedCollection.]
-		ifNotEmpty: [self leftContents: blocksContents asOrderedCollection rightContents: rightBlocksContents asOrderedCollection.].
-	
-	self applyChanges."
-]
-
-{ #category : #accessing }
-WizardPane >> builder [
-	"return the builder stored in the WizardControl"
-	
-	^ self wizardControl builder.
-]
-
-{ #category : #'private - accessing' }
-WizardPane >> buttons: aCollectionOfButtons [
-	"set the value of the buttons that will be visible at the right end of the WizardPane "
-	
-	self dialogWindow buttons: aCollectionOfButtons.
-	self applyChanges.
-	
-]
-
 { #category : #actions }
 WizardPane >> cancelButtonAction [
 	"represent the action to execute when the cancel button is pressed"
 	
-	self dialogWindow close.
+
 ]
 
 { #category : #actions }
@@ -148,13 +96,6 @@ WizardPane >> checkForEnablingNextButton [
 	
 	wizardParts detect: [:each | each enableNextButtonValue = false ] ifNone: [^ self enableNextButton ].
 	self disableNextButton.
-]
-
-{ #category : #'window control' }
-WizardPane >> close [
-	
-	isOpen := false.
-	self dialogWindow close.
 ]
 
 { #category : #'addition-removal' }
@@ -211,6 +152,26 @@ WizardPane >> column: aWizardPart associatedTo: aSymbol requiring: aCollectionOf
 	
 ]
 
+{ #category : #'addition-removal' }
+WizardPane >> column: aWizardPart requiring: aCollectionOfSymbols [
+
+	"use this method to add a part (using aBlockOrAPart as a WizardPart) or several parts (using aBlockOrAPart as a block ([:row | row column: aPart ; column: anotherPart]) ) to the pane, in a new row. You should always manage the layout of the pane in the same way: you decide to divide the pane in rows and for each row you can add several columns. In this case you will always use a method begining with 'way'. If you decide to divide you pane in columns, you will always use a method begining with: 'column:'. If you try another way to dispatch the parts, the order you might want will not be guaranteed "
+
+	mainPaneLine 
+		ifNotNilDo: [:aPaneRow |
+			aPaneRow column: aWizardPart 
+			]  
+		ifNil: [
+			mainPaneLine := PaneRow fromPane: self.
+			mainPaneLine column: aWizardPart 
+			].
+		
+	"we now focus on the information management (made by the is wizardPane itself): "
+	self setPart: aWizardPart  requiring: aCollectionOfSymbols
+		
+	
+]
+
 { #category : #'private - accessing' }
 WizardPane >> contents: aCollectionOfMorphElements [ 
 	"fill in the morph contents of the dialog window with morphs from aCollectionOfMorpElements. aCollectionOfMorpElements represent the morph contents of all wizard parts composing this wizardPane. Used in the method open. Each element will be diplayed one under the other"
@@ -239,23 +200,9 @@ WizardPane >> contents: aCollectionOfMorphElements [
 	
 ]
 
-{ #category : #accessing }
-WizardPane >> dialogWindow [ 		
-	"return the common dialog window store ine the wizard control"
-	
-	^self wizardControl dialogWindow.
-]
-
 { #category : #actions }
 WizardPane >> disableNextButton [
 	"by default (if no next button is defined, do nothing)"
-]
-
-{ #category : #'private - actions' }
-WizardPane >> displayButtons [
-	"add buttons to the dialogWindow. each subclass know which buttons have to be added to their dialogWindow"
-	
-	self subclassResponsibility
 ]
 
 { #category : #actions }
@@ -283,14 +230,87 @@ WizardPane >> distributeRequiredInputsOf: aWizardPart [
 	
 ]
 
-{ #category : #actions }
-WizardPane >> enableNextButton [
-	"by default (if no next button is define, do nothing)"
+{ #category : #'window control' }
+WizardPane >> doClose [
+	
+	isOpen := false.
+	self doCloseWizardParts.
 ]
 
-{ #category : #'morph creation' }
-WizardPane >> forwardSign [
-	^ 'Next >>'
+{ #category : #'window control' }
+WizardPane >> doCloseWizardParts [
+
+	self wizardParts do: [:aWizardPart |
+		aWizardPart isOpen: false.
+		]
+	
+
+	
+]
+
+{ #category : #'window control' }
+WizardPane >> doOpen [
+	"open this pane. To do that, we make sure that all the WizardParts retrieve the inputs they require"
+	
+	
+	self distributeRequiredInputs.
+	"now we populate the morph contents of each wizard part. To do that, we work on a copy of wizardPart. Indeed, populate the morph content pf a part can lauch a callback, which can add some parts to this pane. To avoid loosing informations (by iterating an a growing collection), we first iterate on a copy, and then do the job for the remaining parts "
+	wizardParts copy do: [ :each | 
+		self distributeRequiredInputsOf: each.
+		each retrieveInputRequired.
+		self populateContentsOf: each.
+		"self retrieveOutputOf: each"
+		 ].
+	self populatePartsRemaining. 
+	"self  buildDialogWindow.
+	self displayButtons.
+	self checkForEnablingNextButton."
+	"wizardControl dialogWindowName: name."
+	isOpen := true.
+	self doOpenWizardParts
+	"self builder openModal: self dialogWindow."
+	
+	
+
+	
+]
+
+{ #category : #'window control' }
+WizardPane >> doOpenWithoutPopulatingNonEmptyPartContents [
+	"open this pane. To do that, we make sure that all the WizardParts retrieve the inputs they require and then"
+	
+	self distributeRequiredInputs .
+	wizardParts do: [ :each | 
+		each retrieveInputRequired.
+		each hasBeenOpen ifFalse: [
+			self populateContentsOf: each.
+			each isOpen: true.
+			].
+		"each morphContents isNil ifTrue: [self populateContentsOf: each]"
+		 ].
+	self populatePartsRemaining. 
+	"self  buildDialogWindow.
+	self displayButtons.
+	self checkForEnablingNextButton.
+	wizardControl dialogWindowName: name.
+	self builder openModal: self dialogWindow."
+	
+]
+
+{ #category : #'window control' }
+WizardPane >> doOpenWizardParts [
+
+	self wizardParts do: [:aWizardPart |
+		aWizardPart isOpen: true.
+		aWizardPart hasBeenOpen: true.
+		]
+	
+
+	
+]
+
+{ #category : #actions }
+WizardPane >> enableNextButton [
 ]
 
 { #category : #actions }
@@ -318,7 +338,6 @@ WizardPane >> initialize [
 	partsAndInformationsAssociated := Dictionary new.
 	partsAndRequiredInformations := Dictionary new.	
 	wizardParts := OrderedCollection new.
-	cancelButton := self newCancelButton.
 	
 ]
 
@@ -331,25 +350,16 @@ WizardPane >> inputRequiredBy: aWizarPart [
 	^ informationsRequired collect: [ :each | self wizardControl valueOfInformation: each ]
 ]
 
-{ #category : #'private - accessing' }
-WizardPane >> leftContents: aCollectionOfMorphElements rightContents: anotherCollectionOfMorph [
-	"fill in the morph contents of the dialog window with morphs from aCollectionOfMorpElements. aCollectionOfMorpElements represent the morph contents of all wizard parts composing this wizardPane. Used in the method open. Each element will be diplayed one under the other"
-	
-	|globalContents leftContents rightContents|
-	leftContents := self newColumnWith: aCollectionOfMorphElements.
-	rightContents := self newColumnWith: anotherCollectionOfMorph .
-	
-	globalContents := self newRowWith: {leftContents. rightContents}.
-	self dialogWindow  contentMorph: globalContents.
-	^globalContents
-
-	
-]
-
 { #category : #'accessing - main pane line' }
 WizardPane >> mainPaneLine [ 
 
 	^ mainPaneLine 
+]
+
+{ #category : #'*merlin-rendering' }
+WizardPane >> merlinSpecificRenderer [
+
+	^ self subclassResponsability
 ]
 
 { #category : #accessing }
@@ -362,67 +372,6 @@ WizardPane >> name [
 WizardPane >> name: aString [
 
 	name := aString
-]
-
-{ #category : #'contents setup tools' }
-WizardPane >> newButtonNamed: aString withAction: selector [
-	"use this method to create a new classic button that will execute the method designed by selector when clicked. The method selector must be defined and implemented."
-	
-	| button |
-	button := PluggableButtonMorphPlus on: self getState: nil action: selector.
-	button label: aString.
-	^button
-]
-
-{ #category : #'morph creation' }
-WizardPane >> newCancelButton [
-	"Each kind of pane contain a cancel button that enable to close the dialog window"
-
-	cancelButton := self newButtonNamed: 'Cancel' withAction: #cancelButtonAction.
-	^cancelButton
-]
-
-{ #category : #'morph creation' }
-WizardPane >> newColumnWith: aCollectionOfMorphElements [
-	"use this method to create a new column in your block"
-	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
-	
-	|answer|
-	answer := PanelMorph new
-		hResizing: #spaceFill;
-		vResizing: #spaceFill;
-		fillStyle: Color transparent; "non pane color tracking"
-		changeTableLayout;
-		cellInset: 8; yourself.
-	aCollectionOfMorphElements do: [:m | answer addMorphBack: m].
-	^answer
-]
-
-{ #category : #'morph creation' }
-WizardPane >> newNextButton [
-	^ self newButtonNamed: self forwardSign withAction: #nextButtonAction
-]
-
-{ #category : #'morph creation' }
-WizardPane >> newPreviousButton [
-	^ self newButtonNamed: self backSign withAction: #previousButtonAction
-]
-
-{ #category : #'morph creation' }
-WizardPane >> newRowWith: aCollectionOfMorphElements [
-	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
-	"use this method to create a new row in your block"
-	
-	|answer|
-	answer := PanelMorph new
-		hResizing: #spaceFill;
-		vResizing: #shrinkWrap;
-		fillStyle: Color transparent; "non pane color tracking"
-		changeTableLayout;
-		listDirection: #leftToRight;
-		cellInset: 8; yourself.
-	aCollectionOfMorphElements do: [:m | answer addMorphBack: m].
-	^answer
 ]
 
 { #category : #actions }
@@ -446,32 +395,6 @@ WizardPane >> notifyPartsMightHaveChanged [
 WizardPane >> numberOfSubComponents [ 
 
 	^ self mainPaneLine numberOfSubComponents 
-]
-
-{ #category : #'window control' }
-WizardPane >> open [
-	"open this pane. To do that, we make sure that all the WizardParts retrieve the inputs they require and then, we display their morph contents"
-	
-	
-	self distributeRequiredInputs.
-	"now we populate the morph contents of each wizard part. To do that, we work on a copy of wizardPart. Indeed, populate the morph content pf a part can lauch a callback, which can add some parts to this pane. To avoid loosing informations (by iterating an a growing collection), we first iterate on a copy, and then do the job for the remaining parts "
-	wizardParts copy do: [ :each | 
-		self distributeRequiredInputsOf: each.
-		each retrieveInputRequired.
-		self populateContentsOf: each.
-		"self retrieveOutputOf: each"
-		 ].
-	self populatePartsRemaining. 
-	self  buildDialogWindow.
-	self displayButtons.
-	self checkForEnablingNextButton.
-	wizardControl dialogWindowName: name.
-	isOpen := true.
-	self builder openModal: self dialogWindow.
-	
-	
-
-	
 ]
 
 { #category : #'window control' }
@@ -512,8 +435,8 @@ WizardPane >> populatePartsRemaining [
 	"Populating a first time all parts may launch some callbacks. Those callbacks can add several parts to the pane, and some of those parts can still have an empty contents. Here we populate all thos remaining empty parts "
 	self distributeRequiredInputs. 
 	wizardParts  do: [:aWizardPart |
-		aWizardPart morphContents isNil
-			ifTrue: [ 
+		aWizardPart hasBeenOpen
+			ifFalse: [ 
 				self distributeRequiredInputsOf: aWizardPart .
 				aWizardPart latePopulateContents.
 				]
@@ -533,7 +456,12 @@ WizardPane >> previousButtonAction [
 { #category : #updating }
 WizardPane >> refresh [
 
-	(isOpen = true) ifTrue: [self openWithoutPopulatingNonEmptyPartContents]
+	(isOpen = true) ifTrue: [
+		self doOpenWithoutPopulatingNonEmptyPartContents.
+		self renderer refresh.
+		].
+	
+	
 ]
 
 { #category : #'addition-removal' }
@@ -561,6 +489,27 @@ WizardPane >> removeWithouUnassociateSubComponentAt: anInteger [
 	self mainPaneLine removeWithouUnassociateSubComponentAt: anInteger.
 ]
 
+{ #category : #'*merlin-rendering' }
+WizardPane >> renderOnMerlinRenderer: aMerlinRenderer [
+
+	self renderer: self merlinSpecificRenderer.
+	^ self renderer wizardRenderer: aMerlinRenderer; render: self.
+
+	
+]
+
+{ #category : #'*merlin-rendering' }
+WizardPane >> renderer [
+
+	^ renderer
+]
+
+{ #category : #'*merlin-rendering' }
+WizardPane >> renderer: aMerlinRenderer [
+
+	renderer := aMerlinRenderer
+]
+
 { #category : #actions }
 WizardPane >> retrieveOutput: anInformationSymbol [
 
@@ -586,7 +535,6 @@ WizardPane >> retrievePartsOutputs [
 	
 	"The contents of a part might have been changed without the part itself know it (This is the case for a textField). So we first notify each of them that their contents mihgt have changed"
 	self notifyPartsMightHaveChanged.
-	
 	partsAndInformationsAssociated keysAndValuesDo: 
 		[ :key :value | 
 		self wizardControl 
@@ -655,6 +603,26 @@ WizardPane >> row: aWizardPart associatedTo: aSymbol requiring: aCollectionOfSym
 ]
 
 { #category : #'addition-removal' }
+WizardPane >> row: aWizardPart  requiring: aCollectionOfSymbols [
+
+	"use this method to add a part (using aBlockOrAPart as a WizardPart) or several parts (using aBlockOrAPart as a block ([:row | row column: aPart ; column: anotherPart]) ) to the pane, in a new row. You should always manage the layout of the pane in the same way: you decide to divide the pane in rows and for each row you can add several columns. In this case you will always use a method begining with 'way'. If you decide to divide you pane in columns, you will always use a method begining with: 'column:'. If you try another way to dispatch the parts, the order you might want will not be guaranteed "
+
+	mainPaneLine 
+		ifNotNilDo: [:aPaneColumn |
+			aPaneColumn row: aWizardPart 
+			]  
+		ifNil: [
+			mainPaneLine := PaneColumn fromPane: self.
+			mainPaneLine row: aWizardPart 
+			].
+		
+	"we now focus on the information management (made by the is wizardPane itself): "
+	self setPart: aWizardPart requiring: aCollectionOfSymbols
+		
+	
+]
+
+{ #category : #'addition-removal' }
 WizardPane >> setPart: aWizardPart [ 
 
 	wizardParts add: aWizardPart.
@@ -687,6 +655,17 @@ WizardPane >> setPart: aWizardPart associatedTo: aSymbol requiring: aCollectionO
 	
 ]
 
+{ #category : #'addition-removal' }
+WizardPane >> setPart: aWizardPart requiring: aCollectionOfSymbols [
+
+	self setPart: aWizardPart.
+	partsAndRequiredInformations 
+		at: aWizardPart
+		put: aCollectionOfSymbols.
+		
+	
+]
+
 { #category : #'accessing - main pane line' }
 WizardPane >> subComponentAt: anInteger [
 
@@ -708,9 +687,9 @@ WizardPane >> testOpen [
 		 ].
 	self populatePartsRemaining. 
 	"self  buildDialogWindow."
-	self displayButtons.
+	"self displayButtons.
 	self checkForEnablingNextButton.
-	wizardControl dialogWindowName: name.
+	wizardControl dialogWindowName: name."
 	isOpen := true.
 "	self builder openModal: self dialogWindow."
 	
@@ -740,4 +719,10 @@ WizardPane >> wizardControl [
 WizardPane >> wizardControl: aWizardControl [
 	"set the WizardControl controling this pane"
 	^ wizardControl := aWizardControl.
+]
+
+{ #category : #accessing }
+WizardPane >> wizardParts [
+
+	^ wizardParts
 ]

@@ -12,7 +12,7 @@ DropListPartTest >> testSelectedIndex [
 	self assert: dropListPart selectionIndex = 1.
 	self should: [dropListPart selectionIndex: 'test'] raise: Error.
 	self should: [dropListPart selectionIndex: 2] raise: Error.
-	dropListPart listContents: {'a'. 'b'}.
+	dropListPart list: {'a'. 'b'}.
 	dropListPart selectionIndex: 2.
 	
 ]

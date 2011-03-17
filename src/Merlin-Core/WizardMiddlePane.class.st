@@ -13,3 +13,9 @@ WizardMiddlePane >> displayButtons [
 	nextButton := self newNextButton.
 	self buttons: {cancelButton . self newPreviousButton . nextButton}.
 ]
+
+{ #category : #'*merlin-rendering' }
+WizardMiddlePane >> merlinSpecificRenderer [ 
+
+	^ MerlinMorphicMiddlePaneRenderer new .
+]
