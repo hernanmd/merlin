@@ -106,7 +106,7 @@ DropListPart >> outputValue [
 
 	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
 	(self list isNil not and: [self list isEmpty not])
-		ifTrue: [^ list at: self selectionIndex].
+		ifTrue: [^ self selectedItem].
 		
 	
 ]
@@ -133,6 +133,14 @@ DropListPart >> selectedItem [
 	^self selectionIndex = 0
 		ifTrue: [nil]
 		ifFalse: [self list at: self selectionIndex]
+]
+
+{ #category : #'list control' }
+DropListPart >> selectedItem: anItem [
+
+	(self includes: anItem) ifTrue: [
+		self selectionIndex: (self list indexOf: anItem)  
+		]
 ]
 
 { #category : #'list control' }

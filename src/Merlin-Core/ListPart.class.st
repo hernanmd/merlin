@@ -109,6 +109,14 @@ ListPart >> selectedItem [
 ]
 
 { #category : #listControl }
+ListPart >> selectedItem: anItem [
+
+	(self list includes: anItem) ifTrue: [
+		self selectionIndex: (self list indexOf: anItem)  
+		]
+]
+
+{ #category : #listControl }
 ListPart >> selectionIndex [
 	"Answer the value of selectionIndex"
 
