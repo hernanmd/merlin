@@ -185,7 +185,7 @@ WizardControl >> renderer [
 { #category : #accessing }
 WizardControl >> renderer: aMerlinRenderer [
 
-	renderer := aMerlinRenderer new
+	renderer := aMerlinRenderer
 ]
 
 { #category : #'addition / removal' }

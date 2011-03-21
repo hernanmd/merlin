@@ -11,15 +11,6 @@ Class {
 	#category : #'Merlin-Parts'
 }
 
-{ #category : #'as yet unclassified' }
-DropListPart class >> descriptionList [
-  ^ MAStringDescription new
-        accessor: #list;
-        label: #groupBoxName;
-        priority: 100;
-        yourself
-]
-
 { #category : #'instance creation' }
 DropListPart class >> on: aCollectionOfItems [ 
 	^ self new

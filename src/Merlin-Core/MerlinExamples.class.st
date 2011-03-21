@@ -4,12 +4,21 @@ Class {
 	#category : #'Merlin-Examples'
 }
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> chooseFilePart [
+	"self chooseFilePart"
+
+	^ self chooseFilePartUsing: MerlinMorphicWizardRenderer new
+	
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> chooseFilePartUsing: aMerlinRenderer [
 	"self chooseFilePart"
 
 	| wizardControl  wizardPane1  dropListPart checkboxPart textFieldPart compositePart |
 	wizardControl := WizardControl new.
+	wizardControl renderer: aMerlinRenderer.
 	wizardPane1 := WizardSinglePane new.
 	
 	checkboxPart := ChooseFilePart  new.
@@ -24,12 +33,22 @@ MerlinExamples class >> chooseFilePart [
 	
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> compositePart [
+	"self compositePart"
+
+	^ self compositePartUsing: MerlinMorphicWizardRenderer new
+	
+	
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> compositePartUsing: aMerlinRenderer [
 	"self compositePart"
 
 	| wizardControl  wizardPane1  dropListPart checkboxPart textFieldPart compositePart |
 	wizardControl := WizardControl new.
+	wizardControl renderer: aMerlinRenderer.
 	wizardPane1 := WizardSinglePane new.
 	
 	checkboxPart := CheckboxPart  new
@@ -62,12 +81,21 @@ MerlinExamples class >> compositePart [
 	
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> compositePartWithoutSpecifyingTabTitles [
+	"self compositePartWithoutSpecifyingTabTitles"
+
+	^ self compositePartWithoutSpecifyingTabTitlesUsing: MerlinMorphicWizardRenderer new
+	
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> compositePartWithoutSpecifyingTabTitlesUsing: aMerlinRenderer [
 	"self compositePartWithoutSpecifyingTabTitles"
 
 	| wizardControl  wizardPane1  dropListPart checkboxPart textFieldPart compositePart |
 	wizardControl := WizardControl new.
+	wizardControl renderer: aMerlinRenderer.
 	wizardPane1 := WizardSinglePane new.
 	
 	checkboxPart := CheckboxPart  new
@@ -100,13 +128,22 @@ MerlinExamples class >> compositePartWithoutSpecifyingTabTitles [
 	
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> compositeWithParametrizedParts [
+	"self compositeWithParametrizedParts"
+
+	^ self compositeWithParametrizedPartsUsing: MerlinMorphicWizardRenderer new    
+	
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> compositeWithParametrizedPartsUsing: aMerlinRenderer [
 	"self compositeWithParametrizedParts"
 
 	| wizardControl  wizardPane1  dropListPart checkboxPart textFieldPart compositePart mainPart |
 				
 	wizardControl := WizardControl new.
+	wizardControl renderer: aMerlinRenderer.
 	wizardPane1 := WizardSinglePane new.
 	mainPart := DropListPart new
 					list: #(true false);
@@ -149,12 +186,20 @@ MerlinExamples class >> compositeWithParametrizedParts [
 	
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> itemsSelectorPart [
+	"self itemsSelectorPart"
+
+	^ self itemsSelectorPartUsing: MerlinMorphicWizardRenderer new  
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> itemsSelectorPartUsing: aMerlinRenderer [
 	"self itemsSelectorPart"
 
 	| wizardControl  wizardPane1 wizardPane2  itemsSelectorsPart listPart  |
 	wizardControl := WizardControl new.
+	wizardControl renderer: aMerlinRenderer.
 	wizardPane1 := WizardFirstPane new.
 	wizardPane2 := WizardLastPane new.
 	
@@ -180,12 +225,20 @@ MerlinExamples class >> itemsSelectorPart [
 	
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> modifyingWizardStructureInCallbacks [
+
+	"self modifyingWizardStructureInCallbacks"
+	^ self modifyingWizardStructureInCallbacksUsing: MerlinMorphicWizardRenderer new
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> modifyingWizardStructureInCallbacksUsing: aMerlinRenderer [
 
 	"self modifyingWizardStructureInCallbacks"
 	|wizard|
 	wizard := WizardControl new.
+	wizard renderer: aMerlinRenderer.
 	wizard addPane: (
 		WizardFirstPane new
 			row: (
@@ -209,12 +262,20 @@ MerlinExamples class >> modifyingWizardStructureInCallbacks [
 	wizard open.
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> modifyingWizardStructureInChooseFilePartCallbacks [
+
+	"self modifyingWizardStructureInChooseFilePartCallbacks"
+	^ self modifyingWizardStructureInChooseFilePartCallbacksUsing: MerlinMorphicWizardRenderer new
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> modifyingWizardStructureInChooseFilePartCallbacksUsing: aRenderer [
 
 	"self modifyingWizardStructureInChooseFilePartCallbacks"
 	|wizard|
 	wizard := WizardControl new.
+	wizard renderer: aRenderer.
 	wizard addPane: (
 		WizardFirstPane new
 			row: (
@@ -234,12 +295,20 @@ MerlinExamples class >> modifyingWizardStructureInChooseFilePartCallbacks [
 	wizard open.
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> multiCheckBoxesPart [
+	"self multiCheckBoxesPart"
+
+	^ self multiCheckBoxesPartUsing: MerlinMorphicWizardRenderer new
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> multiCheckBoxesPartUsing: aRendrer [
 	"self multiCheckBoxesPart"
 
 	| wizardControl  wizardPane1 wizardPane2  checkboxesPart textFieldPart textPart |
 	wizardControl := WizardControl new.
+	wizardControl renderer: aRendrer.
 	wizardPane1 := WizardFirstPane new.
 	wizardPane2 := WizardLastPane new.
 	
@@ -271,7 +340,7 @@ MerlinExamples class >> multiCheckBoxesPart [
 	
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> multiCheckBoxesPartWithCallback [
 	"self multiCheckBoxesPartWithCallback"
 
@@ -297,11 +366,46 @@ MerlinExamples class >> multiCheckBoxesPartWithCallback [
 ]
 
 { #category : #'basic examples' }
+MerlinExamples class >> multiCheckBoxesPartWithCallbackUsing: aRenderer [
+	"self multiCheckBoxesPartWithCallback"
+
+	"| wizardControl  wizardPane1 wizardPane2  checkboxesPart textFieldPart textPart |
+	wizardControl := WizardControl new.
+	wizardPane1 := WizardSinglePane new.
+	
+	checkboxesPart := MultiCheckboxesPartBisBis  new
+							labels: {'select/deselect all other checkboxes'. 'normal checkbox'. 'normal checkbox'. 'normal checkbox'};
+							callback: [:output :wizardPart | 
+							];
+							yourself.
+						
+		
+	wizardPane1 row: checkboxesPart associatedTo: #selectedLabels.	
+		
+	wizardControl 
+		addPane: wizardPane1.
+		
+	wizardControl open. "
+	
+	
+]
+
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> multiDependentCheckboxesPart [
+	"self multiDependentCheckboxesPart"
+
+	^ self multiDependentCheckboxesPartUsing: MerlinMorphicWizardRenderer new
+	
+	
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> multiDependentCheckboxesPartUsing: aRenderer [
 	"self multiDependentCheckboxesPart"
 
 	| wizardControl  wizardPane1 wizardPane2  checkboxesPart textFieldPart textPart |
 	wizardControl := WizardControl new.
+	wizardControl renderer: aRenderer.
 	wizardPane1 := WizardSinglePane new.
 	
 	checkboxesPart := MultiDependentCheckboxesPart  new
@@ -325,12 +429,20 @@ MerlinExamples class >> multiDependentCheckboxesPart [
 	
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> multiSelectionItemsSelectorPart [
+	"self multiSelectionItemsSelectorPart"
+
+	^ self multiSelectionItemsSelectorPartUsing: MerlinMorphicWizardRenderer new  
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> multiSelectionItemsSelectorPartUsing: aRenderer [
 	"self multiSelectionItemsSelectorPart"
 
 	| wizardControl  wizardPane1 wizardPane2  itemsSelectorsPart listPart  |
 	wizardControl := WizardControl new.
+	wizardControl renderer: aRenderer.
 	wizardPane1 := WizardFirstPane new.
 	wizardPane2 := WizardLastPane new.
 	
@@ -400,12 +512,20 @@ MerlinExamples class >> numericalOperationsExample [
 	wizardControl open
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> parametrizedChexboxes [
+	"self parametrizedChexboxes"
+
+	^ self parametrizedChexboxesUsing: MerlinMorphicWizardRenderer new  
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> parametrizedChexboxesUsing: aRenderer [
 	"self parametrizedChexboxes"
 
 	| wizardControl  wizardPane1 wizardPane2 firstCheckBoxPart secondCheckBoxPart |
 	wizardControl := WizardControl new.
+	wizardControl renderer: aRenderer.
 	wizardPane1 := WizardFirstPane new.
 	wizardPane2 := WizardLastPane new.
 	
@@ -435,12 +555,22 @@ MerlinExamples class >> parametrizedChexboxes [
 	
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> parametrizedDropLists [
+	"self parametrizedDropLists"
+
+	^ self parametrizedDropListsUsing: MerlinMorphicWizardRenderer new
+	
+	
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> parametrizedDropListsUsing: aRenderer [
 	"self parametrizedDropLists"
 
 	| wizardControl  wizardPane1 wizardPane2 firstDropListPartPart secondDropListPart |
 	wizardControl := WizardControl new.
+	wizardControl renderer: aRenderer.
 	wizardPane1 := WizardFirstPane new.
 	wizardPane2 := WizardLastPane new.
 	
@@ -470,12 +600,21 @@ MerlinExamples class >> parametrizedDropLists [
 	
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> parametrizedLists [
+	"self parametrizedLists"
+
+	self parametrizedListsUsing: MerlinMorphicWizardRenderer new
+	
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> parametrizedListsUsing: aRenderer [
 	"self parametrizedLists"
 
 	| wizardControl  wizardPane1 wizardPane2 firstListPartPart secondListPart |
 	wizardControl := WizardControl new.
+	wizardControl renderer: aRenderer.
 	wizardPane1 := WizardFirstPane new.
 	wizardPane2 := WizardLastPane new.
 	
@@ -505,12 +644,20 @@ MerlinExamples class >> parametrizedLists [
 	
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> parametrizedListsUsingRefresh [
+	"self parametrizedListsUsingRefresh"
+
+	^ self parametrizedListsUsingRefreshUsing: MerlinMorphicWizardRenderer new
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> parametrizedListsUsingRefreshUsing: aRenderer [
 	"self parametrizedListsUsingRefresh"
 
 	| wizardControl  wizardPane1 wizardPane2 firstListPartPart secondListPart |
 	wizardControl := WizardControl new.
+	wizardControl renderer: aRenderer.
 	wizardPane1 := WizardFirstPane new.
 	wizardPane2 := WizardLastPane new.
 	
@@ -543,12 +690,20 @@ MerlinExamples class >> parametrizedListsUsingRefresh [
 	
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> parametrizedMorphDropLists [
+	"self parametrizedMorphDropLists"
+
+	^ self parametrizedMorphDropListsUsing: MerlinMorphicWizardRenderer new
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> parametrizedMorphDropListsUsing: aRenderer [
 	"self parametrizedMorphDropLists"
 
 	| wizardControl  wizardPane1 wizardPane2 firstDropListPartPart secondDropListPart |
 	wizardControl := WizardControl new.
+	wizardControl renderer: aRenderer.
 	wizardPane1 := WizardFirstPane new.
 	wizardPane2 := WizardLastPane new.
 
@@ -578,12 +733,20 @@ MerlinExamples class >> parametrizedMorphDropLists [
 	
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> parametrizedPrefixedSuffixedTextFields [
+	"self parametrizedPrefixedSuffixedTextFields"
+
+	^ self parametrizedPrefixedSuffixedTextFieldsUsing: MerlinMorphicWizardRenderer new
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> parametrizedPrefixedSuffixedTextFieldsUsing: aRenderer [
 	"self parametrizedPrefixedSuffixedTextFields"
 
 	| wizardControl  wizardPane1 wizardPane2 firstTextFieldPart secondTextFieldPart |
 	wizardControl := WizardControl new.
+	wizardControl renderer: aRenderer.
 	wizardPane1 := WizardFirstPane new.
 	wizardPane2 := WizardLastPane new.
 	
@@ -614,12 +777,21 @@ MerlinExamples class >> parametrizedPrefixedSuffixedTextFields [
 	
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> parametrizedTextFields [
+	"self parametrizedTextFields"
+
+	^ self parametrizedTextFieldsUsing: MerlinMorphicWizardRenderer new
+	
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> parametrizedTextFieldsUsing: aRenderer [
 	"self parametrizedTextFields"
 
 	| wizardControl  wizardPane1 wizardPane2 firstTextFieldPart secondTextFieldPart |
 	wizardControl := WizardControl new.
+	wizardControl renderer: aRenderer.
 	wizardPane1 := WizardFirstPane new.
 	wizardPane2 := WizardLastPane new.
 	
@@ -647,12 +819,21 @@ MerlinExamples class >> parametrizedTextFields [
 	
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> radioButtonsPart [
+	"self radioButtonsPart"
+
+	^ self radioButtonsPartUsing: MerlinMorphicWizardRenderer new  
+	
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> radioButtonsPartUsing: aRenderer [
 	"self radioButtonsPart"
 
 	| wizardControl  wizardPane1 wizardPane2  radioButtonsPart textPart  |
 	wizardControl := WizardControl new.
+	wizardControl renderer: aRenderer.
 	wizardPane1 := WizardFirstPane new.
 	wizardPane2 := WizardLastPane new.
 	
@@ -678,44 +859,28 @@ MerlinExamples class >> radioButtonsPart [
 	
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> usingCallbackAndRefresh [
 	"self usingCallbackAndRefresh"
 
-	| wizardControl  wizardPane1  firstDropListPartPart secondDropListPart |
-	wizardControl := WizardControl new.
-	wizardPane1 := WizardSinglePane new.
-	
-	firstDropListPartPart := DropListPart  new
-									inGroupboxNamed: 'Select number of dropLists you want';
-									list: #(1 2 3 4);
-									defaultValue: 1;
-									callback: [:outputValue | 
-										wizardPane1 removeAllParts.
-										wizardPane1 row: firstDropListPartPart.  
-										1 to: outputValue do: [:index |
-											wizardPane1 row: (DropListPart new list: #('hey' 'ho'); defaultValue: 1 ; inGroupboxNamed: index asString ; yourself). 
-											].
-										wizardPane1 refresh.
-										];
-									yourself.
-									
-	wizardPane1 row: firstDropListPartPart associatedTo: #firstDropListValue.
-		
-	wizardControl 
-		addPane: wizardPane1. 
-		
-	wizardControl open. 
-	
+	^ self usingCallbackAndRefreshUsing: MerlinMorphicWizardRenderer new
+]
+
+{ #category : #'basic morphic examples' }
+MerlinExamples class >> usingCallbackAndRefreshAndBlockAsDefaultValue [
+	"self usingCallbackAndRefreshAndBlockAsDefaultValue"
+
+	^ self usingCallbackAndRefreshAndBlockAsDefaultValueUsing: MerlinMorphicWizardRenderer new
 	
 ]
 
 { #category : #'basic examples' }
-MerlinExamples class >> usingCallbackAndRefreshAndBlockAsDefaultValue [
+MerlinExamples class >> usingCallbackAndRefreshAndBlockAsDefaultValueUsing: aRenderer [
 	"self usingCallbackAndRefreshAndBlockAsDefaultValue"
 
 	| wizardControl  wizardPane1  firstDropListPartPart secondDropListPart |
 	wizardControl := WizardControl new.
+	wizardControl renderer: aRenderer.
 	wizardPane1 := WizardSinglePane new.
 	
 	firstDropListPartPart := DropListPart  new
@@ -743,11 +908,54 @@ MerlinExamples class >> usingCallbackAndRefreshAndBlockAsDefaultValue [
 ]
 
 { #category : #'basic examples' }
+MerlinExamples class >> usingCallbackAndRefreshUsing: aRenderer [
+	"self usingCallbackAndRefresh"
+
+	| wizardControl  wizardPane1  firstDropListPartPart secondDropListPart |
+	wizardControl := WizardControl new.
+	wizardControl renderer: aRenderer.
+	wizardPane1 := WizardSinglePane new.
+	
+	firstDropListPartPart := DropListPart  new
+									inGroupboxNamed: 'Select number of dropLists you want';
+									list: #(1 2 3 4);
+									defaultValue: 1;
+									callback: [:outputValue | 
+										wizardPane1 removeAllParts.
+										wizardPane1 row: firstDropListPartPart.  
+										1 to: outputValue do: [:index |
+											wizardPane1 row: (DropListPart new list: #('hey' 'ho'); defaultValue: 1 ; inGroupboxNamed: index asString ; yourself). 
+											].
+										wizardPane1 refresh.
+										];
+									yourself.
+									
+	wizardPane1 row: firstDropListPartPart associatedTo: #firstDropListValue.
+		
+	wizardControl 
+		addPane: wizardPane1. 
+		
+	wizardControl open. 
+	
+	
+]
+
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> usingCallbackOnCheckBox [
+	"self usingCallbackOnCheckBox"
+
+	^ self usingCallbackOnCheckBoxUsing: MerlinMorphicWizardRenderer new
+	
+	
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> usingCallbackOnCheckBoxUsing: aRenderer [
 	"self usingCallbackOnCheckBox"
 
 	| wizardControl  wizardPane1  firstDropCheckboxPart secondCheckboxPart |
 	wizardControl := WizardControl new.
+	wizardControl renderer: aRenderer.
 	wizardPane1 := WizardSinglePane new.
 	
 	secondCheckboxPart := CheckboxPart  new
@@ -776,12 +984,20 @@ MerlinExamples class >> usingCallbackOnCheckBox [
 	
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> usingCallbackOnDropList [
+	"self usingCallbackOnDropList"
+
+	^ self usingCallbackOnDropListUsing: MerlinMorphicWizardRenderer new
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> usingCallbackOnDropListUsing: aRenderer [
 	"self usingCallbackOnDropList"
 
 	| wizardControl  wizardPane1  firstDropListPartPart secondDropListPart |
 	wizardControl := WizardControl new.
+	wizardControl renderer: aRenderer.
 	wizardPane1 := WizardSinglePane new.
 	
 	firstDropListPartPart := DropListPart  new
@@ -808,13 +1024,21 @@ MerlinExamples class >> usingCallbackOnDropList [
 	
 ]
 
-{ #category : #'basic examples' }
+{ #category : #'basic morphic examples' }
 MerlinExamples class >> usingRowsAndColumns [
+	"self usingRowsAndColumns"
+
+	^ self usingRowsAndColumnsUsing: MerlinMorphicWizardRenderer new
+	
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> usingRowsAndColumnsUsing: aRenderer [
 	"self usingRowsAndColumns"
 
 	| wizardControl  wizardPane1 wizardPane2 |
 	wizardControl := WizardControl new.
-	
+	wizardControl renderer: aRenderer.
 	wizardPane1 := WizardFirstPane new.
 	wizardPane2 := WizardLastPane new.
 	
