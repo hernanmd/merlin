@@ -25,6 +25,12 @@ WizardLastPane >> newTerminateButton [
 	^ self newButtonNamed: 'Terminate' withAction: #terminateButtonAction.
 ]
 
+{ #category : #'*merlin-rendering' }
+WizardLastPane >> renderOnMerlinRenderer: aMerlinRenderer [
+
+	^ aMerlinRenderer renderMerlinLastPane: self  
+]
+
 { #category : #actions }
 WizardLastPane >> terminateButtonAction [
 	"action executed when the terminate button is pressed"

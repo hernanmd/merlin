@@ -148,6 +148,42 @@ MerlinMorphicRenderer >> renderColumn: aPaneRow [
 ]
 
 { #category : #rendering }
+MerlinMorphicRenderer >> renderMerlinFirstPane: aWizardFirstPane [
+
+	| tmpRenderer |
+	tmpRenderer := MerlinMorphicFirstPaneRenderer new dialogWindow: self dialogWindow ; wizardRenderer: self; yourself.
+	aWizardFirstPane renderer: tmpRenderer.
+	^ tmpRenderer render: aWizardFirstPane        
+]
+
+{ #category : #rendering }
+MerlinMorphicRenderer >> renderMerlinLastPane: aWizardLastPane [
+
+	|tmpRenderer|
+	tmpRenderer := MerlinMorphicLastPaneRenderer new dialogWindow: self dialogWindow ;wizardRenderer: self;yourself.
+	aWizardLastPane renderer: tmpRenderer.
+	^ tmpRenderer render: aWizardLastPane      
+]
+
+{ #category : #rendering }
+MerlinMorphicRenderer >> renderMerlinMiddlePane: aWizardMiddlePane [
+
+	| tmpRenderer |
+	tmpRenderer := MerlinMorphicMiddlePaneRenderer new dialogWindow: self dialogWindow ; wizardRenderer: self; yourself.
+	aWizardMiddlePane renderer: tmpRenderer.
+	^ tmpRenderer render: aWizardMiddlePane    
+]
+
+{ #category : #rendering }
+MerlinMorphicRenderer >> renderMerlinSinglePane: aWizardSinglePane [
+
+	|tmpRenderer|
+	tmpRenderer :=  MerlinMorphicSinglePaneRenderer new dialogWindow: self dialogWindow ; wizardRenderer: self; yourself.
+	aWizardSinglePane renderer: tmpRenderer.
+	^ tmpRenderer render: aWizardSinglePane  
+]
+
+{ #category : #rendering }
 MerlinMorphicRenderer >> renderRow: aPaneRow [
 
 	^ MerlinMorphicRowRenderer new dialogWindow: self dialogWindow ; render: aPaneRow  

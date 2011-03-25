@@ -4,3 +4,9 @@ Extension { #name : #WizardLastPane }
 WizardLastPane >> merlinSpecificRenderer [ 
 	^ MerlinMorphicLastPaneRenderer new 
 ]
+
+{ #category : #'*merlin-rendering' }
+WizardLastPane >> renderOnMerlinRenderer: aMerlinRenderer [
+
+	^ aMerlinRenderer renderMerlinLastPane: self  
+]

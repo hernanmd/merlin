@@ -18,7 +18,7 @@ WizardPane >> renderOnMerlinRenderer: aMerlinRenderer [
 { #category : #'*merlin-rendering' }
 WizardPane >> renderer [
 
-	^ renderer
+	^ renderer ifNil: [renderer := self wizardControl renderer]
 ]
 
 { #category : #'*merlin-rendering' }

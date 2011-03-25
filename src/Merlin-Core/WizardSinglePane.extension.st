@@ -5,3 +5,9 @@ WizardSinglePane >> merlinSpecificRenderer [
 
 	^ MerlinMorphicSinglePaneRenderer new.
 ]
+
+{ #category : #'*merlin-rendering' }
+WizardSinglePane >> renderOnMerlinRenderer: aMerlinRenderer [
+
+	^ aMerlinRenderer renderMerlinSinglePane: self  
+]

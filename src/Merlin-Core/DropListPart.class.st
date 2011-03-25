@@ -138,7 +138,7 @@ DropListPart >> selectedItem [
 { #category : #'list control' }
 DropListPart >> selectedItem: anItem [
 
-	(self includes: anItem) ifTrue: [
+	(self list includes: anItem) ifTrue: [
 		self selectionIndex: (self list indexOf: anItem)  
 		]
 ]
