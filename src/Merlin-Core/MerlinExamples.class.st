@@ -344,24 +344,7 @@ MerlinExamples class >> multiCheckBoxesPartUsing: aRendrer [
 MerlinExamples class >> multiCheckBoxesPartWithCallback [
 	"self multiCheckBoxesPartWithCallback"
 
-	"| wizardControl  wizardPane1 wizardPane2  checkboxesPart textFieldPart textPart |
-	wizardControl := WizardControl new.
-	wizardPane1 := WizardSinglePane new.
-	
-	checkboxesPart := MultiCheckboxesPartBisBis  new
-							labels: {'select/deselect all other checkboxes'. 'normal checkbox'. 'normal checkbox'. 'normal checkbox'};
-							callback: [:output :wizardPart | 
-							];
-							yourself.
-						
-		
-	wizardPane1 row: checkboxesPart associatedTo: #selectedLabels.	
-		
-	wizardControl 
-		addPane: wizardPane1.
-		
-	wizardControl open. "
-	
+	self multiCheckBoxesPartWithCallbackUsing: MerlinMorphicWizardRenderer new  
 	
 ]
 
@@ -369,13 +352,21 @@ MerlinExamples class >> multiCheckBoxesPartWithCallback [
 MerlinExamples class >> multiCheckBoxesPartWithCallbackUsing: aRenderer [
 	"self multiCheckBoxesPartWithCallback"
 
-	"| wizardControl  wizardPane1 wizardPane2  checkboxesPart textFieldPart textPart |
+	| wizardControl  wizardPane1 wizardPane2  checkboxesPart textFieldPart textPart |
 	wizardControl := WizardControl new.
 	wizardPane1 := WizardSinglePane new.
 	
-	checkboxesPart := MultiCheckboxesPartBisBis  new
+	checkboxesPart := MultiCheckboxesPart  new
 							labels: {'select/deselect all other checkboxes'. 'normal checkbox'. 'normal checkbox'. 'normal checkbox'};
 							callback: [:output :wizardPart | 
+								(output key = 'select/deselect all other checkboxes') ifTrue: [
+									wizardPart options do: [:anOption |
+										anOption = 'select/deselect all other checkboxes' ifFalse: [
+											wizardPart setOption: anOption to:  output value  
+											]
+										]
+									].
+								
 							];
 							yourself.
 						
@@ -385,7 +376,7 @@ MerlinExamples class >> multiCheckBoxesPartWithCallbackUsing: aRenderer [
 	wizardControl 
 		addPane: wizardPane1.
 		
-	wizardControl open. "
+	wizardControl open. 
 	
 	
 ]

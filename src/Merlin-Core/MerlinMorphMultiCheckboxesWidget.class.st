@@ -51,7 +51,12 @@ MerlinMorphMultiCheckboxesWidget >> allCheckboxes: aCollectionOfMorphCheckboxes 
 { #category : #'accessing - morph contents' }
 MerlinMorphMultiCheckboxesWidget >> computeAllCheckboxes [
 	
-	self allCheckboxes: (self wizardPart checkboxParts collect: [:each | each merlinRendering morphContents]).
+	self allCheckboxes: (self wizardPart options collect: [:aLabel |
+		(self newCheckboxFor: (self wizardPart modelOfOption: aLabel )
+				getSelected: #contents
+				setSelected: #contents:
+				label: aLabel).
+		]).
 ]
 
 { #category : #'accessing - morph contents' }

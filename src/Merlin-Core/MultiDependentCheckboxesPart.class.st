@@ -23,7 +23,7 @@ Class {
 { #category : #private }
 MultiDependentCheckboxesPart >> checkboxForContextNamed: aContextName [
 
-	^ self checkboxParts detect: [ :each | each label asString == aContextName ].
+	^ self modelOfOption: aContextName.
 ]
 
 { #category : #accessing }
@@ -44,11 +44,6 @@ MultiDependentCheckboxesPart >> initializeFromLabelsAndDependencies: aDictionary
 
 	self labels: (aDictionaryWithDependencies keys collect: [:each | each asString]).
 	entityDependencies := aDictionaryWithDependencies.
-	self checkboxParts do: [:aCheckboxPart |
-		aCheckboxPart callback: [:outputValue |
-			self updateCheckboxesWhenChangesOn: aCheckboxPart label
-			]  
-		].
 ]
 
 { #category : #accessing }
@@ -80,11 +75,20 @@ MultiDependentCheckboxesPart >> revertDependenciesFor: aCollectionOfContexts [
 	ifFalse: [^ self revertDependenciesFor: revertDependenciesForContext ].
 ]
 
+{ #category : #'initialize-release' }
+MultiDependentCheckboxesPart >> update: aChange [
+
+	(self options includes: aChange) ifTrue: [
+		self updateCheckboxesWhenChangesOn: aChange
+		] 
+]
+
 { #category : #private }
 MultiDependentCheckboxesPart >> updateCheckboxesNamed: aCollectionOfLabels withState: aStateSelector [
 
-	self checkboxParts do: 
-				[ :each | (aCollectionOfLabels includes: each label asSymbol) ifTrue: [ each safeContents: aStateSelector  ] ].
+	self optionsAndModels keysAndValuesDo: [:anOption :aModel |
+		 (aCollectionOfLabels includes: anOption) ifTrue: [ aModel safeContents: aStateSelector  ]
+		]  
 ]
 
 { #category : #actions }
