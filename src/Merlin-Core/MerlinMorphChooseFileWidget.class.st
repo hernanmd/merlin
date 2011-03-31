@@ -31,7 +31,7 @@ MerlinMorphChooseFileWidget >> populateWizardPartOutput [
 MerlinMorphChooseFileWidget >> setValidExtensions [
 
 	self wizardPart validExtensions ifNotNil: [
-		self wizardPart validExtensions: self wizardPart validExtensions
+		self fileDialog validExtensions: self wizardPart validExtensions
 		].
 		
 ]

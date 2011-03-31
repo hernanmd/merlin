@@ -21,7 +21,9 @@ MerlinExamples class >> chooseFilePartUsing: aMerlinRenderer [
 	wizardControl renderer: aMerlinRenderer.
 	wizardPane1 := WizardSinglePane new.
 	
-	checkboxPart := ChooseFilePart  new.
+	checkboxPart := ChooseFilePart  new
+						validExtensions: 'mse';
+						yourself.
 		
 	wizardPane1 row: checkboxPart.	
 		
