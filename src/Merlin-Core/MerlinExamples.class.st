@@ -417,8 +417,6 @@ MerlinExamples class >> multiDependentCheckboxesPartUsing: aRenderer [
 							);
 							yourself.
 							
-
-		
 	wizardPane1 row: checkboxesPart associatedTo: #selectedLabels.	
 		
 	wizardControl 
@@ -777,6 +775,40 @@ MerlinExamples class >> parametrizedPrefixedSuffixedTextFieldsUsing: aRenderer [
 	
 ]
 
+{ #category : #'basic examples' }
+MerlinExamples class >> parametrizedTextEditorsUsing: aRenderer [
+	"self parametrizedTextFields"
+
+	| wizardControl  wizardPane1 wizardPane2 firstTextFieldPart secondTextFieldPart |
+	wizardControl := WizardControl new.
+	wizardControl renderer: aRenderer.
+	wizardPane1 := WizardFirstPane new.
+	wizardPane2 := WizardLastPane new.
+	
+	firstTextFieldPart := TextEditorPart  new
+									inGroupboxNamed: 'yop';
+									defaultValue: 'default';
+									useLatePopulateContents: false;
+									yourself.
+									
+	secondTextFieldPart := TextEditorPart  new
+									inGroupboxNamed: 'Same text than previous textEditor';
+									defaultValue: [:inputs | (inputs at: #firstTextFieldValue) ];
+									yourself.
+		
+		
+	wizardPane1 row: firstTextFieldPart associatedTo: #firstTextFieldValue.
+	wizardPane2 row: secondTextFieldPart associatedTo: #secondTextFieldValue requiring: {#firstTextFieldValue}.
+		
+	wizardControl 
+		addPane: wizardPane1 ; 
+		addPane: wizardPane2.
+		
+	wizardControl open. 
+	
+	
+]
+
 { #category : #'basic morphic examples' }
 MerlinExamples class >> parametrizedTextFields [
 	"self parametrizedTextFields"
@@ -866,7 +898,7 @@ MerlinExamples class >> textEditorUsing: aMerlinRenderer [
 	| wizardControl  wizardPane1 wizardPane2  textEditorPart |
 	wizardControl := WizardControl new.
 	wizardControl renderer: aMerlinRenderer.
-	wizardPane1 := WizardFirstPane new.
+	wizardPane1 := WizardSinglePane new.
 	
 	textEditorPart := TextEditorPart  new
 							defaultValue: 'type some text';
@@ -1028,7 +1060,7 @@ MerlinExamples class >> usingCallbackOnDropListUsing: aRenderer [
 									inGroupboxNamed: 'Select an item';
 									list: #('un' 'deux' 'trois' 'quatre');
 									defaultValue: 'trois';
-									callback: [:outputValue | secondDropListPart selectionIndex: (secondDropListPart list indexOf: outputValue)];
+									callback: [:outputValue | secondDropListPart selectionIndex: (secondDropListPart list indexOf: outputValue).];
 									yourself.
 									
 	secondDropListPart := DropListPart  new

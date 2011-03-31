@@ -76,3 +76,15 @@ CompositePart >> withTitlesAndParts: aCollectionOfAssociations [
 
 	titlesAndParts := aCollectionOfAssociations. 
 ]
+
+{ #category : #'accessing - titlesAndParts' }
+CompositePart >> wizardParts [
+
+	^ self titlesAndParts collect: [:each | each value]
+]
+
+{ #category : #'accessing - titlesAndParts' }
+CompositePart >> wizardParts: aCollectionOfWizardParts [
+
+	titlesAndParts := aCollectionOfWizardParts collect: [:aWizardPart | (aWizardPart asString -> aWizardPart) ]. 
+]
