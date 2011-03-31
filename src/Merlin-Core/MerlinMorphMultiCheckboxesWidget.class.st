@@ -20,8 +20,8 @@ MerlinMorphMultiCheckboxesWidget >> addVerticalSeparatorAtTheMiddleOf: aCollecti
 	result := OrderedCollection new.
 	result1 := OrderedCollection new.
 	result2 := OrderedCollection new.
-	1 to: (index ) do: [:i | result1 add: (aCollectionOfElements at: i)].
-	(index + 1) to: aCollectionOfElements size do: [:i | result2 add: (aCollectionOfElements at: i)].
+	1 to: (index ) do: [:i | result1 add: (self newRowWith: {(aCollectionOfElements at: i)})].
+	(index + 1) to: aCollectionOfElements size do: [:i | result2 add: (self newRowWith: {(aCollectionOfElements at: i)})].
 	
 	result2 isEmpty
 		ifFalse: [

@@ -21,5 +21,5 @@ MerlinMorphCheckboxWidget >> checkboxMorph [
 { #category : #'accessing - morph contents' }
 MerlinMorphCheckboxWidget >> specificMorphContents [ 
 
-	^ self checkboxMorph 
+	^ self newRowWith: { self checkboxMorph }
 ]
