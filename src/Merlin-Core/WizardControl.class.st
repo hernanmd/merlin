@@ -201,6 +201,12 @@ WizardControl >> selectedBranch [
 ]
 
 { #category : #accessing }
+WizardControl >> size [
+
+	^ self wizardPanes size
+]
+
+{ #category : #accessing }
 WizardControl >> valueOfInformation: aSymbol [
 	"return the value of the output information named aSymbol"
 	          
