@@ -2,8 +2,7 @@ Class {
 	#name : #MultipleOptionPart,
 	#superclass : #OptionPart,
 	#instVars : [
-		'selectedOptions',
-		'optionsAndModels'
+		'selectedOptions'
 	],
 	#category : #'Merlin-Parts'
 }
@@ -20,36 +19,6 @@ MultipleOptionPart >> deselectAllOptions [
 MultipleOptionPart >> deselectOption: anOption [
 
 	self setOption: anOption to: false   
-]
-
-{ #category : #accessing }
-MultipleOptionPart >> modelOfOption: anOption [
-
-	^ self optionsAndModels at: anOption
-]
-
-{ #category : #accessing }
-MultipleOptionPart >> options: aCollectionOfValues [
-
-	|tmpDictionary|
-	tmpDictionary := IdentityDictionary new.
-	super options: aCollectionOfValues.
-	self options do: [:anObject |
-		tmpDictionary at: anObject put: (MerlinOptionValueHolder new option: anObject; contents: true; addDependent: self; yourself)
-		].
-	self optionsAndModels: tmpDictionary
-]
-
-{ #category : #accessing }
-MultipleOptionPart >> optionsAndModels [
-
-	^ optionsAndModels 
-]
-
-{ #category : #accessing }
-MultipleOptionPart >> optionsAndModels: aDictionary [
-
-	optionsAndModels :=  aDictionary 
 ]
 
 { #category : #accessing }
@@ -84,7 +53,6 @@ MultipleOptionPart >> selectedOptions: aCollectionOfSelectedOptions [
 	self optionsAndModels keysAndValuesDo: [:anOption :aModel | 
 		aModel contents = (aCollectionOfSelectedOptions includes: anOption) 
 			ifTrue: [
-				self halt.
 				aModel contents: aModel contents not
 			]
 		].
