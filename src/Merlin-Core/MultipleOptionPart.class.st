@@ -69,7 +69,25 @@ MultipleOptionPart >> selectOption: anOption [
 { #category : #accessing }
 MultipleOptionPart >> selectedOptions [
 
-	^ selectedOptions ifNil: [selectedOptions := OrderedCollection new]
+	|tmpResult|
+	tmpResult := OrderedCollection  new.
+	self optionsAndModels keysAndValuesDo: [:anOption :aModel |
+		(aModel contents = true) ifTrue: [tmpResult add: anOption]
+		] .
+	^ tmpResult 
+]
+
+{ #category : #accessing }
+MultipleOptionPart >> selectedOptions: aCollectionOfSelectedOptions [
+
+
+	self optionsAndModels keysAndValuesDo: [:anOption :aModel | 
+		aModel contents = (aCollectionOfSelectedOptions includes: anOption) 
+			ifTrue: [
+				self halt.
+				aModel contents: aModel contents not
+			]
+		].
 ]
 
 { #category : #accessing }
