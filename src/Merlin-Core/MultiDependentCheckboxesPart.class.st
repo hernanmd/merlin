@@ -79,8 +79,8 @@ MultiDependentCheckboxesPart >> revertDependenciesFor: aCollectionOfContexts [
 MultiDependentCheckboxesPart >> update: aChange [
 
 	(self options includes: aChange) ifTrue: [
-		self updateCheckboxesWhenChangesOn: aChange.
-		self wizardPane refresh
+		self updateCheckboxesWhenChangesOn: aChange.   
+		self wizardPane refresh.
 		] 
 ]
 

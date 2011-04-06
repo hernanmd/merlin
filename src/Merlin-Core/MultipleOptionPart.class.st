@@ -8,6 +8,26 @@ Class {
 }
 
 { #category : #accessing }
+MultipleOptionPart >> basicSelectedOptions [
+
+	^ selectedOptions ifNil: [selectedOptions := OrderedCollection withAll: self selectedOptions]
+]
+
+{ #category : #accessing }
+MultipleOptionPart >> basicSelectedOptions: aCollectionOfSelectedOptions [
+
+
+	"self optionsAndModels keysAndValuesDo: [:anOption :aModel | 
+		aModel contents = (aCollectionOfSelectedOptions includes: anOption) 
+			ifTrue: [
+				aModel safeContents: aModel contents not
+			]
+		]."
+	selectedOptions := aCollectionOfSelectedOptions.
+	self selectedOptions: aCollectionOfSelectedOptions   
+]
+
+{ #category : #accessing }
 MultipleOptionPart >> deselectAllOptions [
 
 	self optionsAndModels valuesDo: [:aModel |
@@ -43,19 +63,18 @@ MultipleOptionPart >> selectedOptions [
 	self optionsAndModels keysAndValuesDo: [:anOption :aModel |
 		(aModel contents = true) ifTrue: [tmpResult add: anOption]
 		] .
-	^ tmpResult 
+	^ tmpResult
 ]
 
 { #category : #accessing }
-MultipleOptionPart >> selectedOptions: aCollectionOfSelectedOptions [
+MultipleOptionPart >> selectedOptions: aCollectionOfOptions [
 
 
-	self optionsAndModels keysAndValuesDo: [:anOption :aModel | 
-		aModel contents = (aCollectionOfSelectedOptions includes: anOption) 
-			ifTrue: [
-				aModel contents: aModel contents not
-			]
-		].
+	self optionsAndModels keysAndValuesDo: [:anOption :aModel |
+		(aCollectionOfOptions includes: anOption)
+			ifTrue: [aModel safeContents: true  ]
+			ifFalse: [aModel safeContents: false  ]
+		] .
 ]
 
 { #category : #accessing }
