@@ -303,18 +303,49 @@ MerlinExamples class >> modifyingWizardStructureInChooseFilePartCallbacks [
 	^ self modifyingWizardStructureInChooseFilePartCallbacksUsing: MerlinMorphicWizardRenderer new
 ]
 
+{ #category : #'basic morphic examples' }
+MerlinExamples class >> modifyingWizardStructureInChooseFilePartCallbacks2 [
+
+	"self modifyingWizardStructureInChooseFilePartCallbacks2"
+	^ self modifyingWizardStructureInChooseFilePartCallbacks2Using: MerlinMorphicWizardRenderer new
+	
+]
+
+{ #category : #'basic examples' }
+MerlinExamples class >> modifyingWizardStructureInChooseFilePartCallbacks2Using: aRenderer [
+
+	"self modifyingWizardStructureInChooseFilePartCallbacks2"
+	|wizard filePart|
+	wizard := WizardControl new.
+	wizard renderer: aRenderer.
+	filePart := ChooseFilePart new
+					yourself.
+					
+	wizard addPane: (
+		WizardFirstPane new
+			row: filePart associatedTo: #path
+	).
+	wizard addPane: (
+		WizardLastPane new
+			row: (TextPart new
+					defaultValue: [:requiredInputs |
+						(requiredInputs at: #path) asString
+						]
+			) requiring: {#path}
+	).
+	
+	wizard open.
+]
+
 { #category : #'basic examples' }
 MerlinExamples class >> modifyingWizardStructureInChooseFilePartCallbacksUsing: aRenderer [
 
 	"self modifyingWizardStructureInChooseFilePartCallbacks"
-	|wizard|
+	|wizard filePart|
 	wizard := WizardControl new.
 	wizard renderer: aRenderer.
-	wizard addPane: (
-		WizardFirstPane new
-			row: (
-				ChooseFilePart new
-					callback: [:filepath |
+	filePart := ChooseFilePart new
+					callback: [:filepath :part|
 						|secondPane|
 						wizard wizardPanes size > 1 ifTrue: [
 							wizard removePaneAt: 2
@@ -323,9 +354,13 @@ MerlinExamples class >> modifyingWizardStructureInChooseFilePartCallbacksUsing: 
 						secondPane row: (TextPart new text: filepath asString; yourself).	
 						wizard addPane: secondPane.
 						];
-					yourself
-			)
+					yourself.
+					
+	wizard addPane: (
+		WizardFirstPane new
+			row: filePart associatedTo: #path
 	).
+	
 	wizard open.
 ]
 

@@ -15,7 +15,7 @@ MultiCheckboxesPart class >> withAll: aCollectionOfLabels [
 	^ super new initialize: aCollectionOfLabels .
 ]
 
-{ #category : #'initialize-release' }
+{ #category : #accessing }
 MultiCheckboxesPart >> initializeFromLabels: aCollectionOfString [
 
 	self labels: aCollectionOfString 
