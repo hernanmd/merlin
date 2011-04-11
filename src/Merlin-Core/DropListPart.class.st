@@ -62,7 +62,7 @@ DropListPart >> initialize [
 
 	super initialize.  
 	self list: #(default).
-	self selectionIndex: 1.
+	self selectionIndex: 0.
 	
 ]
 
