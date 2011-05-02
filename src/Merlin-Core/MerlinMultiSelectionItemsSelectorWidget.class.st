@@ -10,7 +10,7 @@ MerlinMultiSelectionItemsSelectorWidget >> changeInitialListIndex: newListIndex 
 	self wizardPart deselectAllInSelectionList.
 	self wizardPart changeInitialListIndex: newListIndex .
 	self checkForEnablingAddRemoveButtons.
-	self widgetStateChanged.
+	"self widgetStateChanged."
 ]
 
 { #category : #'control - selection list' }
@@ -19,7 +19,7 @@ MerlinMultiSelectionItemsSelectorWidget >> changeSelectionListIndex: newListInde
 	self wizardPart deselectAllInInitialList. 
 	self wizardPart changeSelectionListIndex: newListIndex.
 	self checkForEnablingAddRemoveButtons.
-	self widgetStateChanged.
+	"self widgetStateChanged."
 ]
 
 { #category : #'accessing - morphs' }
@@ -71,7 +71,7 @@ MerlinMultiSelectionItemsSelectorWidget >> initialListSelectionAt: anIndex [
 MerlinMultiSelectionItemsSelectorWidget >> initialListSelectionAt: anIndex put: value [
 
 		self wizardPart initialListSelectionAt: anIndex put: value.
-		self widgetStateChanged.
+		"self widgetStateChanged."
 ]
 
 { #category : #'control - selection list' }
@@ -107,5 +107,5 @@ MerlinMultiSelectionItemsSelectorWidget >> selectionListSelectionAt: anIndex [
 MerlinMultiSelectionItemsSelectorWidget >> selectionListSelectionAt: anIndex put: value [
 
 	self wizardPart selectionListSelectionAt: anIndex put: value.
-	self widgetStateChanged.
+	"self widgetStateChanged."
 ]
