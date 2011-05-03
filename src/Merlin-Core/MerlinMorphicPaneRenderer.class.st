@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'wizardPane',
 		'wizardRenderer',
-		'nextButtonActions'
+		'nextButtonActions',
+		'terminateButtonActions'
 	],
 	#category : #'Merlin-Rendering'
 }
@@ -63,6 +64,7 @@ MerlinMorphicPaneRenderer >> initialize [
 
 	super initialize.
 	self nextButtonActions: OrderedCollection new.  
+	self terminateButtonActions: OrderedCollection new.  
 ]
 
 { #category : #'util - morph creation' }
@@ -153,14 +155,33 @@ MerlinMorphicPaneRenderer >> setName [
 { #category : #'buttons actions' }
 MerlinMorphicPaneRenderer >> terminateButtonAction [
 	"action executed when the terminate button is pressed"
+	self terminateButtonActions do: [:aBlock | aBlock value].
 	self wizardPane terminateButtonAction.
 	self wizardRenderer performTerminateButtonAction.
+]
+
+{ #category : #'next button - actions' }
+MerlinMorphicPaneRenderer >> terminateButtonActions [
+
+	^ terminateButtonActions 
+]
+
+{ #category : #'next button - actions' }
+MerlinMorphicPaneRenderer >> terminateButtonActions: aCollectionOfBlocks [
+
+	terminateButtonActions := aCollectionOfBlocks 
 ]
 
 { #category : #'next button - actions' }
 MerlinMorphicPaneRenderer >> whenNextIsPressedDo: aBlock [ 
 
 	self nextButtonActions add: aBlock  
+]
+
+{ #category : #'next button - actions' }
+MerlinMorphicPaneRenderer >> whenTerminateIsPressedDo: aBlock [ 
+
+	self terminateButtonActions add: aBlock  
 ]
 
 { #category : #accessing }
