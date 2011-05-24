@@ -7,18 +7,6 @@ Class {
 	#category : #'Merlin-Panes'
 }
 
-{ #category : #actions }
-WizardFirstPane >> disableNextButton [
-	nextButton disable.
-]
-
-{ #category : #actions }
-WizardFirstPane >> enableNextButton [
-
-	nextButton enable.
-	
-]
-
 { #category : #'initialize-release' }
 WizardFirstPane >> initialize [
 

@@ -7,5 +7,5 @@ Class {
 { #category : #rendering }
 MerlinMorphicSinglePaneRenderer >> displayButtons [
 
-	self buttons: {self newCancelButton. self newTerminateButton}.
+	self buttons: {self newCancelButton. self newFinishButton}.
 ]

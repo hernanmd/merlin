@@ -8,5 +8,5 @@ Class {
 MerlinMorphicLastPaneRenderer >> displayButtons [
 
 	
-	self buttons: {self newCancelButton. self newPreviousButton. self newTerminateButton}.
+	self buttons: {self newCancelButton. self newPreviousButton. self newFinishButton}.
 ]

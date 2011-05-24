@@ -86,6 +86,12 @@ MerlinMorphicPaneRenderer >> newCancelButton [
 ]
 
 { #category : #'accessing - buttons' }
+MerlinMorphicPaneRenderer >> newFinishButton [
+	
+	^ self newButtonNamed: 'Finish' withAction: #terminateButtonAction.
+]
+
+{ #category : #'accessing - buttons' }
 MerlinMorphicPaneRenderer >> newNextButton [
 	^ self newButtonNamed: self forwardSign withAction: #nextButtonAction
 ]
@@ -93,12 +99,6 @@ MerlinMorphicPaneRenderer >> newNextButton [
 { #category : #'accessing - buttons' }
 MerlinMorphicPaneRenderer >> newPreviousButton [
 	^ self newButtonNamed: self backSign withAction: #previousButtonAction
-]
-
-{ #category : #'accessing - buttons' }
-MerlinMorphicPaneRenderer >> newTerminateButton [
-	
-	^ self newButtonNamed: 'Terminate' withAction: #terminateButtonAction.
 ]
 
 { #category : #'buttons actions' }

@@ -7,22 +7,9 @@ Class {
 	#category : #'Merlin-Panes'
 }
 
-{ #category : #'private - accessing' }
-WizardLastPane >> displayButtons [
-
-	terminateButton := self newTerminateButton.
-	self buttons: {cancelButton. self newPreviousButton. terminateButton}.
-]
-
 { #category : #'*merlin-rendering' }
 WizardLastPane >> merlinSpecificRenderer [ 
 	^ MerlinMorphicLastPaneRenderer new 
-]
-
-{ #category : #'morph creation' }
-WizardLastPane >> newTerminateButton [
-	
-	^ self newButtonNamed: 'Terminate' withAction: #terminateButtonAction.
 ]
 
 { #category : #'*merlin-rendering' }
