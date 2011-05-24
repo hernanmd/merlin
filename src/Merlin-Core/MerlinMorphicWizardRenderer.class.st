@@ -24,7 +24,8 @@ MerlinMorphicWizardRenderer >> currentIndex: aNumber [
 MerlinMorphicWizardRenderer >> currentPane [
 	
 	"return the wizardPane that is currently opened "
-	^ self wizardPanes at: currentIndex
+	"^ self wizardPanes at: currentIndex"
+	^ self wizardControl currentPane
 ]
 
 { #category : #accessing }
@@ -44,7 +45,7 @@ MerlinMorphicWizardRenderer >> performNextButtonAction [
 	"this method is run when a next button is pressed"
 	
 	self dialogWindow close.
-	self currentIndex: (self currentIndex + 1).
+	"self currentIndex: (self currentIndex + 1)."
 	^self doOpen: (self currentPane renderOnMerlinRenderer: self)
 ]
 
@@ -53,7 +54,7 @@ MerlinMorphicWizardRenderer >> performPreviousButtonAction [
 	"this method is run when a previous button is pressed"
 	
 	self dialogWindow close.
-	self currentIndex: (self currentIndex - 1).
+	"self currentIndex: (self currentIndex - 1)."
 	^ self doOpen: (self currentPane renderOnMerlinRenderer: self)
 ]
 

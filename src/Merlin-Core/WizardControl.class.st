@@ -138,9 +138,24 @@ WizardControl >> openFirstWizardPane [
 WizardControl >> performNextButtonAction [
 	"this method is run when a next button is pressed"
 	
-	(wizardPanes at: currentPane) doClose.
-	currentPane := currentPane  + 1.
-	(wizardPanes at: currentPane ) doOpen. 
+	|tmpCurrentPane tmpProblems|
+	tmpCurrentPane := wizardPanes at: currentPane.
+	tmpProblems := OrderedCollection new.
+	tmpCurrentPane conditions keysAndValuesDo:  [:aString :aBlock |
+		(aBlock value: self wizardInformations) ifFalse: [
+			tmpProblems add: aString
+			]
+		]. 
+	tmpProblems isEmpty 
+		ifTrue: [
+			(wizardPanes at: currentPane) doClose.
+			currentPane := currentPane  + 1.
+			(wizardPanes at: currentPane ) doOpen. 
+		]
+		ifFalse: [
+			tmpCurrentPane failingConditions: tmpProblems 
+			].
+	
 ]
 
 { #category : #'wizard panes transition' }
@@ -155,11 +170,25 @@ WizardControl >> performPreviousButtonAction [
 { #category : #'wizard panes transition' }
 WizardControl >> performTerminateButtonAction [
 	"by default, just close the last current pane. Override this method if you want to create a subclass of WizardControl making a specific action"
+	|tmpCurrentPane tmpProblems|
+	tmpCurrentPane := wizardPanes at: currentPane.
+	tmpProblems := OrderedCollection new.
+	tmpCurrentPane conditions keysAndValuesDo:  [:aString :aBlock |
+		(aBlock value: self wizardInformations) ifFalse: [
+			tmpProblems add: aString
+			]
+		]. 
+	tmpProblems isEmpty 
+		ifTrue: [
+			(wizardPanes at: currentPane) doClose.
+			self finalActionBlock ifNotNil: [
+				self finalActionBlock value: self wizardInformations
+			].
+		]
+		ifFalse: [
+			tmpCurrentPane failingConditions: tmpProblems 
+			].
 	
-	(wizardPanes at: currentPane) doClose.
-	self finalActionBlock ifNotNil: [
-		self finalActionBlock value: self wizardInformations
-		].
 		
 ]
 

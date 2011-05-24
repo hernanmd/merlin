@@ -35,7 +35,9 @@ Class {
 		'displayLayout',
 		'mainPaneLine',
 		'isOpen',
-		'renderer'
+		'renderer',
+		'conditions',
+		'failingConditions'
 	],
 	#category : #'Merlin-Core'
 }
@@ -170,6 +172,19 @@ WizardPane >> column: aWizardPart requiring: aCollectionOfSymbols [
 	self setPart: aWizardPart  requiring: aCollectionOfSymbols
 		
 	
+]
+
+{ #category : #accessing }
+WizardPane >> condition: aBlock named: aString [
+
+	"User should use this method to specify a one argument block (pointing on the outputValues dictionary of the wizard), to specify a boolean condition that should return true to enable the next/finish button "
+	self conditions at: aString put: aBlock
+]
+
+{ #category : #accessing }
+WizardPane >> conditions [
+
+	^ conditions ifNil: [conditions := Dictionary new].
 ]
 
 { #category : #'private - accessing' }
@@ -311,6 +326,18 @@ WizardPane >> doOpenWizardParts [
 
 { #category : #actions }
 WizardPane >> enableNextButton [
+]
+
+{ #category : #accessing }
+WizardPane >> failingConditions [
+
+	^ failingConditions ifNil: [failingConditions := OrderedCollection new].
+]
+
+{ #category : #accessing }
+WizardPane >> failingConditions: aCollectionOfStrings [
+
+	failingConditions := aCollectionOfStrings.
 ]
 
 { #category : #actions }
