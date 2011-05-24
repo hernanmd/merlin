@@ -10,9 +10,7 @@ Class {
 { #category : #accessing }
 MerlinMorphChooseFileWidget >> fileDialog [
 
-	^ fileDialog ifNil: [fileDialog :=  ((self newFileDialogNamed: self wizardPart selectedPathName)
-						selectPathName: self wizardPart selectedPathName;
-						yourself).]
+	^ fileDialog ifNil: [fileDialog :=  ((self newFileDialogNamed: self wizardPart selectedPathName)).]
 ]
 
 { #category : #accessing }
@@ -28,6 +26,15 @@ MerlinMorphChooseFileWidget >> populateWizardPartOutput [
 ]
 
 { #category : #'accessing - morph contents' }
+MerlinMorphChooseFileWidget >> setDefaultSelectedPath [
+
+	self wizardPart selectedPathName ifNotNil: [
+		self fileDialog selectPathName: self wizardPart selectedPathName
+		].
+		
+]
+
+{ #category : #'accessing - morph contents' }
 MerlinMorphChooseFileWidget >> setValidExtensions [
 
 	self wizardPart validExtensions ifNotNil: [
@@ -39,8 +46,11 @@ MerlinMorphChooseFileWidget >> setValidExtensions [
 { #category : #'accessing - morph contents' }
 MerlinMorphChooseFileWidget >> specificMorphContents [ 
 
+	|tmpMorph|
+	tmpMorph :=  self fileDialog newContentMorph.
 	self setValidExtensions.
-	^ self fileDialog newContentMorph  
+	self setDefaultSelectedPath.	
+	^ tmpMorph
 						      
 
 	
