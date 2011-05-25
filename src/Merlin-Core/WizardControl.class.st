@@ -77,16 +77,9 @@ WizardControl >> currentPane [
 ]
 
 { #category : #accessing }
-WizardControl >> dialogWindowName: aString [
-	"set the name of the dialogWindow"
-	
-	dialogWindow title: aString
-]
+WizardControl >> currentPaneIndex [
 
-{ #category : #'initialize-release' }
-WizardControl >> example [
-
-
+	^ currentPane 
 ]
 
 { #category : #accessing }
