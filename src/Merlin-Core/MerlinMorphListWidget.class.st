@@ -18,10 +18,10 @@ MerlinMorphListWidget >> listMorph [
 MerlinMorphListWidget >> setMorphSize [
 
 	self wizardPart horizontalSize isNil ifFalse: [
-		self listMorph minWidth: self wizardPart listWidth
+		self listMorph minWidth: self wizardPart horizontalSize
 		].
 	self wizardPart verticalSize isNil ifFalse: [
-		self listMorph minHeight: self wizardPart minHeight
+		self listMorph minHeight: self wizardPart verticalSize
 		].
 ]
 

@@ -13,7 +13,13 @@ Class {
 { #category : #accessing }
 ListPart >> horizontalSize [
 
-	^ listHeight 
+	^ self listWidth
+]
+
+{ #category : #accessing }
+ListPart >> horizontalSize: anInteger [
+
+	self listWidth: anInteger.
 ]
 
 { #category : #listControl }
@@ -135,5 +141,11 @@ ListPart >> selectionIndex: anObject [
 { #category : #accessing }
 ListPart >> verticalSize [
 
-	^ listWidth 
+	^ self listHeight
+]
+
+{ #category : #accessing }
+ListPart >> verticalSize: anInteger [
+
+	self listHeight: anInteger.
 ]
