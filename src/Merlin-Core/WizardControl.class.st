@@ -88,6 +88,12 @@ WizardControl >> finalActionBlock [
 	^ finalActionBlock
 ]
 
+{ #category : #testing }
+WizardControl >> hasFinished [
+
+	^ self currentPaneIndex > self size
+]
+
 { #category : #accessing }
 WizardControl >> information: aSymbol withValue: value [ 
 	"set the value of the information designed by aSymbol. It is used by a pane when a next button or a terminate button is clicked to spread its output information"
@@ -174,6 +180,7 @@ WizardControl >> performTerminateButtonAction [
 	tmpProblems isEmpty 
 		ifTrue: [
 			(wizardPanes at: currentPane) doClose.
+			currentPane := currentPane + 1.
 			self finalActionBlock ifNotNil: [
 				self finalActionBlock value: self wizardInformations
 			].

@@ -62,6 +62,9 @@ MerlinMorphicWizardRenderer >> performPreviousButtonAction [
 MerlinMorphicWizardRenderer >> performTerminateButtonAction [
 	
 	self dialogWindow close.
+	self wizardControl hasFinished ifFalse: [
+		self doOpen: (self currentPane renderOnMerlinRenderer: self)
+		]
 ]
 
 { #category : #updating }
