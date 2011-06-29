@@ -38,7 +38,7 @@ CompositePart >> merlinRendering [
 { #category : #'accessing - wizard management' }
 CompositePart >> outputValue [
 
-	^ self selectedPart  value outputValue  
+	^ self selectedPart  value transformedOutputValue  
 ]
 
 { #category : #'accessing - page selection' }
