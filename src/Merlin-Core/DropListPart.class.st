@@ -6,7 +6,8 @@ Class {
 		'selectionIndex',
 		'useRequiredInputAsDefault',
 		'defaultBlock',
-		'horizontalSize'
+		'horizontalSize',
+		'formatBlock'
 	],
 	#category : #'Merlin-Parts'
 }
@@ -39,9 +40,26 @@ DropListPart >> defaultItemSelected: anItem [
 ]
 
 { #category : #accessing }
-DropListPart >> dropList [
+DropListPart >> format: aBlock [
 
-	^ dropList
+	"use this method the string representationof the options. aBlock is a one argument block (representing the current option to format). It should return a string that will be the representation of the option"
+	formatBlock := aBlock
+]
+
+{ #category : #accessing }
+DropListPart >> formatBlock [
+
+	^ formatBlock ifNil: [formatBlock := [:option | option printString]]
+]
+
+{ #category : #accessing }
+DropListPart >> formatedList [
+
+	^ self list collect: [:each |
+		each isNil
+			ifTrue: ['']
+			ifFalse: [self formatBlock meValue: each]
+		 ]
 ]
 
 { #category : #accessing }
@@ -84,7 +102,7 @@ DropListPart >> latePopulateContents [
 DropListPart >> list [
 	"Answer the value of list"
 
-	^ list
+	^ list ifEmpty: [list := {nil}]
 ]
 
 { #category : #'list control' }
@@ -106,7 +124,8 @@ DropListPart >> outputValue [
 
 	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
 	(self list isNil not and: [self list isEmpty not])
-		ifTrue: [^ self selectedItem].
+		ifTrue: [^ self selectedItem]
+		ifFalse: [^ nil].
 		
 	
 ]

@@ -2,7 +2,8 @@ Class {
 	#name : #MerlinMorphDroplListWidget,
 	#superclass : #MerlinMorphPartWidget,
 	#instVars : [
-		'dropList'
+		'dropList',
+		'formatDictionary'
 	],
 	#category : #'Merlin-Rendering'
 }
@@ -10,7 +11,13 @@ Class {
 { #category : #'accessing - morph contents' }
 MerlinMorphDroplListWidget >> dropList [
 
-	^ dropList ifNil: [dropList := self newDropListOn: self wizardPart ]
+	^ dropList ifNil: [dropList := self newDropListOn: self wizardPart list: #formatedList ]
+]
+
+{ #category : #accessing }
+MerlinMorphDroplListWidget >> formatDictionary [
+
+	^ formatDictionary ifNil: [formatDictionary := IdentityDictionary new]
 ]
 
 { #category : #'accessing - morph contents' }
