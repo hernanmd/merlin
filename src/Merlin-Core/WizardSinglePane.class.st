@@ -27,6 +27,6 @@ WizardSinglePane >> terminateButtonAction [
 		[ :key :value | 
 		self wizardControl 
 			information: value
-			withValue: key outputValue ].
+			withValue: key transformedOutputValue ].
 	self wizardControl performTerminateButtonAction
 ]

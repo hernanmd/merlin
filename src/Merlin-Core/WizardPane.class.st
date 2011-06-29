@@ -345,7 +345,7 @@ WizardPane >> hasChanged: aWizardPart [
 	"this method is used by the sub parts to inform this pane that their output value has changed. Here , we push this value to parts requiring this information"
 
 	| informationValue informationSymbol |
-	informationValue := aWizardPart outputValue.
+	informationValue := aWizardPart transformedOutputValue.
 	informationSymbol := partsAndInformationsAssociated at: aWizardPart ifAbsent: [nil].	
 	
 	informationSymbol ifNotNil: [
@@ -552,7 +552,7 @@ WizardPane >> retrieveOutputOf: aWizardPart [
 	| informationSymbol |
 	informationSymbol := partsAndInformationsAssociated at: aWizardPart ifAbsent: [nil].	
 	informationSymbol ifNotNil: [
-		wizardControl information: informationSymbol withValue: aWizardPart outputValue.
+		wizardControl information: informationSymbol withValue: aWizardPart transformedOutputValue.
 	].
 ]
 
@@ -566,7 +566,7 @@ WizardPane >> retrievePartsOutputs [
 		[ :key :value | 
 		self wizardControl 
 			information: value
-			withValue: key outputValue ].
+			withValue: key transformedOutputValue ].
 	
 ]
 
