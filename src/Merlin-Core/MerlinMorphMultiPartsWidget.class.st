@@ -2,7 +2,8 @@ Class {
 	#name : #MerlinMorphMultiPartsWidget,
 	#superclass : #MerlinMorphPartWidget,
 	#instVars : [
-		'tabGroup'
+		'tabGroup',
+		'partsMerlinWidgets'
 	],
 	#category : #'Merlin-Rendering'
 }
@@ -10,6 +11,10 @@ Class {
 { #category : #'accessing - wizard management' }
 MerlinMorphMultiPartsWidget >> populateWizardPartOutput [ 
 
+	"we first pay attention to populate output of each sub-part"
+	self subpartsMerlinWidgets do: [:aMerlinMorphWidget |
+		aMerlinMorphWidget populateWizardPartOutput.
+		].
 	self wizardPart selectedPageIndex: self tabGroup selectedPageIndex.
 	self wizardPart outputValue: self selectedPart outputValue
 ]
@@ -30,9 +35,17 @@ MerlinMorphMultiPartsWidget >> specificMorphContents [
 ]
 
 { #category : #'accessing - morph contents' }
+MerlinMorphMultiPartsWidget >> subpartsMerlinWidgets [
+
+	^ partsMerlinWidgets ifNil: [partsMerlinWidgets := OrderedCollection new]
+]
+
+{ #category : #'accessing - morph contents' }
 MerlinMorphMultiPartsWidget >> tabGroup [
 
 	^ tabGroup ifNil: [
-		tabGroup := self newTabGroupBoxFor: (self wizardPart titlesAndParts collect: [:anAssoc | anAssoc key -> anAssoc value merlinRendering morphContents ])
+		tabGroup := self newTabGroupBoxFor: (self wizardPart titlesAndParts collect: [:anAssoc | 
+			anAssoc key -> (self subpartsMerlinWidgets  add: anAssoc value merlinRendering) morphContents 
+			])
 		].
 ]
