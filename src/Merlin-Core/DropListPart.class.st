@@ -111,7 +111,8 @@ DropListPart >> list: anObject [
 
 	list := anObject.
 	self changed: #list.
-	self changed: #formatedList
+	self changed: #formatedList.
+	self selectionIndex ifNotNil: [self hasChanged].
 ]
 
 { #category : #'*merlin-rendering' }
