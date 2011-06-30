@@ -147,6 +147,7 @@ WizardControl >> performNextButtonAction [
 		]. 
 	tmpProblems isEmpty 
 		ifTrue: [
+			tmpCurrentPane failingConditions: #().
 			(wizardPanes at: currentPane) doClose.
 			currentPane := currentPane  + 1.
 			(wizardPanes at: currentPane ) doOpen. 
