@@ -110,7 +110,8 @@ DropListPart >> list: anObject [
 	"Set the value of list"
 
 	list := anObject.
-	self changed: #list
+	self changed: #list.
+	self changed: #formatedList
 ]
 
 { #category : #'*merlin-rendering' }
