@@ -124,6 +124,12 @@ MerlinMorphicRenderer >> merlinRowRenderingFor: aPaneRow [
 ]
 
 { #category : #'parts rendering' }
+MerlinMorphicRenderer >> merlinSaveChooseFileRenderingFor: aChooseFilePart [
+
+	^ MerlinMorphSaveChooseFileWidget new wizardPart: aChooseFilePart; yourself  
+]
+
+{ #category : #'parts rendering' }
 MerlinMorphicRenderer >> merlinTextEditorRenderingFor: aTextEditorPart [
 
 	^ MerlinMorphTextEditorWidget new wizardPart: aTextEditorPart ; yourself. 

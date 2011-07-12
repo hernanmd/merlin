@@ -276,6 +276,23 @@ MerlinMorphWidget >> newRowWith: aCollectionOfMorphElements [
 ]
 
 { #category : #'utils - morph creation' }
+MerlinMorphWidget >> newSaveFileDialogNamed: title [
+
+"Answer a morph representing a file open dialog with the given title"
+
+	|tmpFileDialog|
+	tmpFileDialog := FileDialogWindow basicNew
+		initialize;
+		title: title;
+		answerSaveFile.
+	"exts ifNotNil: [fd validExtensions: exts].
+	path ifNotNil: [fd selectPathName: path]."
+	tmpFileDialog answerSaveFile.
+	^ tmpFileDialog
+	
+]
+
+{ #category : #'utils - morph creation' }
 MerlinMorphWidget >> newTabGroupBoxFor: labelsAndControls [
 
 	^(TabGroupMorph  new
