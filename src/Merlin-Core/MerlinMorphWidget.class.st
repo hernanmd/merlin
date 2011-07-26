@@ -71,7 +71,7 @@ MerlinMorphWidget >> newDropListOn: aModel [
 			selected: #selectionIndex
 			changeSelected: #selectionIndex:
 			useIndex: true)
-		cornerStyle: #rounded;
+		"cornerStyle: #rounded;"
 		hResizing: #spaceFill;
 		vResizing: #shrinkWrap;
 		yourself.
@@ -90,7 +90,7 @@ MerlinMorphWidget >> newDropListOn: aModel list: aSelector [
 			selected: #selectionIndex
 			changeSelected: #selectionIndex:
 			useIndex: true)
-		cornerStyle: #rounded;
+		"cornerStyle: #rounded;"
 		hResizing: #spaceFill;
 		vResizing: #shrinkWrap;
 		yourself.
@@ -142,7 +142,7 @@ MerlinMorphWidget >> newGroupboxNamed: aString [
 	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
 	"Answer a groupbox with the given label."
 	^ GroupboxMorph new
-		cornerStyle: #rounded;
+		"cornerStyle: #rounded;"
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		label: aString;
@@ -171,7 +171,7 @@ MerlinMorphWidget >> newListFor: aModel list: listSelector selected: getSelector
 		menu: nil
 		keystroke: nil;
 		autoDeselect: false;
-		cornerStyle: #rounded;
+		"cornerStyle: #rounded;"
 		color: Color white;
 		borderStyle: (BorderStyle inset width: 1);
 		hResizing: #spaceFill;
@@ -192,7 +192,7 @@ MerlinMorphWidget >> newMorphDropListOn: aModel [
 			useIndex: true)
 		"selectionColor: self selectionColor;
 		getEnabledSelector: enabledSel;"
-		cornerStyle: #rounded;
+		"cornerStyle: #rounded;"
 		hResizing: #spaceFill;
 		vResizing: #shrinkWrap.
 		"setBalloonText: helpText"
@@ -215,7 +215,7 @@ MerlinMorphWidget >> newMultiSelectionListFor: aModel list: listSelector primary
 		menu: nil )
 		font: StandardFonts defaultFont;
 		autoDeselect: false;
-		cornerStyle: #rounded;
+		"cornerStyle: #rounded;"
 		color: Color white;
 		borderStyle: (BorderStyle inset width: 1);
 		hResizing: #spaceFill;
@@ -235,7 +235,7 @@ MerlinMorphWidget >> newNormalListFor: aModel list: listSelector selected: getSe
 		"menu: nil
 		keystroke: nil;
 		autoDeselect: false;"
-		cornerStyle: #rounded;
+		"cornerStyle: #rounded;"
 		color: Color white;
 		borderStyle: (BorderStyle inset width: 1);
 		hResizing: #spaceFill;
@@ -297,7 +297,7 @@ MerlinMorphWidget >> newTabGroupBoxFor: labelsAndControls [
 
 	^(TabGroupMorph  new
 		"font: self labelFont;"
-		cornerStyle: #rounded;
+		"cornerStyle: #rounded;"
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		labelsAndPages: labelsAndControls)
@@ -329,7 +329,7 @@ MerlinMorphWidget >> newTextEditorFor: aModel getText: getSel setText: setSel [
 			readSelection: nil
 			menu: nil;
 		"font: self textFont;"
-		cornerStyle: #rounded;
+		"cornerStyle: #rounded;"
 		hResizing: #rigid;
 		vResizing: #spaceFill;
 		borderStyle: (BorderStyle inset width: 1);
@@ -355,7 +355,7 @@ MerlinMorphWidget >> newTextEntryFor: aModel getText: getTextSelector setText: s
 		acceptOnCR: true;
 		"getEnabledSelector: enabledSel;"
 		font: StandardFonts defaultFont;
-		cornerStyle:  #rounded;
+		"cornerStyle:  #rounded;"
 		hResizing: #spaceFill"#rigid";
 		vResizing: #rigid;
 		borderStyle: (BorderStyle inset width: 1);
