@@ -66,6 +66,12 @@ MerlinMorphicRenderer >> merlinColumnRenderingFor: aPaneColumn [
 ]
 
 { #category : #'parts rendering' }
+MerlinMorphicRenderer >> merlinDirectoryChooseRenderingFor: aChooseFilePart [
+
+	^ MerlinMorphDirectoryChooseWidget new wizardPart: aChooseFilePart; yourself
+]
+
+{ #category : #'parts rendering' }
 MerlinMorphicRenderer >> merlinDropListRenderingFor: aDroplListPart [
 
 	^ MerlinMorphDroplListWidget new wizardPart: aDroplListPart; yourself. 

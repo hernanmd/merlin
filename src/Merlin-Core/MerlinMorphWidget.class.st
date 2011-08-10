@@ -62,6 +62,21 @@ MerlinMorphWidget >> newColumnWith: aCollectionOfMorphElements [
 ]
 
 { #category : #'utils - morph creation' }
+MerlinMorphWidget >> newDirectoryDialogNamed: title [
+
+	"Answer a morph representing a directory open dialog with the given title"
+
+	|tmpFileDialog|
+	tmpFileDialog := FileDialogWindow basicNew
+		initialize;
+		title: title;
+		answerDirectory.
+	tmpFileDialog answerDirectory.
+	^ tmpFileDialog
+	
+]
+
+{ #category : #'utils - morph creation' }
 MerlinMorphWidget >> newDropListOn: aModel [
 			
 	| morph |
@@ -278,15 +293,13 @@ MerlinMorphWidget >> newRowWith: aCollectionOfMorphElements [
 { #category : #'utils - morph creation' }
 MerlinMorphWidget >> newSaveFileDialogNamed: title [
 
-"Answer a morph representing a file open dialog with the given title"
+	"Answer a morph representing a save file dialog with the given title"
 
 	|tmpFileDialog|
 	tmpFileDialog := FileDialogWindow basicNew
 		initialize;
 		title: title;
 		answerSaveFile.
-	"exts ifNotNil: [fd validExtensions: exts].
-	path ifNotNil: [fd selectPathName: path]."
 	tmpFileDialog answerSaveFile.
 	^ tmpFileDialog
 	
