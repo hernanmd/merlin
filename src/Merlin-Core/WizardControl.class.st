@@ -236,6 +236,15 @@ WizardControl >> size [
 	^ self wizardPanes size
 ]
 
+{ #category : #open }
+WizardControl >> start [
+	"launch the wizard system but does not open any UI window"
+	
+	wizardPanes isEmpty ifTrue: [ ^ self ].
+	currentPane := 1.
+	(wizardPanes at: currentPane) doOpen.
+]
+
 { #category : #accessing }
 WizardControl >> valueOfInformation: aSymbol [
 	"return the value of the output information named aSymbol"

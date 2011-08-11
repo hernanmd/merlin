@@ -978,7 +978,7 @@ MerlinExamples class >> parametrizedPrefixedSuffixedTextFieldsUsing: aRenderer [
 	
 	firstTextFieldPart := TextFieldPart  new
 									inGroupboxNamed: 'yop';
-									textEntryContents: 'default';
+									textEntryContents: 'default text';
 									prefix: 'Enter text here : ';
 									textFieldHorizontalSize: 100;
 									yourself.
@@ -1015,7 +1015,7 @@ MerlinExamples class >> parametrizedTextEditorsUsing: aRenderer [
 	
 	firstTextFieldPart := TextEditorPart  new
 									inGroupboxNamed: 'yop';
-									defaultValue: 'default';
+									defaultValue: 'default text';
 									useLatePopulateContents: false;
 									yourself.
 									
