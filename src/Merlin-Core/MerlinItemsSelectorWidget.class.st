@@ -18,7 +18,7 @@ MerlinItemsSelectorWidget >> addButtonMorph [
 	"return the button that will be used to add a package from the packagesList to the selectionList. While no item is selected in the packagesList, this button is disable "
 	
 	^ addButtonMorph ifNil: [
-		addButtonMorph := (PluggableButtonMorphPlus
+		addButtonMorph := (PluggableButtonMorph
 			on: self getState: nil action: #updateWhenAddingItem)
 	 			label: '>>>';
 				disable;
@@ -105,7 +105,7 @@ MerlinItemsSelectorWidget >> removeButtonMorph [
 	"return the button that will be used to remove a package from the selectionList to the packagesList. While no item is selected in the selectionList, this button is disable "
 	
 	^ removeButtonMorph ifNil: [
-		removeButtonMorph := (PluggableButtonMorphPlus
+		removeButtonMorph := (PluggableButtonMorph
 			on: self getState: nil action: #updateWhenRemovingItem)
 	 			label: '<<<';
 				disable;
@@ -223,7 +223,7 @@ MerlinItemsSelectorWidget >> validateButtonMorph [
 	"return a button opening the context frame when clicked"
 	
 	^ validateButtonMorph ifNil: [
-		validateButtonMorph := (PluggableButtonMorphPlus
+		validateButtonMorph := (PluggableButtonMorph
 			on: self getState: nil action: #validateButtonAction)
 	 			label: 'Validate';
 				enable;
