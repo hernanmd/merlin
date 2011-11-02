@@ -89,6 +89,7 @@ MultiSelectionListSelectorWithSmalltalkExpression >> newTextEntry [
 		extent: 280@(StandardFonts defaultFont height + 8);
 		"setBalloonText: helpText."
 		yourself.
+		
 	pt textMorph
 		autoFit: true;
 		wrapFlag: false;
@@ -120,6 +121,7 @@ MultiSelectionListSelectorWithSmalltalkExpression >> smalltalkExpressionToEvalua
 { #category : #'text entry control' }
 MultiSelectionListSelectorWithSmalltalkExpression >> textEntryContents [
 	"return the contents of the text entry used to evaluate smalltalk expressions"
+
 	^ textEntryContents
 ]
 

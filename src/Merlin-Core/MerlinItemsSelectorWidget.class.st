@@ -160,7 +160,7 @@ MerlinItemsSelectorWidget >> smalltalkExpressionSelectorMorphNamed: aString [
 		self newGroupBoxNamed: aString with:   
 			(self newRowWith: {  
 				((self newLabel: 'select: [ :each |') disable).
-				(self textFieldMorph).
+				(self textFieldMorph setText:  '''*'' match: each '; yourself).
 				((self newLabel: ']') disable).
 				(self validateButtonMorph)}).
 			(self newColumnWith: {   }).
@@ -176,7 +176,7 @@ MerlinItemsSelectorWidget >> specificMorphContents [
 
 { #category : #'accessing - morphs' }
 MerlinItemsSelectorWidget >> textFieldMorph [
-
+	
 	^ textFieldMorph ifNil: [
 		textFieldMorph := self newTextEntryFor: self wizardPart getText: #textEntryContents setText: #textEntryContents:.
 		]
@@ -205,7 +205,7 @@ MerlinItemsSelectorWidget >> updateWhenRemovingItem [
 
 { #category : #actions }
 MerlinItemsSelectorWidget >> validateButtonAction [
-
+	
 	self textFieldMorph acceptTextInModel.
 	[self wizardPart validateButtonAction] on: Error do: [
 		self wizardPart textEntryMessage: 'Select items with a Smalltalk condition - INVALID EXPRESSION'.

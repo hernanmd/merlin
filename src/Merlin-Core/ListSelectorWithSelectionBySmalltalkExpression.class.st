@@ -87,6 +87,7 @@ ListSelectorWithSelectionBySmalltalkExpression >> newTextEntry [
 		extent: 24@(TextStyle defaultFont height + 8);
 		"setBalloonText: helpText."
 		yourself.
+
 	pt textMorph
 		autoFit: true;
 		wrapFlag: false;
