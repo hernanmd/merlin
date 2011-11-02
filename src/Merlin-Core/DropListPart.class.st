@@ -49,7 +49,7 @@ DropListPart >> format: aBlock [
 { #category : #accessing }
 DropListPart >> formatBlock [
 
-	^ formatBlock ifNil: [formatBlock := [:option | option printString]]
+	^ formatBlock ifNil: [formatBlock := [:option | option ]]
 ]
 
 { #category : #accessing }
@@ -102,7 +102,7 @@ DropListPart >> latePopulateContents [
 DropListPart >> list [
 	"Answer the value of list"
 
-	^ list ifEmpty: [list := {nil}]
+	^ list ifEmpty: [list := {}]
 ]
 
 { #category : #'list control' }
