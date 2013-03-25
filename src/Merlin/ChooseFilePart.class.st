@@ -27,7 +27,7 @@ ChooseFilePart >> dialogLabel: aString [
 ChooseFilePart >> initialize [
 
 	super initialize.
-	self selectedPathName: FileDirectory default pathName.
+	self selectedPathName: FileSystem disk workingDirectory fullName.
 ]
 
 { #category : #accessing }
