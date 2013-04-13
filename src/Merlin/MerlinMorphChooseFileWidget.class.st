@@ -10,7 +10,7 @@ Class {
 { #category : #accessing }
 MerlinMorphChooseFileWidget >> fileDialog [
 
-	^ fileDialog ifNil: [fileDialog :=  ((self newFileDialogNamed: self wizardPart selectedPathName)).]
+	^ fileDialog ifNil: [ fileDialog := self newFileDialogNamed: self wizardPart selectedPathName ]
 ]
 
 { #category : #accessing }
@@ -29,8 +29,7 @@ MerlinMorphChooseFileWidget >> populateWizardPartOutput [
 MerlinMorphChooseFileWidget >> setDefaultSelectedPath [
 
 	self wizardPart selectedPathName ifNotNil: [
-		self fileDialog selectPathName: self wizardPart selectedPathName
-		].
+		self fileDialog selectPathName: self wizardPart selectedPathName asFileReference parent fullName ]
 		
 ]
 
