@@ -22,13 +22,12 @@ MerlinMorphDroplListWidget >> formatDictionary [
 
 { #category : #'accessing - morph contents' }
 MerlinMorphDroplListWidget >> setMorphSize [
-
-	self wizardPart horizontalSize isNil ifFalse: [
-		(self dropList)
-			hResizing: #rigid;
-			vResizing: #shrinkWrap;
-			width: self wizardPart horizontalSize
-		].
+	self wizardPart horizontalSize
+		ifNotNil: [ 
+			self dropList
+				hResizing: #rigid;
+				vResizing: #shrinkWrap;
+				width: self wizardPart horizontalSize ]
 ]
 
 { #category : #'accessing - morph contents' }

@@ -729,7 +729,7 @@ MerlinExamples class >> numericalOperationsExample [
 		associatedTo: #secondNumber.
 	wizardControl atEndDo: [:aDictionaryOfOutputs |
 		|result|
-		result := Compiler evaluate: 
+		result := Smalltalk evaluate: 
 			(aDictionaryOfOutputs at: #firstNumber) asString,
 			(aDictionaryOfOutputs at: #operator) asString,
 			(aDictionaryOfOutputs at: #secondNumber) asString.

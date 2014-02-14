@@ -16,12 +16,11 @@ MerlinMorphTextFieldWidget >> populateWizardPartOutput [
 
 { #category : #'accessing - morph contents' }
 MerlinMorphTextFieldWidget >> setMorphSize [
-
-	self wizardPart horizontalSize isNil ifFalse: [
-		(self textField)
-		hResizing: #rigid;
-		width: self wizardPart horizontalSize
-		].
+	self wizardPart horizontalSize
+		ifNotNil: [ 
+			self textField
+				hResizing: #rigid;
+				width: self wizardPart horizontalSize ]
 ]
 
 { #category : #'accessing - morph contents' }

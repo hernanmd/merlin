@@ -16,13 +16,8 @@ MerlinMorphListWidget >> listMorph [
 
 { #category : #'accessing - morph contents' }
 MerlinMorphListWidget >> setMorphSize [
-
-	self wizardPart horizontalSize isNil ifFalse: [
-		self listMorph minWidth: self wizardPart horizontalSize
-		].
-	self wizardPart verticalSize isNil ifFalse: [
-		self listMorph minHeight: self wizardPart verticalSize
-		].
+	self wizardPart horizontalSize ifNotNil: [ self listMorph minWidth: self wizardPart horizontalSize ].
+	self wizardPart verticalSize ifNotNil: [ self listMorph minHeight: self wizardPart verticalSize ]
 ]
 
 { #category : #'accessing - morph contents' }

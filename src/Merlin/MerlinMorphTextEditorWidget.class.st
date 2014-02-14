@@ -24,17 +24,16 @@ MerlinMorphTextEditorWidget >> setMorphContents [
 
 { #category : #'accessing - morph contents' }
 MerlinMorphTextEditorWidget >> setMorphSize [
-
-	self wizardPart horizontalSize isNil ifFalse: [
-		(self textEditor)
-		hResizing: #rigid;
-		width: self wizardPart horizontalSize
-		].
-	self wizardPart verticalSize isNil ifFalse: [
-		(self textEditor)
-		vResizing: #rigid;
-		height: self wizardPart verticalSize
-		].
+	self wizardPart horizontalSize
+		ifNotNil: [ 
+			self textEditor
+				hResizing: #rigid;
+				width: self wizardPart horizontalSize ].
+	self wizardPart verticalSize
+		ifNotNil: [ 
+			self textEditor
+				vResizing: #rigid;
+				height: self wizardPart verticalSize ]
 ]
 
 { #category : #'accessing - morph contents' }
