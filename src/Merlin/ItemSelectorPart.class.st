@@ -27,7 +27,7 @@ ItemSelectorPart >> evaluateTextEntryContents [
 	"make a selection by evaluating the text entry content"
 	| selectionCollection |
 	
-	selectionCollection := Compiler 
+	selectionCollection := Smalltalk compiler 
 		evaluate: self smalltalkExpressionToEvaluate
 		for: self
 		logged: false.
