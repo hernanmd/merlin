@@ -69,7 +69,7 @@ CheckboxPart >> contents [
 CheckboxPart >> contents: newContents [
 
 	contents := newContents.
-	self contentsChanged.
+"	self contentsChanged."
 	self hasChanged.
 	self parentComposite ifNotNil: [
 		self parentComposite contentsChanged . 

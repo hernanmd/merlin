@@ -21,7 +21,7 @@ MultiSelectionItemSelectorPart >> changeInitialListIndex: newListIndex [
 		
 	initialListIndex := newListIndex.
 
-	self contentsChanged.	
+"	self contentsChanged.	"
 	
 ]
 
