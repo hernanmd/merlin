@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'checkboxParts',
 		'answer',
-		'labels'
+		'labels',
+		'formatBlock'
 	],
 	#category : #'Merlin-Parts'
 }
@@ -13,6 +14,19 @@ Class {
 MultiCheckboxesPart class >> withAll: aCollectionOfLabels [ 
 
 	^ super new initialize: aCollectionOfLabels .
+]
+
+{ #category : #accessing }
+MultiCheckboxesPart >> format: aBlock [
+
+	"use this method the string representationof the options. aBlock is a one argument block (representing the current option to format). It should return a string that will be the representation of the option"
+	formatBlock := aBlock
+]
+
+{ #category : #accessing }
+MultiCheckboxesPart >> formatBlock [
+
+	^ formatBlock ifNil: [formatBlock := [:option | option ]]
 ]
 
 { #category : #accessing }

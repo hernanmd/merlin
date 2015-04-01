@@ -55,7 +55,7 @@ MerlinMorphMultiCheckboxesWidget >> computeAllCheckboxes [
 		(self newCheckboxFor: (self wizardPart modelOfOption: aLabel )
 				getSelected: #contents
 				setSelected: #contents:
-				label: aLabel).
+				label: (self wizardPart formatBlock meValue: aLabel)).
 		]).
 ]
 
