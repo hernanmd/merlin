@@ -3,7 +3,8 @@ Class {
 	#superclass : #WizardPart,
 	#instVars : [
 		'text',
-		'partValue'
+		'partValue',
+		'formatBlock'
 	],
 	#category : #'Merlin-Parts'
 }
@@ -12,6 +13,17 @@ Class {
 TextPart class >> on: blockOrStringText inGroupBoxNamed: groupBoxName [
 
 	^ super new initializeWith: blockOrStringText inGrouopboxNamed: groupBoxName;yourself. 
+]
+
+{ #category : #accessing }
+TextPart >> format: aBlock [
+	"set to a block to make the input object more presentable"
+	formatBlock := aBlock
+]
+
+{ #category : #accessing }
+TextPart >> formatBlock [
+	^ formatBlock ifNil: [formatBlock := [:option | option ]]
 ]
 
 { #category : #private }

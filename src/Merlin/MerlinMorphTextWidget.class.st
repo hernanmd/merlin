@@ -17,7 +17,7 @@ MerlinMorphTextWidget >> populateWizardPartOutput [
 { #category : #'accessing - morph contents' }
 MerlinMorphTextWidget >> specificMorphContents [ 
 
-	^ self textMorph contents: self wizardPart text
+	^ self textMorph contents: (self wizardPart formatBlock meValue: self wizardPart text)
 
 	
 ]
