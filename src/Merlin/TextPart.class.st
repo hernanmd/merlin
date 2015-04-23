@@ -12,7 +12,7 @@ Class {
 { #category : #'instance creation' }
 TextPart class >> on: blockOrStringText inGroupBoxNamed: groupBoxName [
 
-	^ super new initializeWith: blockOrStringText inGrouopboxNamed: groupBoxName;yourself. 
+	^ super new defaultValue: blockOrStringText; inGroupboxNamed: groupBoxName;yourself. 
 ]
 
 { #category : #accessing }
