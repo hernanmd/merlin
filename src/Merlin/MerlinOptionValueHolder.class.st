@@ -21,6 +21,11 @@ MerlinOptionValueHolder >> contents: newContents [
 ]
 
 { #category : #accessing }
+MerlinOptionValueHolder >> contentsChanged [
+	self changed: #contents
+]
+
+{ #category : #accessing }
 MerlinOptionValueHolder >> option [
 
 	^ option
