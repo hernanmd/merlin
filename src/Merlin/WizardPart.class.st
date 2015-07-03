@@ -68,6 +68,11 @@ WizardPart >> contents: aCollectionOfMorphElements [
 	self populateContents: aCollectionOfMorphElements .
 ]
 
+{ #category : #'as yet unclassified' }
+WizardPart >> contentsChanged [
+	self changed: #contents
+]
+
 { #category : #'initialize-release' }
 WizardPart >> defaultValue [ 
 
