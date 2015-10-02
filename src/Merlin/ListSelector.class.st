@@ -288,7 +288,7 @@ ListSelector >> selectionListSelectionIndex: anIndex [
 			removeButton enable.
 		"we disable the selection of the packages list : "
 			self packagesListSelectionIndex: 0.
-			self changed: # packagesListSelectionIndex
+			self changed: #packagesListSelectionIndex
 			]
 		ifFalse: [
 			removeButton disable
