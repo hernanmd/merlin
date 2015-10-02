@@ -223,7 +223,7 @@ ListSelector >> packagesListSelectionIndex: anIndex [
 			addButton enable.
 	"we disable the selection of the selection list : "
 			self selectionListSelectionIndex: 0.
-			self changed: # selectionListSelectionIndex]
+			self changed: #selectionListSelectionIndex]
  
 		ifFalse: [ 
 			addButton disable 
