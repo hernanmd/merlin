@@ -341,10 +341,10 @@ MerlinMorphWidget >> newTextEditorFor: aModel getText: getSel setText: setSel [
 		"font: self textFont;"
 		"cornerStyle: #rounded;"
 		hResizing: #rigid;
-		vResizing: #spaceFill;
-		borderStyle: (BorderStyle inset width: 1);
+		vResizing: #spaceFill
+		"borderStyle: (BorderStyle inset width: 1);"
 		"extent: 800@(Preferences standardDefaultTextFont height + 8);"
-		color: Color white.
+"		color: Color white."
 		"selectionColor: self selectionColor"	
 			"getEnabledSelector: enabledSel;" 
 ]
@@ -364,12 +364,12 @@ MerlinMorphWidget >> newTextEntryFor: aModel getText: getTextSelector setText: s
 		menu: nil;
 		acceptOnCR: true;
 		"getEnabledSelector: enabledSel;"
-		font: StandardFonts defaultFont;
+		"font: StandardFonts defaultFont;"
 		"cornerStyle:  #rounded;"
 		hResizing: #spaceFill"#rigid";
 		vResizing: #rigid;
-		borderStyle: (BorderStyle inset width: 1);
-		color: Color white;
+		"borderStyle: (BorderStyle inset width: 1);
+		color: Color white;"
 		"selectionColor: self selectionColor;"
 		hideScrollBarsIndefinitely;
 		extent: 24@ (StandardFonts defaultFont height + 8);
