@@ -105,7 +105,7 @@ CheckboxPart >> latePopulateContents [
 	
 	|default|
 	default := defaultValue meValue: self requiredInputs.
-	default ifNotNilDo: [:aBoolean |
+	default ifNotNil: [:aBoolean |
 		self selected: aBoolean.	
 		]. 
 	

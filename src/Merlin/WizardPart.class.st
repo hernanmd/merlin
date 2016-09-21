@@ -124,7 +124,7 @@ WizardPart >> enableNextButtonValue [
 WizardPart >> groupBoxName [ 
 		
 	groupBoxName 
-		ifNotNilDo: [:aStringOrABlock | ^ aStringOrABlock meValue: self requiredInputs ].
+		ifNotNil: [:aStringOrABlock | ^ aStringOrABlock meValue: self requiredInputs ].
 	^ groupBoxName 
 ]
 

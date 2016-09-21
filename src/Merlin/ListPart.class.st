@@ -40,7 +40,7 @@ ListPart >> initialize [
 { #category : #accessing }
 ListPart >> latePopulateContents [ 
 
-	(self valueOf: self defaultValue) ifNotNilDo: [:anIndex |
+	(self valueOf: self defaultValue) ifNotNil: [:anIndex |
 		self selectionIndex: anIndex
 		]    
 ]
@@ -93,7 +93,7 @@ ListPart >> merlinRendering [
 { #category : #'accessing - Wizard Management' }
 ListPart >> outputValue [
 	"this method is an abstract method as only the subclass itself know what is the information to send to the WizardPane which will send it  to the wizarControl "
-	self list ifNotNilDo: [:tmpList | 
+	self list ifNotNil: [:tmpList | 
 		
 		^ "tmpList at:" self selectionIndex]
 ]

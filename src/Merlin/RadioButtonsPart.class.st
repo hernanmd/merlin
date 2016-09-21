@@ -11,7 +11,7 @@ Class {
 RadioButtonsPart >> latePopulateContents [ 
 
 	(self valueOf: self defaultValue) 
-		ifNotNilDo: [:aSymbol |
+		ifNotNil: [:aSymbol |
 			self selectOption: aSymbol
 		]
 ]

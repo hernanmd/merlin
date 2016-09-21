@@ -58,12 +58,9 @@ TextFieldPart >> initialize: defaultText [
 
 { #category : #accessing }
 TextFieldPart >> initializeDefault [
-	
-	|default morphContents|
+	| default |
 	default := self valueOf: self defaultValue.
-	default ifNotNilDo: [:aString |
-		self textEntryContents: aString 	
-		]. 
+	default ifNotNil: [ :aString | self textEntryContents: aString ]
 ]
 
 { #category : #accessing }

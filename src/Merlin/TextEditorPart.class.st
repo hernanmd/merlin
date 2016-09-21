@@ -35,13 +35,10 @@ TextEditorPart >> horizontalSize: anInteger [
 ]
 
 { #category : #accessing }
-TextEditorPart >> latePopulateContents [ 
-
-	|default morphContents|
+TextEditorPart >> latePopulateContents [
+	| default |
 	default := self valueOf: self defaultValue.
-	default ifNotNilDo: [:aString |
-		self textEditorContents: aString 	
-		]. 
+	default ifNotNil: [ :aString | self textEditorContents: aString ]
 ]
 
 { #category : #'*Merlin-Rendering' }

@@ -51,7 +51,7 @@ ButtonPart >> latePopulateContents [
 	
 	|default|
 	default := defaultValue meValue: self requiredInputs.
-	default ifNotNilDo: [:aString |
+	default ifNotNil: [:aString |
 		self label: aString
 		]. 
 	

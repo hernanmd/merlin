@@ -223,7 +223,7 @@ WizardPane >> disableNextButton [
 { #category : #actions }
 WizardPane >> distributeRequiredInputs [
 	wizardParts do: [:wizardPart |
-		(partsAndRequiredInformations at: wizardPart ifAbsent: [nil]) ifNotNilDo: [ :collOfSymbols |
+		(partsAndRequiredInformations at: wizardPart ifAbsent: [nil]) ifNotNil: [ :collOfSymbols |
 			collOfSymbols do: [:symbol |
 				self retrieveOutput: symbol.
 				wizardPart requiredInputsAt: symbol put: (wizardControl wizardInformations at: symbol ifAbsent: [nil])].

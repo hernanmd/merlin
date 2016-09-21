@@ -89,7 +89,7 @@ DropListPart >> latePopulateContents [
 	
 	|default|
 	default := defaultValue meValue: self requiredInputs.
-	default ifNotNilDo: [:anIndexOrAnObject |
+	default ifNotNil: [:anIndexOrAnObject |
 		anIndexOrAnObject isNumber 
 			ifTrue: [self selectionIndex: anIndexOrAnObject ]
 			ifFalse: [self selectionIndex: (self list indexOf: anIndexOrAnObject)].	
