@@ -9,10 +9,10 @@ Class {
 
 { #category : #'accessing - morph contents' }
 MerlinMorphCellWidget >> morphContents [
-
-	self wizardCell groupBoxName 
-		ifNotNilDo: [:aString | ^ self newGroupBoxNamed: aString with: self specificMorphContents]
-		ifNil: [ ^ self specificMorphContents].
+	self wizardCell groupBoxName
+		ifNotNil:
+			[ :aString | ^ self newGroupBoxNamed: aString with: self specificMorphContents ]
+		ifNil: [ ^ self specificMorphContents ]
 ]
 
 { #category : #'accessing - morph contents' }
