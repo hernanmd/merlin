@@ -316,7 +316,7 @@ MultiSelectionListSelector >> newInitialMultiSelectionList [
 { #category : #'morph content setup tools' }
 MultiSelectionListSelector >> newMultiSelectionList [
 
-^ PluggableListMorphOfMany
+^ PluggableListMorph
 		on: self
 		list: #list
 		primarySelection: #selectionSymbol
