@@ -337,7 +337,7 @@ WizardPart >> newListFor: aModel list: listSelector selected: getSelector change
 { #category : #'morph content setup tools' }
 WizardPart >> newMultiSelectionListFor: aModel list: listSelector primarySelection: primarySelectionSelector changePrimarySelection: changePrimarySelectionSelector listSelection: listSelectionSelector changeListSelection: changeListSelectionSelector [
 
-^ (PluggableListMorphOfMany
+^ (PluggableListMorph
 		on: aModel
 		list: listSelector 
 		primarySelection: primarySelectionSelector 
