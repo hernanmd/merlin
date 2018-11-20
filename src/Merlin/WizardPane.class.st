@@ -377,10 +377,10 @@ WizardPane >> mainPaneLine [
 	^ mainPaneLine 
 ]
 
-{ #category : #'*merlin-rendering' }
+{ #category : #rendering }
 WizardPane >> merlinSpecificRenderer [
 
-	^ self subclassResponsability
+	^ self subclassResponsibility
 ]
 
 { #category : #accessing }
@@ -510,7 +510,7 @@ WizardPane >> removeWithouUnassociateSubComponentAt: anInteger [
 	self mainPaneLine removeWithouUnassociateSubComponentAt: anInteger.
 ]
 
-{ #category : #'*merlin-rendering' }
+{ #category : #rendering }
 WizardPane >> renderOnMerlinRenderer: aMerlinRenderer [
 
 	self renderer: self merlinSpecificRenderer.
@@ -519,13 +519,13 @@ WizardPane >> renderOnMerlinRenderer: aMerlinRenderer [
 	
 ]
 
-{ #category : #'*merlin-rendering' }
+{ #category : #rendering }
 WizardPane >> renderer [
 
 	^ renderer ifNil: [renderer := self wizardControl renderer]
 ]
 
-{ #category : #'*merlin-rendering' }
+{ #category : #rendering }
 WizardPane >> renderer: aMerlinRenderer [
 
 	renderer := aMerlinRenderer

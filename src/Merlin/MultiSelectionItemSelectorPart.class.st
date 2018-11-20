@@ -103,7 +103,7 @@ MultiSelectionItemSelectorPart >> initialize [
 	selectionListIndex := 0.
 ]
 
-{ #category : #'*merlin-rendering' }
+{ #category : #rendering }
 MultiSelectionItemSelectorPart >> merlinRendering [
 
 	^ self renderer merlinMultiSelectionItemsSelectorRenderingFor: self

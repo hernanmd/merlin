@@ -29,7 +29,7 @@ CompositePart >> latePopulateContents [
 		anAssoc value latePopulateContents].
 ]
 
-{ #category : #'*Merlin-Rendering' }
+{ #category : #rendering }
 CompositePart >> merlinRendering [
 
 	^ self renderer merlinMultiPartsRenderingFor: self

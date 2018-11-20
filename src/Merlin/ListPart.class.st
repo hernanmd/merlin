@@ -84,7 +84,7 @@ ListPart >> listWidth: anInteger [
 	listWidth := anInteger.
 ]
 
-{ #category : #'*Merlin-Rendering' }
+{ #category : #rendering }
 ListPart >> merlinRendering [
 
 	^ self renderer merlinListRenderingFor: self

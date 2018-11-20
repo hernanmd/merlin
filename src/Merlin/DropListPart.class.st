@@ -118,7 +118,7 @@ DropListPart >> list: anObject [
 	self selectionIndex ifNotNil: [self hasChanged].
 ]
 
-{ #category : #'*merlin-rendering' }
+{ #category : #rendering }
 DropListPart >> merlinRendering [
 
 	^ self renderer merlinDropListRenderingFor: self

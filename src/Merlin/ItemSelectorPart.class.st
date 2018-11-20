@@ -94,7 +94,7 @@ ItemSelectorPart >> listSelectedItem [
 		ifFalse: [self initialList at: self initialListIndex]
 ]
 
-{ #category : #'*merlin-rendering' }
+{ #category : #rendering }
 ItemSelectorPart >> merlinRendering [
 
 	^ self renderer merlinItemsSelectorRenderingFor: self

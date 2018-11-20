@@ -16,7 +16,7 @@ RadioButtonsPart >> latePopulateContents [
 		]
 ]
 
-{ #category : #'*merlin-rendering' }
+{ #category : #rendering }
 RadioButtonsPart >> merlinRendering [
 
 	^ self renderer merlinRadioButtonsRenderingFor: self

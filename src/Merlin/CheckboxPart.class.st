@@ -115,7 +115,7 @@ CheckboxPart >> latePopulateContents [
 	
 ]
 
-{ #category : #'*merlin-rendering' }
+{ #category : #rendering }
 CheckboxPart >> merlinRendering [
 
 	^ self renderer merlinCheckboxRenderingFor: self

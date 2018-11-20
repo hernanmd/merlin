@@ -4,7 +4,7 @@ Class {
 	#category : #'Merlin-Parts'
 }
 
-{ #category : #'*Merlin-Rendering' }
+{ #category : #rendering }
 SaveChooseFilePart >> merlinRendering [
 
 	^ self renderer merlinSaveChooseFileRenderingFor: self

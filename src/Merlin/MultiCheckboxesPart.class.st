@@ -53,7 +53,7 @@ MultiCheckboxesPart >> latePopulateContents [
 	
 ]
 
-{ #category : #'*merlin-rendering' }
+{ #category : #rendering }
 MultiCheckboxesPart >> merlinRendering [
 
 	^ self renderer merlinMultiCheckboxesRenderingFor: self

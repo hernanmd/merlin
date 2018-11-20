@@ -7,12 +7,12 @@ Class {
 	#category : #'Merlin-Panes'
 }
 
-{ #category : #'*merlin-rendering' }
+{ #category : #rendering }
 WizardLastPane >> merlinSpecificRenderer [ 
 	^ MerlinMorphicLastPaneRenderer new 
 ]
 
-{ #category : #'*merlin-rendering' }
+{ #category : #rendering }
 WizardLastPane >> renderOnMerlinRenderer: aMerlinRenderer [
 
 	^ aMerlinRenderer renderMerlinLastPane: self  

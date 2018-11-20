@@ -4,7 +4,7 @@ Class {
 	#category : #'Merlin-Parts'
 }
 
-{ #category : #'*merlin-rendering' }
+{ #category : #rendering }
 MorphDropListPart >> merlinRendering [
 
 	^ self renderer merlinMorphDropListRenderingFor: self

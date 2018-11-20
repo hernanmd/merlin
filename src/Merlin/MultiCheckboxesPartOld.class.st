@@ -148,7 +148,7 @@ MultiCheckboxesPartOld >> initialize: aCollectionOfLabels inGroupBoxNamed: aName
 	
 ]
 
-{ #category : #'*Merlin-Rendering' }
+{ #category : #rendering }
 MultiCheckboxesPartOld >> merlinRendering [
 
 	^ self renderer merlinMultiCheckboxesRenderingFor: self

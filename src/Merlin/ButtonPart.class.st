@@ -57,7 +57,7 @@ ButtonPart >> latePopulateContents [
 	
 ]
 
-{ #category : #'*Merlin-Rendering' }
+{ #category : #rendering }
 ButtonPart >> merlinRendering [ 
 
 	^ self renderer merlinButtonRenderingFor: self  

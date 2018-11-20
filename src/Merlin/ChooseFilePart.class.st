@@ -39,7 +39,7 @@ ChooseFilePart >> latePopulateContents [
 	
 ]
 
-{ #category : #'*Merlin-Rendering' }
+{ #category : #rendering }
 ChooseFilePart >> merlinRendering [
 
 	^ self renderer merlinChooseFileRenderingFor: self

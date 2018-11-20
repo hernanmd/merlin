@@ -21,7 +21,7 @@ WizardFirstPane >> merlinSpecificRenderer [
 	^ MerlinMorphicFirstPaneRenderer new 
 ]
 
-{ #category : #'*merlin-rendering' }
+{ #category : #rendering }
 WizardFirstPane >> renderOnMerlinRenderer: aMerlinRenderer [
 
 	^ aMerlinRenderer renderMerlinFirstPane: self 

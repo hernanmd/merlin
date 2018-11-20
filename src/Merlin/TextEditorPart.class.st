@@ -41,7 +41,7 @@ TextEditorPart >> latePopulateContents [
 	default ifNotNil: [ :aString | self textEditorContents: aString ]
 ]
 
-{ #category : #'*Merlin-Rendering' }
+{ #category : #rendering }
 TextEditorPart >> merlinRendering [
 
 	^ self renderer merlinTextEditorRenderingFor: self

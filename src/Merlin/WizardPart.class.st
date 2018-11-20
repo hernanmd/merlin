@@ -460,7 +460,7 @@ WizardPart >> outputValue [
 	self subclassResponsibility
 ]
 
-{ #category : #'*Merlin-Rendering' }
+{ #category : #rendering }
 WizardPart >> outputValue: anObject [
 
 	"populate the output value of a wizardPart with aObject. Will be used by the rendering package"

@@ -71,7 +71,7 @@ TextFieldPart >> latePopulateContents [
 
 ]
 
-{ #category : #'*Merlin-Rendering' }
+{ #category : #rendering }
 TextFieldPart >> merlinRendering [
 
 	^ self renderer merlinTextFieldRenderingFor: self

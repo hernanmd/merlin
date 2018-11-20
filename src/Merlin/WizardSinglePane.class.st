@@ -7,13 +7,13 @@ Class {
 	#category : #'Merlin-Panes'
 }
 
-{ #category : #'*merlin-rendering' }
+{ #category : #rendering }
 WizardSinglePane >> merlinSpecificRenderer [
 
 	^ MerlinMorphicSinglePaneRenderer new.
 ]
 
-{ #category : #'*merlin-rendering' }
+{ #category : #rendering }
 WizardSinglePane >> renderOnMerlinRenderer: aMerlinRenderer [
 
 	^ aMerlinRenderer renderMerlinSinglePane: self  

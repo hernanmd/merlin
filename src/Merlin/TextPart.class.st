@@ -48,7 +48,7 @@ TextPart >> latePopulateContents [
 	
 ]
 
-{ #category : #'*Merlin-Rendering' }
+{ #category : #rendering }
 TextPart >> merlinRendering [
 
 	^ self renderer merlinTextRenderingFor: self.
