@@ -8,8 +8,6 @@
 - [Installation](#installation)
   - [Baseline String](#baseline-string)
 - [Usage](#usage)
-  - [Subsection1](#subsection1)
-- [Implementation notes](#implementation-note)
 - [Contribute](#contribute)
   - [Version management](#version-management)
 - [License](#license)
@@ -20,25 +18,26 @@
 ```smalltalk
 Metacello new	
   baseline: 'Merlin';	
-  repository: 'https://github.com/hernanmd/merlin.git';	
+  repository: 'github://hernanmd/merlin/src';	
   load.
 ```
 
 ## Baseline String 
 
 If you want to add the nil to your Metacello Baselines or Configurations, copy and paste the following expression:
+
 ```smalltalk
 	" ... "
 	spec
 		baseline: 'Merlin' 
-		with: [ spec repository: 'https://github.com/hernanmd/merlin.git' ];
+		with: [ spec repository: 'https://github.com/hernanmd/merlin/src' ];
 	" ... "
 ``
 
 # Usage
 
 ```smalltalk
-
+MerlinExamples class browse.
 ```
 
 # Description
@@ -84,4 +83,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 # Authors
 
-Hernán Morales Durand
+The Moose Team
