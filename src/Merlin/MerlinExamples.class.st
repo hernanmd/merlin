@@ -6,6 +6,7 @@ Class {
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> branchesExample [  
+	<example>
 	"self branchesExample"
 
 	^ self branchesExampleUsing: MerlinMorphicWizardRenderer new
@@ -104,6 +105,7 @@ MerlinExamples class >> buttonPartUsing: aMerlinRenderer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> chooseFilePart [
+	<example>
 	"self chooseFilePart"
 
 	^ self chooseFilePartUsing: MerlinMorphicWizardRenderer new
@@ -135,6 +137,7 @@ MerlinExamples class >> chooseFilePartUsing: aMerlinRenderer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> compositePart [
+	<example>
 	"self compositePart"
 
 	^ self compositePartUsing: MerlinMorphicWizardRenderer new
@@ -183,6 +186,7 @@ MerlinExamples class >> compositePartUsing: aMerlinRenderer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> compositePartWithoutSpecifyingTabTitles [
+	<example>
 	"self compositePartWithoutSpecifyingTabTitles"
 
 	^ self compositePartWithoutSpecifyingTabTitlesUsing: MerlinMorphicWizardRenderer new
@@ -230,6 +234,7 @@ MerlinExamples class >> compositePartWithoutSpecifyingTabTitlesUsing: aMerlinRen
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> compositeWithParametrizedParts [
+	<example>
 	"self compositeWithParametrizedParts"
 
 	^ self compositeWithParametrizedPartsUsing: MerlinMorphicWizardRenderer new    
@@ -288,6 +293,7 @@ MerlinExamples class >> compositeWithParametrizedPartsUsing: aMerlinRenderer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> dropListsWithCondition [
+	<example>
 	"self dropListsWithCondition"
 	^ self dropListsWithConditionUsing: MerlinMorphicWizardRenderer new.
 ]
@@ -342,6 +348,7 @@ MerlinExamples class >> dropListsWithConditionUsing: aRenderer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> itemsSelectorPart [
+	<example>
 	"self itemsSelectorPart"
 
 	^ self itemsSelectorPartUsing: MerlinMorphicWizardRenderer new  
@@ -381,7 +388,7 @@ MerlinExamples class >> itemsSelectorPartUsing: aMerlinRenderer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> modifyingWizardStructureInCallbacks [
-
+	<example>
 	"self modifyingWizardStructureInCallbacks"
 	^ self modifyingWizardStructureInCallbacksUsing: MerlinMorphicWizardRenderer new
 ]
@@ -418,14 +425,14 @@ MerlinExamples class >> modifyingWizardStructureInCallbacksUsing: aMerlinRendere
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> modifyingWizardStructureInChooseFilePartCallbacks [
-
+	<example>
 	"self modifyingWizardStructureInChooseFilePartCallbacks"
 	^ self modifyingWizardStructureInChooseFilePartCallbacksUsing: MerlinMorphicWizardRenderer new
 ]
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> modifyingWizardStructureInChooseFilePartCallbacks2 [
-
+	<example>
 	"self modifyingWizardStructureInChooseFilePartCallbacks2"
 	^ self modifyingWizardStructureInChooseFilePartCallbacks2Using: MerlinMorphicWizardRenderer new
 	
@@ -486,6 +493,7 @@ MerlinExamples class >> modifyingWizardStructureInChooseFilePartCallbacksUsing: 
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> multiCheckBoxesPart [
+	<example>
 	"self multiCheckBoxesPart"
 
 	^ self multiCheckBoxesPartUsing: MerlinMorphicWizardRenderer new
@@ -531,6 +539,7 @@ MerlinExamples class >> multiCheckBoxesPartUsing: aRendrer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> multiCheckBoxesPartWithCallback [
+	<example>
 	"self multiCheckBoxesPartWithCallback"
 
 	self multiCheckBoxesPartWithCallbackUsing: MerlinMorphicWizardRenderer new  
@@ -572,6 +581,7 @@ MerlinExamples class >> multiCheckBoxesPartWithCallbackUsing: aRenderer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> multiDependentCheckboxesPart [
+	<example>
 	"self multiDependentCheckboxesPart"
 
 	^ self multiDependentCheckboxesPartUsing: MerlinMorphicWizardRenderer new
@@ -657,6 +667,7 @@ MerlinExamples class >> multiDependentCheckboxesWithCallbackPartUsing: aRenderer
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> multiSelectionItemsSelectorPart [
+	<example>
 	"self multiSelectionItemsSelectorPart"
 
 	^ self multiSelectionItemsSelectorPartUsing: MerlinMorphicWizardRenderer new  
@@ -696,6 +707,7 @@ MerlinExamples class >> multiSelectionItemsSelectorPartUsing: aRenderer [
 
 { #category : #'complete examples' }
 MerlinExamples class >> numericalOperationsExample [
+	<example>
 	"self numericalOperationsExample"
 	| wizardControl firstPane middlePane lastPane firstNumberDropList operatorDropList secondNumberDropList |
 	<lint: 'Long methods' rationale: 'Just an example of how to use the library ' author: 'cyrille.delaunay'>
@@ -729,7 +741,7 @@ MerlinExamples class >> numericalOperationsExample [
 		associatedTo: #secondNumber.
 	wizardControl atEndDo: [:aDictionaryOfOutputs |
 		|result|
-		result := Smalltalk evaluate: 
+		result := Smalltalk compiler evaluate: 
 			(aDictionaryOfOutputs at: #firstNumber) asString,
 			(aDictionaryOfOutputs at: #operator) asString,
 			(aDictionaryOfOutputs at: #secondNumber) asString.
@@ -740,6 +752,7 @@ MerlinExamples class >> numericalOperationsExample [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> parametrizedChexboxes [
+	<example>
 	"self parametrizedChexboxes"
 
 	^ self parametrizedChexboxesUsing: MerlinMorphicWizardRenderer new  
@@ -783,6 +796,7 @@ MerlinExamples class >> parametrizedChexboxesUsing: aRenderer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> parametrizedDropLists [
+	<example>
 	"self parametrizedDropLists"
 
 	^ self parametrizedDropListsUsing: MerlinMorphicWizardRenderer new
@@ -828,6 +842,7 @@ MerlinExamples class >> parametrizedDropListsUsing: aRenderer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> parametrizedLists [
+	<example>
 	"self parametrizedLists"
 
 	self parametrizedListsUsing: MerlinMorphicWizardRenderer new
@@ -872,6 +887,7 @@ MerlinExamples class >> parametrizedListsUsing: aRenderer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> parametrizedListsUsingRefresh [
+	<example>
 	"self parametrizedListsUsingRefresh"
 
 	^ self parametrizedListsUsingRefreshUsing: MerlinMorphicWizardRenderer new
@@ -918,6 +934,7 @@ MerlinExamples class >> parametrizedListsUsingRefreshUsing: aRenderer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> parametrizedMorphDropLists [
+	<example>
 	"self parametrizedMorphDropLists"
 
 	^ self parametrizedMorphDropListsUsing: MerlinMorphicWizardRenderer new
@@ -961,6 +978,7 @@ MerlinExamples class >> parametrizedMorphDropListsUsing: aRenderer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> parametrizedPrefixedSuffixedTextFields [
+	<example>
 	"self parametrizedPrefixedSuffixedTextFields"
 
 	^ self parametrizedPrefixedSuffixedTextFieldsUsing: MerlinMorphicWizardRenderer new
@@ -1039,6 +1057,7 @@ MerlinExamples class >> parametrizedTextEditorsUsing: aRenderer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> parametrizedTextFields [
+	<example>
 	"self parametrizedTextFields"
 
 	^ self parametrizedTextFieldsUsing: MerlinMorphicWizardRenderer new
@@ -1081,6 +1100,7 @@ MerlinExamples class >> parametrizedTextFieldsUsing: aRenderer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> radioButtonsPart [
+	<example>
 	"self radioButtonsPart"
 
 	^ self radioButtonsPartUsing: MerlinMorphicWizardRenderer new  
@@ -1145,6 +1165,7 @@ MerlinExamples class >> textEditorUsing: aMerlinRenderer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> usingCallbackAndRefresh [
+	<example>
 	"self usingCallbackAndRefresh"
 
 	^ self usingCallbackAndRefreshUsing: MerlinMorphicWizardRenderer new
@@ -1152,6 +1173,7 @@ MerlinExamples class >> usingCallbackAndRefresh [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> usingCallbackAndRefreshAndBlockAsDefaultValue [
+	<example>
 	"self usingCallbackAndRefreshAndBlockAsDefaultValue"
 
 	^ self usingCallbackAndRefreshAndBlockAsDefaultValueUsing: MerlinMorphicWizardRenderer new
@@ -1226,6 +1248,7 @@ MerlinExamples class >> usingCallbackAndRefreshUsing: aRenderer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> usingCallbackOnCheckBox [
+	<example>
 	"self usingCallbackOnCheckBox"
 
 	^ self usingCallbackOnCheckBoxUsing: MerlinMorphicWizardRenderer new
@@ -1270,6 +1293,7 @@ MerlinExamples class >> usingCallbackOnCheckBoxUsing: aRenderer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> usingCallbackOnDropList [
+	<example>
 	"self usingCallbackOnDropList"
 
 	^ self usingCallbackOnDropListUsing: MerlinMorphicWizardRenderer new
@@ -1313,6 +1337,7 @@ MerlinExamples class >> usingCallbackOnDropListUsing: aRenderer [
 
 { #category : #'basic morphic examples' }
 MerlinExamples class >> usingRowsAndColumns [
+	<example>
 	"self usingRowsAndColumns"
 
 	^ self usingRowsAndColumnsUsing: MerlinMorphicWizardRenderer new
