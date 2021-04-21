@@ -12,6 +12,10 @@
   - [Version management](#version-management)
 - [License](#license)
 
+# Description
+
+Merlin is a Wizard builder for Pharo developed by Cyrille Delaunay et al. in the context of Moose.
+
 # Installation
 
 [//]: # (pi)
@@ -32,15 +36,15 @@ If you want to add the nil to your Metacello Baselines or Configurations, copy a
 		baseline: 'Merlin' 
 		with: [ spec repository: 'https://github.com/hernanmd/merlin/src' ];
 	" ... "
-``
+```
 
 # Usage
+
+See class side methods with the following expression:
 
 ```smalltalk
 MerlinExamples class browse.
 ```
-
-# Description
 
 # Contribute
 
