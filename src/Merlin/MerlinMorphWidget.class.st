@@ -354,7 +354,7 @@ MerlinMorphWidget >> newTextEntryFor: aModel getText: getTextSelector setText: s
 
 		
 	| pt |
-	pt := PluggableTextFieldMorph new
+	pt := RubPluggableTextFieldMorph new
 		convertTo: String;
 		alwaysAccept: true;
 		on: aModel
@@ -371,12 +371,12 @@ MerlinMorphWidget >> newTextEntryFor: aModel getText: getTextSelector setText: s
 		"borderStyle: (BorderStyle inset width: 1);
 		color: Color white;"
 		"selectionColor: self selectionColor;"
-		hideScrollBarsIndefinitely;
+		"hideScrollBarsIndefinitely;"
 		extent: 24@ (StandardFonts defaultFont height + 8);
 		"setBalloonText: helpText."
 		yourself.
 	pt textMorph
-		autoFit: true;
+		"autoFit: true;"
 		wrapFlag: false;
 		margins: (2@1 corner: 2@1).
 		

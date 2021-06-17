@@ -26,6 +26,7 @@ Class {
 	#name : #WizardPart,
 	#superclass : #Object,
 	#instVars : [
+		'announcer',
 		'blockContents',
 		'wizardPane',
 		'enableNextButton',
@@ -44,6 +45,11 @@ Class {
 	],
 	#category : #'Merlin-Core'
 }
+
+{ #category : #accessing }
+WizardPart >> announcer [
+	^ announcer ifNil: [ announcer := Announcer new ]
+]
 
 { #category : #accessing }
 WizardPart >> callback: aBlock [
@@ -68,7 +74,7 @@ WizardPart >> contents: aCollectionOfMorphElements [
 	self populateContents: aCollectionOfMorphElements .
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 WizardPart >> contentsChanged [
 	self changed: #contents
 ]
