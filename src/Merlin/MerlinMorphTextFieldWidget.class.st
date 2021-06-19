@@ -10,7 +10,7 @@ Class {
 { #category : #'accessing - wizard management' }
 MerlinMorphTextFieldWidget >> populateWizardPartOutput [ 
 
-	self wizardPart textEntryContents: ((ObjectStringConverter forClass: String) stringAsObject: textField textMorph asText asString)  
+	self wizardPart textEntryContents: ((ObjectStringConverter forClass: String) stringAsObject: textField textMorph text asString)  
 	
 ]
 

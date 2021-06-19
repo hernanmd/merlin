@@ -304,14 +304,10 @@ MerlinMorphWidget >> newSaveFileDialogNamed: title [
 
 { #category : #'utils - morph creation' }
 MerlinMorphWidget >> newTabGroupBoxFor: labelsAndControls [
-
-	^(TabGroupMorph  new
-		"font: self labelFont;"
-		"cornerStyle: #rounded;"
+	^ (TabGroupMorph new
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
-		labelsAndPages: labelsAndControls)
-		selectedPageIndex: (labelsAndControls isEmpty ifTrue: [0] ifFalse: [1])
+		labelsAndPages: labelsAndControls) selectedPageIndex: (labelsAndControls ifEmpty: [ 0 ] ifNotEmpty: [ 1 ])
 ]
 
 { #category : #'utils - morph creation' }
@@ -332,7 +328,7 @@ MerlinMorphWidget >> newText: aStringOrText [
 MerlinMorphWidget >> newTextEditorFor: aModel getText: getSel setText: setSel [
 	"Answer a text editor for the given model."
 
-	^ (PluggableTextEditorMorph new)
+	^ (RubTextEditor new)
 		on: aModel
 			text: getSel
 			accept: setSel
@@ -354,7 +350,7 @@ MerlinMorphWidget >> newTextEntryFor: aModel getText: getTextSelector setText: s
 
 		
 	| pt |
-	pt := PluggableTextFieldMorph new
+	pt := RubPluggableTextFieldMorph new
 		convertTo: String;
 		alwaysAccept: true;
 		on: aModel
@@ -371,12 +367,12 @@ MerlinMorphWidget >> newTextEntryFor: aModel getText: getTextSelector setText: s
 		"borderStyle: (BorderStyle inset width: 1);
 		color: Color white;"
 		"selectionColor: self selectionColor;"
-		hideScrollBarsIndefinitely;
+		"hideScrollBarsIndefinitely;"
 		extent: 24@ (StandardFonts defaultFont height + 8);
 		"setBalloonText: helpText."
 		yourself.
 	pt textMorph
-		autoFit: true;
+		"autoFit: true;"
 		wrapFlag: false;
 		margins: (2@1 corner: 2@1).
 		

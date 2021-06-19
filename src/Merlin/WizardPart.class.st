@@ -26,6 +26,7 @@ Class {
 	#name : #WizardPart,
 	#superclass : #Object,
 	#instVars : [
+		'announcer',
 		'blockContents',
 		'wizardPane',
 		'enableNextButton',
@@ -44,6 +45,11 @@ Class {
 	],
 	#category : #'Merlin-Core'
 }
+
+{ #category : #accessing }
+WizardPart >> announcer [
+	^ announcer ifNil: [ announcer := Announcer new ]
+]
 
 { #category : #accessing }
 WizardPart >> callback: aBlock [
@@ -68,18 +74,18 @@ WizardPart >> contents: aCollectionOfMorphElements [
 	self populateContents: aCollectionOfMorphElements .
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 WizardPart >> contentsChanged [
 	self changed: #contents
 ]
 
-{ #category : #'initialize-release' }
+{ #category : #initialization }
 WizardPart >> defaultValue [ 
 
 	^ defaultValue. 
 ]
 
-{ #category : #'initialize-release' }
+{ #category : #initialization }
 WizardPart >> defaultValue: aBlockOrObject [
 
 	defaultValue := aBlockOrObject. 
@@ -157,13 +163,13 @@ WizardPart >> hasChanged: aValue [
 	wizardPane ifNotNil: [ wizardPane  hasChanged: self].
 ]
 
-{ #category : #'initialize-release' }
+{ #category : #initialization }
 WizardPart >> inGroupboxNamed: aString [
 
 	groupBoxName := aString. 
 ]
 
-{ #category : #'initialize-release' }
+{ #category : #initialization }
 WizardPart >> initialize [
 	
 	super initialize.
@@ -177,7 +183,7 @@ WizardPart >> initialize [
 	numberOfPopulateContents := 0.
 ]
 
-{ #category : #'initialize-release' }
+{ #category : #initialization }
 WizardPart >> initializeDefault [
 
 	"implement this method to initialize you part according the default value specified by 'defaultValue:'. This method will be executed only one time when opening the wizard. After that, your defaultValue will not be taken into account anyMore"
@@ -227,7 +233,7 @@ WizardPart >> newButtonNamed: aString withAction: selector [
 	"use this method to create a new classic button that will execute the method designed by selector when clicked. The method selector must be defined and implemented in the subclass"
 	
 	| button |
-	button := PluggableButtonMorphPlus on: self getState: nil action: selector.
+	button := PluggableButtonMorph on: self getState: nil action: selector.
 	button label: aString.
 	^button
 ]
@@ -239,7 +245,7 @@ WizardPart >> newButtonNamed: aString withAction: selector andArguments: aCollec
 	<lint: 'Methods implemented but not sent' rationale: 'method provided  to the user of the library' author: 'cyrille.delaunay'>
 	
 	| button |
-	button := PluggableButtonMorphPlus on: self getState: nil action: selector.
+	button := PluggableButtonMorph on: self getState: nil action: selector.
 	button label: aString.
 	button arguments: aCollectionOfArguments .
 	^button
@@ -425,7 +431,7 @@ WizardPart >> newText: aStringOrText [
 WizardPart >> newTextEditorFor: aModel getText: getSel setText: setSel [
 	"Answer a text editor for the given model."
 
-	^ (PluggableTextEditorMorph new)
+	^ (RubTextEditor new)
 		on: aModel
 			text: getSel
 			accept: setSel
